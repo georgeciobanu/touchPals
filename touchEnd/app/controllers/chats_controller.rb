@@ -2,7 +2,9 @@ class ChatsController < ApplicationController
   # GET /chats
   # GET /chats.json
   def index
-    @chats = Chat.all
+    Rails.logger.info('Current user')
+    @chats = Chat.where("sender_id in (:my_id, :partner_id) OR receiver_id in (:my_id, :partner_id)",
+      {:my_id => current_user.id, :partner_id => current_user.partner.id})
 
     respond_to do |format|
       format.html # index.html.erb
