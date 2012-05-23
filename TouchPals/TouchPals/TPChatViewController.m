@@ -24,19 +24,62 @@
     
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     [self setUser:[appDelegate user]];
-    
+
+    [tv setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [partnerNameField setText:[user partnerUsername]];
         
     [self setChatMessages:[[NSMutableArray alloc] init]];
+        
+    // TODO: SEND AUTHENTICATION
     
-    TPChatEntry *c1 = [[TPChatEntry alloc] initWithTimeSent:[[NSDate alloc] init] text:@"Hi Jane! What are you up to? My name is Jonathan but I got by Johnny :-)" userSent:YES];
-    TPChatEntry *c2 = [[TPChatEntry alloc] initWithTimeSent:[[NSDate alloc] init] text:@"Hi Johnny! My name isn't really Jane, but I got by that because I think I am a plain Jane... :-(" userSent:NO];
+    NSString *signupURL = [NSString stringWithFormat:@"http://localhost:3000/chats.json?auth_token=%@", [appDelegate authToken]];
     
-    [chatMessages addObject:c2];
-    [chatMessages addObject:c1];
+    NSURL *url = [NSURL URLWithString:signupURL];
     
-    [tv setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    NSLog(@"%@", signupURL);
+        
+    NSMutableURLRequest *signupRequest = [[NSMutableURLRequest alloc] initWithURL:url];
     
+    NSOperationQueue *queue = [NSOperationQueue new];
+    
+    [NSURLConnection sendAsynchronousRequest:signupRequest 
+                                       queue:queue 
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+                               
+                               
+                               // Manage the response here.
+                               NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+                               NSLog(@"%@", txt);
+                               
+                               
+                               NSMutableArray *chats = (NSMutableArray *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+                               NSLog(@"%@", chats);
+                                
+                            
+                               int myID = 1;
+                               
+                               for (NSMutableDictionary *chat in chats) {
+                                   
+                                   TPChatEntry *c = [[TPChatEntry alloc] initWithTimeSent:[[NSDate alloc] init]  text:[chat objectForKey:@"text"] userSent:(myID == [[chat objectForKey:@"sender_id"] intValue])];
+                                   
+                                   [chatMessages insertObject:c atIndex:0];
+                               }
+                                
+                                
+                               
+                           }];
+
+    /*
+    NSString *urlString = [NSString stringWithFormat:@"http://localhost:3000/chats.json"];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    
+    NSError *error;
+     */
+    
+
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -100,12 +143,21 @@
     
 }
 
-- (void) sendNewEntry:(NSString *) text
+- (void) receiveNewEntry:(NSString *)text date:(NSDate *)timeSent
+{
+    TPChatEntry *c = [[TPChatEntry alloc] initWithTimeSent:timeSent text:text userSent:NO];
+    
+    [chatMessages insertObject:c atIndex:0];
+    
+    [tv reloadData];
+}
+
+- (void) sendNewEntry:(NSString *)text
 {
     TPChatEntry *c = [[TPChatEntry alloc] initWithTimeSent:[[NSDate alloc] init] text:text userSent:YES];
     
     [chatMessages insertObject:c atIndex:0];
-    
+        
     [tv reloadData];
 }
 

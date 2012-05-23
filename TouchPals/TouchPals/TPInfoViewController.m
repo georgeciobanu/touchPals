@@ -16,7 +16,6 @@
 
 - (IBAction)updateUsername:(id)sender
 {
-    NSLog(@"Button Worked");
     [user updateUsername:[usernameField text]];
 }
 
