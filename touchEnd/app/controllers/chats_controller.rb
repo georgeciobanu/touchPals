@@ -51,6 +51,7 @@ class ChatsController < ApplicationController
       if @chat.save
         # format.html { redirect_to @chat, notice: 'Chat was successfully created.' }
         format.json { render json: @chat, status: :created, location: @chat }
+        TouchEnd::Application.config.redisConnection.publish 'chats', @chat.text
       else
         # format.html { render action: "new" }
         format.json { render json: @chat.errors, status: :unprocessable_entity }
