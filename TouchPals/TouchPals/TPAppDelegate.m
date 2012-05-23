@@ -8,16 +8,51 @@
 
 #import "TPAppDelegate.h"
 #import "TPUser.h"
+#import "TPLoginViewController.h"
+#import "TPSignupViewController.h"
 
 @implementation TPAppDelegate
 
 @synthesize window = _window;
 @synthesize user;
+@synthesize authToken;
+
+- (void)home
+{
+    [[self window] setRootViewController:tbc];
+}
+
+- (void)signup
+{
+    NSLog(@"Signing Up");
+    //TODO: get into signup view
+          
+    [[self window] setRootViewController:svc];
+}
+
+- (void)login
+{
+    NSLog(@"Logging In");
+    //TODO: get into log in view
+    
+    [[self window] setRootViewController:lvc];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+{    
     
-    [self setUser:[[TPUser alloc] initWithUsername:@"Johnny" email:@"jonathan@lindenhoney.com" remainingSwaps:2 partnerUsername:@"Jane"]];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil]; 
+    lvc = [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
+    svc = [storyboard instantiateViewControllerWithIdentifier:@"SignupView"];
+    tbc = [storyboard instantiateViewControllerWithIdentifier:@"TabBar"];
+
+    
+    if (!user) {
+        [self login];
+    }
+    
+    // should get user by opening network channel
+    //
     
     return YES;
 }

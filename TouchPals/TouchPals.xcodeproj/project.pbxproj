@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B943234E156C456200EB15C1 /* TPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B943234D156C456200EB15C1 /* TPLoginViewController.m */; };
+		B9432352156C49AE00EB15C1 /* TPSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9432351156C49AE00EB15C1 /* TPSignupViewController.m */; };
 		B956AF60156ACD81007BEA6B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B956AF5F156ACD81007BEA6B /* UIKit.framework */; };
 		B956AF62156ACD81007BEA6B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B956AF61156ACD81007BEA6B /* Foundation.framework */; };
 		B956AF64156ACD81007BEA6B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B956AF63156ACD81007BEA6B /* CoreGraphics.framework */; };
@@ -27,6 +29,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B943234C156C456200EB15C1 /* TPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPLoginViewController.h; sourceTree = "<group>"; };
+		B943234D156C456200EB15C1 /* TPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPLoginViewController.m; sourceTree = "<group>"; };
+		B9432350156C49AE00EB15C1 /* TPSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPSignupViewController.h; sourceTree = "<group>"; };
+		B9432351156C49AE00EB15C1 /* TPSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPSignupViewController.m; sourceTree = "<group>"; };
 		B956AF5B156ACD81007BEA6B /* TouchPals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TouchPals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B956AF5F156ACD81007BEA6B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B956AF61156ACD81007BEA6B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -109,6 +115,10 @@
 				B956AF71156ACD81007BEA6B /* MainStoryboard.storyboard */,
 				B956AF6E156ACD81007BEA6B /* TPAppDelegate.h */,
 				B956AF6F156ACD81007BEA6B /* TPAppDelegate.m */,
+				B943234C156C456200EB15C1 /* TPLoginViewController.h */,
+				B943234D156C456200EB15C1 /* TPLoginViewController.m */,
+				B9432350156C49AE00EB15C1 /* TPSignupViewController.h */,
+				B9432351156C49AE00EB15C1 /* TPSignupViewController.m */,
 				B956AF9A156AD6C2007BEA6B /* TPUser.h */,
 				B956AF9B156AD6C2007BEA6B /* TPUser.m */,
 				B956AF74156ACD81007BEA6B /* TPChatViewController.h */,
@@ -211,6 +221,8 @@
 				B9C145C8156B0E890066EDB5 /* TPChatEntry.m in Sources */,
 				B9C145CE156C09E40066EDB5 /* TPTableViewCellUser.m in Sources */,
 				B9C145D1156C12E30066EDB5 /* TPTableViewCellPartner.m in Sources */,
+				B943234E156C456200EB15C1 /* TPLoginViewController.m in Sources */,
+				B9432352156C49AE00EB15C1 /* TPSignupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
