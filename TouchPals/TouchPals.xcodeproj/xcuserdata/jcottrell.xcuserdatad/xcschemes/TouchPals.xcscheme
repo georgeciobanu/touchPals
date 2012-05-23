@@ -19,6 +19,20 @@
                ReferencedContainer = "container:TouchPals.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+               BuildableName = "ASIHTTPRequest iPhone.app"
+               BlueprintName = "iPhone"
+               ReferencedContainer = "container:../../../Downloads/pokeb-asi-http-request-f99ca46/iPhone.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

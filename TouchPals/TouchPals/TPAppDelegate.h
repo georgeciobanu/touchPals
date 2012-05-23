@@ -11,12 +11,15 @@
 @class TPUser;
 @class TPLoginViewController;
 @class TPSignupViewController;
+@class SRWebSocket;
 
 @interface TPAppDelegate : UIResponder <UIApplicationDelegate>
 {
     UITabBarController *tbc;
     TPLoginViewController *lvc;
     TPSignupViewController *svc;
+    
+     SRWebSocket *_webSocket;
 }
 
 @property (strong, nonatomic) UIWindow *window;

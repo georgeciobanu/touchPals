@@ -10,6 +10,7 @@
 #import "TPUser.h"
 #import "TPLoginViewController.h"
 #import "TPSignupViewController.h"
+#import "SRWebSocket.h"
 
 @implementation TPAppDelegate
 

@@ -67,7 +67,7 @@
                                // NSInteger rs = [[userJSON objectForKey:@"remainingSwaps"] intValue];
                                
                                
-                               NSInteger pid = [[userJSON objectForKey:@"partner_id"] intValue];
+                               //NSInteger pid = [[userJSON objectForKey:@"partner_id"] intValue];
                                // TODO: get partner name from partner ID
                                                               
                                //temporary
