@@ -42,14 +42,17 @@ class ChatsController < ApplicationController
   # POST /chats
   # POST /chats.json
   def create
-    @chat = Chat.new(params[:chat])
+    @chat = Chat.new(sender_id: params[:sender_id], text: params[:text])
+    @chat.receiver_id = User.find(params[:sender_id]).partner_id
+    Rails.logger.info "Parameters are: "
+    Rails.logger.info params
 
     respond_to do |format|
       if @chat.save
-        format.html { redirect_to @chat, notice: 'Chat was successfully created.' }
+        # format.html { redirect_to @chat, notice: 'Chat was successfully created.' }
         format.json { render json: @chat, status: :created, location: @chat }
       else
-        format.html { render action: "new" }
+        # format.html { render action: "new" }
         format.json { render json: @chat.errors, status: :unprocessable_entity }
       end
     end
