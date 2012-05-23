@@ -23,7 +23,6 @@
 @property (strong, nonatomic) TPUser *user;
 @property (strong, nonatomic) NSString *authToken;
 
-
 - (void)home;
 - (void)signup;
 - (void)login;

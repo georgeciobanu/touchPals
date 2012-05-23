@@ -25,15 +25,13 @@
 - (void)signup
 {
     NSLog(@"Signing Up");
-    //TODO: get into signup view
-          
+    
     [[self window] setRootViewController:svc];
 }
 
 - (void)login
 {
     NSLog(@"Logging In");
-    //TODO: get into log in view
     
     [[self window] setRootViewController:lvc];
 }
@@ -50,9 +48,6 @@
     if (!user) {
         [self login];
     }
-    
-    // should get user by opening network channel
-    //
     
     return YES;
 }

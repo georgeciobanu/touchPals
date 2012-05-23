@@ -14,11 +14,12 @@
 @property (nonatomic, readonly) NSString *email;
 @property (nonatomic, readonly) NSInteger remainingSwaps;
 @property (nonatomic) NSString *partnerUsername;
+@property (nonatomic, readonly) NSInteger userId;
 
 - (void)updateUsername:(NSString *)u;
 
 - (void)decrementRemainingSwaps;
 
-- (id)initWithUsername:(NSString *)u email:(NSString *)e remainingSwaps:(NSInteger) rs partnerUsername:(NSString *)p;
+- (id)initWithUsername:(NSString *)u email:(NSString *)e userId:(NSInteger)uid remainingSwaps:(NSInteger) rs partnerUsername:(NSString *)p;
 
 @end

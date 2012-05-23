@@ -14,9 +14,41 @@
 
 @synthesize user;
 
+- (void) serverUpdateUsername:(NSString*)u
+{    
+    NSString *signupURL = [NSString stringWithFormat:@"http://localhost:3000/users/%d", [user userId]];
+    
+    NSURL *url = [NSURL URLWithString:signupURL];
+    
+    NSMutableURLRequest *usernameRequest = [[NSMutableURLRequest alloc] initWithURL:url];
+    
+    NSString *JSONString = [NSString stringWithFormat:@"{\"username\": \"%@\" }", u];
+    
+    NSData *JSONBody = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    usernameRequest.HTTPMethod = @"PUT";
+    [usernameRequest addValue: @"application/json" forHTTPHeaderField:@"Content-Type"];
+    usernameRequest.HTTPBody = JSONBody;
+
+    NSOperationQueue *queue = [NSOperationQueue new];
+    
+    [NSURLConnection sendAsynchronousRequest:usernameRequest 
+                                       queue:queue 
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+                               NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+                               NSLog(@"%@", txt);
+
+                           }];
+
+}
+
 - (IBAction)updateUsername:(id)sender
 {
+    NSString *newUsername = [usernameField text];
+    
     [user updateUsername:[usernameField text]];
+    
+    [self serverUpdateUsername:newUsername];
 }
 
 - (IBAction)getNewPartner:(id)sender

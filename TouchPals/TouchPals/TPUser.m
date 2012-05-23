@@ -12,15 +12,17 @@
 
 @synthesize username;
 @synthesize email;
+@synthesize userId;
 @synthesize remainingSwaps;
 @synthesize partnerUsername;
 
-- (id)initWithUsername:(NSString *)u email:(NSString *)e remainingSwaps:(NSInteger) rs partnerUsername:(NSString *)p
+- (id)initWithUsername:(NSString *)u email:(NSString *)e userId:(NSInteger)uid remainingSwaps:(NSInteger) rs partnerUsername:(NSString *)p
 {
     self = [super init];
     
     username = u;
     email = e;
+    userId = uid;
     remainingSwaps = rs;
     partnerUsername = p;
     
@@ -30,10 +32,6 @@
 - (void)updateUsername:(NSString *)u
 {
     [self setUsername:u];
-    
-    NSLog(@"New username is %@", [self username]);
-    
-    // TODO: send message to server about the change
 }
 
 - (void)decrementRemainingSwaps
