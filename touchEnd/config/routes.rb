@@ -1,5 +1,10 @@
 TouchEnd::Application.routes.draw do
   resources :chats
+  resources :users, :except => [:destroy, :update, :edit, :show, :new, :index, :create] do
+    member do
+      get 'info'
+    end
+  end
 
   resources :token_authentications, :only => [:create, :destroy]
   devise_for :users, :controllers => { :sessions => "sessions" }
