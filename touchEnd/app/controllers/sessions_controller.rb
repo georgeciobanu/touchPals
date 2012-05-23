@@ -6,7 +6,7 @@ class SessionsController < Devise::SessionsController
       format.json {
         warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#new")
         render :status => 200, :json => { :session => { :error => "Success", :auth_token => current_user.authentication_token },
-                :user => current_user}
+                :user => current_user, :partner => current_user.partner}
       }
     end
   end
