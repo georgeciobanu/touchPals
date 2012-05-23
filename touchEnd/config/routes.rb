@@ -8,7 +8,7 @@ TouchEnd::Application.routes.draw do
 
   resources :token_authentications, :only => [:create, :destroy]
   devise_for :users, :controllers => { :sessions => "sessions" }
- 
+
   devise_scope :user do
     resources :sessions, :only => [:create, :destroy]
   end
