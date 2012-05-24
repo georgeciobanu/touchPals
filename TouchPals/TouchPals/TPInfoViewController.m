@@ -14,6 +14,15 @@
 
 @synthesize user;
 
+- (void) logout:(id)sender
+{
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    [appDelegate setUser:nil];
+    
+    [appDelegate login];
+}
+
 - (void) serverUpdateUsername:(NSString*)u
 {    
     NSString *signupURL = [NSString stringWithFormat:@"http://localhost:3000/users/%d", [user userId]];

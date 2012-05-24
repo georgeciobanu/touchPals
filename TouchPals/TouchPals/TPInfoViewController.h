@@ -21,5 +21,6 @@
 
 - (IBAction)getNewPartner:(id)sender;
 - (IBAction)updateUsername:(id)sender;
+- (IBAction)logout:(id)sender;
 
 @end

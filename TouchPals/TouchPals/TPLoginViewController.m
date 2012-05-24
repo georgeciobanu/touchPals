@@ -31,6 +31,10 @@
 {
     NSLog(@"Websocket Connected");
     self.title = @"Connected!";
+    
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+
+    [webSocket send:[appDelegate authToken]];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
@@ -131,8 +135,7 @@
         
         [self loginWithEmail:e password:p];
         [activityIndicator startAnimating];
-        
-                
+
     } else {
         [error setText:@"Enter email and password"];
     }
