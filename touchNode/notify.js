@@ -10,20 +10,30 @@ wss.on('connection', function(ws) {
     console.log("Server: someone connected to me");
     // console.log('additional info:');
     // console.log(ws);
-    ws.on('message', function(message) {
-        console.log('received: %s', message);
-        socketByToken[message] = this;
-        console.log("Size of hash: " + socketByToken.length);
+    ws.on('message', function(token) {
+        console.log('received token: %s', token);
+        // Extract token from message
+        socketByToken[token] = this;
     });
 });
 
 redisClient.on("message", function (channel, message) {
-   console.log("redisClient chat channel: "  + message);
-   console.log("Size of hash: " + socketByToken.length);
-   for (var k in socketByToken) {
-     console.log("Key: " + k + " Value: " + socketByToken[k]);
+   // for (var k in socketByToken) {
+   //   console.log("Key: " + k + " Value: " + socketByToken[k]);
+   // }
+   separatorIndex = message.indexOf(":");
+   token = message.slice(0, separatorIndex);
+   text = message.slice(separatorIndex + 2, message.length);
+   console.log("About to send message: " + text + " to user with token: " + token);
+   try {
+     socketByToken[token].send(text);
+   } catch (err) {
+     console.log(err);
+     return;
    }
-   socketByToken[message].send("You have mail!");
+   
+   console.log("Sent message: " + text + " to user with token: " + token);
+
 });
 
    

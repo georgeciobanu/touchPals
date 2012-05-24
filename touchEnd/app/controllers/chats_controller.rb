@@ -1,8 +1,9 @@
 class ChatsController < ApplicationController
+  # before_filter :authenticate_user!  
+  
   # GET /chats
   # GET /chats.json
   def index
-    Rails.logger.info('Current user')
     @chats = Chat.where("sender_id in (:my_id, :partner_id) OR receiver_id in (:my_id, :partner_id)",
       {:my_id => current_user.id, :partner_id => current_user.partner.id})
 
@@ -42,11 +43,17 @@ class ChatsController < ApplicationController
   # POST /chats
   # POST /chats.json
   def create
-    @chat = Chat.new(sender_id: params[:sender_id], text: params[:text])
-    @chat.receiver_id = User.find(params[:sender_id]).partner_id
-    Rails.logger.info "Parameters are: "
-    Rails.logger.info params
+    @chat = Chat.new(sender_id: current_user.id, text: params[:text])
+    @chat.receiver_id = current_user.partner_id
 
+    # TODO(george) Make sure this is Rails-kosher and the flow stops here
+    # Probably needs a validator instead
+    if not @chat.receiver_id 
+      format.json { render json: @chat.errors, status: :invalid_user_id }
+    end
+    Rails.logger.info("Current user:")
+    Rails.logger.info(current_user)
+    @chat.text.insert(0, current_user.partner.authentication_token + ":")
     respond_to do |format|
       if @chat.save
         # format.html { redirect_to @chat, notice: 'Chat was successfully created.' }
