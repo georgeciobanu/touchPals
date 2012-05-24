@@ -23,7 +23,7 @@ redisClient.on("message", function (channel, message) {
    // }
    separatorIndex = message.indexOf(":");
    token = message.slice(0, separatorIndex);
-   text = message.slice(separatorIndex + 2, message.length);
+   text = message.slice(separatorIndex + 1, message.length);
    console.log("About to send message: " + text + " to user with token: " + token);
    try {
      socketByToken[token].send(text);
