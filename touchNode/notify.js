@@ -2,23 +2,16 @@ var redis = require("redis"),
        redisClient = redis.createClient(),
        msg_count = 0;
 
-var io = require('socket.io').listen(8000);
-
-
-
-
-  io.sockets.on('connection', function (socket) {
-  console.log(socket);
-  console.log("client connected");
-    // socket.emit('news', 'world');
-   socket.on('my other event', function (data) {
-     console.log(data);
-   });
-   socket.on('disconnect', function () {
-     console.log("user disconnected");
-   });
-   
-  });
+	var WebSocketServer = require('ws').Server
+	  , wss = new WebSocketServer({port: 8000});
+	
+	wss.on('connection', function(ws) {
+	    ws.on('message', function(message) {
+	        console.log('received: %s', message);
+	    });
+		console.log("Someone connected:" + ws);
+	    ws.send('something back');
+	});
 
   redisClient.on("message", function (channel, message) {
      console.log("redisClient chat channel: "  + message);
@@ -28,3 +21,4 @@ var io = require('socket.io').listen(8000);
    
   // app.listen(8000);
   redisClient.subscribe("chats");
+console.log("Started...");

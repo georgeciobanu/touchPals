@@ -9,8 +9,41 @@
 #import "TPLoginViewController.h"
 #import "TPAppDelegate.h"
 #import "TPUser.h"
+#import "SRWebSocket.h"
+#import "TPChatEntry.h"
 
 @implementation TPLoginViewController
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
+{    
+    NSString *msg = message;
+     
+    if ([msg length] > 0)
+        return;
+    
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    [appDelegate receiveMsg:msg];
+    
+}
+
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket;
+{
+    NSLog(@"Websocket Connected");
+    self.title = @"Connected!";
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
+{
+    NSLog(@"WebSocket closed, code:%d, reason:%@", code, reason);
+}
+
+
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)merror;
+{
+    NSLog(@":( Websocket Failed With Error %@", merror);    
+}
+
 
 - (void)loginWithEmail:(NSString *)e password:(NSString *)p
 {
@@ -48,6 +81,14 @@
                                
                                [appDelegate setAuthToken:auth_token];
                                
+                               SRWebSocket *_webSocket;
+                               
+                               _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8000"]]];
+                               _webSocket.delegate = self;
+                               
+                               self.title = @"Opening Connection...";
+                               [_webSocket open];
+                               
                                NSMutableDictionary *json2 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errors];
                                
                                
@@ -66,14 +107,12 @@
                                NSInteger rs = 0;
                                // NSInteger rs = [[userJSON objectForKey:@"remainingSwaps"] intValue];
                                
+                               NSString *pu = [json1 objectForKey:@"partner_username"];
                                
-                               //NSInteger pid = [[userJSON objectForKey:@"partner_id"] intValue];
-                               // TODO: get partner name from partner ID
-                                                              
-                               //temporary
-                               NSString *pn = [NSString stringWithFormat:@"Jane - hardcoded"];
-                               
-                               [appDelegate setUser:[[TPUser alloc] initWithUsername:u email:e userId:i remainingSwaps:rs partnerUsername:pn]];
+                               if (pu == (NSString *)[NSNull null])
+                                   pu = [NSString stringWithFormat:@"Anonymous"];
+
+                               [appDelegate setUser:[[TPUser alloc] initWithUsername:u email:e userId:i remainingSwaps:rs partnerUsername:pu]];
                                
                                [appDelegate home];
                                

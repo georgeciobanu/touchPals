@@ -10,6 +10,7 @@
 #import "TPUser.h"
 #import "TPLoginViewController.h"
 #import "TPSignupViewController.h"
+#import "TPChatViewController.h"
 #import "SRWebSocket.h"
 
 @implementation TPAppDelegate
@@ -17,6 +18,12 @@
 @synthesize window = _window;
 @synthesize user;
 @synthesize authToken;
+@synthesize webSocket;
+
+- (void)receiveMsg:(NSString *)text
+{
+    [cvc receiveNewEntry:text date:[[NSDate alloc] init]];
+}
 
 - (void)home
 {
@@ -44,7 +51,9 @@
     lvc = [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
     svc = [storyboard instantiateViewControllerWithIdentifier:@"SignupView"];
     tbc = [storyboard instantiateViewControllerWithIdentifier:@"TabBar"];
-
+    cvc = [storyboard instantiateViewControllerWithIdentifier:@"ChatView"];
+    
+    [[self window] setRootViewController:tbc];
     
     if (!user) {
         [self login];

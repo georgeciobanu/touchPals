@@ -23,8 +23,16 @@
     [super viewDidLoad];
     
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    NSLog(@"TBC DID LOAD");
+    
+    if( [appDelegate user] == nil)
+        return;
+    
+    NSLog(@"better");
+    
     [self setUser:[appDelegate user]];
-
+    
     [tv setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [partnerNameField setText:[user partnerUsername]];
         

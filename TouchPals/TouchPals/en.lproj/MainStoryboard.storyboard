@@ -10,7 +10,7 @@
         <scene sceneID="11">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
-                <viewController title="Chat" id="2" customClass="TPChatViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatView" title="Chat" id="2" customClass="TPChatViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="16">
                         <rect key="frame" x="0.0" y="20" width="320" height="411"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

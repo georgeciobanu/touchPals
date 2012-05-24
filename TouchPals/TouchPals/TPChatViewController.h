@@ -22,4 +22,6 @@
 @property (nonatomic) TPUser *user;
 @property (nonatomic) NSMutableArray *chatMessages;
 
+- (void) receiveNewEntry:(NSString *)text date:(NSDate *)timeSent;
+
 @end

@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SRWebSocket.h"
 
-@interface TPLoginViewController : UIViewController <UITextFieldDelegate>
+@interface TPLoginViewController : UIViewController <UITextFieldDelegate, SRWebSocketDelegate>
 {
     IBOutlet UITextField *email;
     IBOutlet UITextField *password;
