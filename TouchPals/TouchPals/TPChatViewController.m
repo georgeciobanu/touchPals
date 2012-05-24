@@ -152,7 +152,9 @@
 
 - (void) serverSendEntry:(TPChatEntry *)chatEntry
 {
-    NSString *signupURL = [NSString stringWithFormat:@"http://localhost:3000/chats.json"];
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    NSString *signupURL = [NSString stringWithFormat:@"http://localhost:3000/chats.json?auth_token=%@", [appDelegate authToken]];
     
     NSURL *url = [NSURL URLWithString:signupURL];
     
