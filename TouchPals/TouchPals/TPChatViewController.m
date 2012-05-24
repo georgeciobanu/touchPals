@@ -18,26 +18,29 @@
 @synthesize user;
 @synthesize chatMessages;
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
-    
+    if ([self user] == nil) {
+        TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        [appDelegate login];
+    }
+}
+
+- (void)loggedIn
+{
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-        
-    if( [appDelegate user] == nil)
-        return;
-        
-    [self setUser:[appDelegate user]];
     
     [tv setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [partnerNameField setText:[user partnerUsername]];
-        
+    NSLog(@"partnernamefield changed");
+
+    
     [self setChatMessages:[[NSMutableArray alloc] init]];
-            
+    
     NSString *signupURL = [NSString stringWithFormat:@"http://localhost:3000/chats.json?auth_token=%@", [appDelegate authToken]];
     
     NSURL *url = [NSURL URLWithString:signupURL];
-            
+    
     NSMutableURLRequest *signupRequest = [[NSMutableURLRequest alloc] initWithURL:url];
     
     NSOperationQueue *queue = [NSOperationQueue new];
@@ -47,16 +50,32 @@
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
                                
                                NSMutableArray *chats = (NSMutableArray *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];                                
-                            
+                               
                                for (NSMutableDictionary *chat in chats) {
                                    TPChatEntry *c = [[TPChatEntry alloc] initWithTimeSent:[[NSDate alloc] init]  text:[chat objectForKey:@"text"] userSent:([user userId] == [[chat objectForKey:@"sender_id"] intValue])];
                                    
                                    [chatMessages insertObject:c atIndex:0];
+                                   
+                                   NSIndexPath *ip = [NSIndexPath indexPathForRow:0 inSection:0];
+                                   
+                                   
+                                   
+                                   [tv insertRowsAtIndexPaths:[NSArray arrayWithObject:ip] withRowAnimation:UITableViewRowAnimationTop];
                                }
-                               [tv reloadData];
+                               //[tv reloadData];
+                                
                            }];
-    
+}
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self setChatMessages:[[NSMutableArray alloc] init]];
+    
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+
+    [appDelegate login];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -125,8 +144,10 @@
     TPChatEntry *c = [[TPChatEntry alloc] initWithTimeSent:timeSent text:text userSent:NO];
     
     [chatMessages insertObject:c atIndex:0];
+    NSIndexPath *ip = [NSIndexPath indexPathForRow:0 inSection:0];
     
-    [tv reloadData];
+    [tv insertRowsAtIndexPaths:[NSArray arrayWithObject:ip] withRowAnimation:UITableViewRowAnimationTop];
+
 }
 
 - (void) serverSendEntry:(TPChatEntry *)chatEntry
@@ -162,7 +183,9 @@
     
     [chatMessages insertObject:c atIndex:0];
     
-    [tv reloadData];
+    NSIndexPath *ip = [NSIndexPath indexPathForRow:0 inSection:0];
+    
+    [tv insertRowsAtIndexPaths:[NSArray arrayWithObject:ip] withRowAnimation:UITableViewRowAnimationTop];
     
     [self serverSendEntry:c];
 }

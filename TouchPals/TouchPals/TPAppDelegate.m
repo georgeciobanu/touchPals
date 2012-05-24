@@ -22,12 +22,16 @@
 
 - (void)receiveMsg:(NSString *)text
 {
+    NSLog(@"MSG RECEIVED:%@", text);
     [cvc receiveNewEntry:text date:[[NSDate alloc] init]];
 }
 
 - (void)home
 {
     [[self window] setRootViewController:tbc];
+    
+    [cvc setUser:[self user]];
+    [cvc loggedIn];
 }
 
 - (void)signup
@@ -41,23 +45,25 @@
 {
     NSLog(@"Logging In");
     
-    [[self window] setRootViewController:lvc];
+    [[self window] setRootViewController:lvc];     
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
+
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil]; 
     lvc = [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
     svc = [storyboard instantiateViewControllerWithIdentifier:@"SignupView"];
-    tbc = [storyboard instantiateViewControllerWithIdentifier:@"TabBar"];
-    cvc = [storyboard instantiateViewControllerWithIdentifier:@"ChatView"];
+    tbc = (UITabBarController *) [[self window] rootViewController];
     
-    [[self window] setRootViewController:tbc];
-    
+    //tbc = [storyboard instantiateViewControllerWithIdentifier:@"TabBar"];
+    cvc = [[tbc viewControllers] objectAtIndex:0];
+        
     if (!user) {
         [self login];
     }
+    
     
     return YES;
 }

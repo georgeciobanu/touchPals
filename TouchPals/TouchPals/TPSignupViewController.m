@@ -64,15 +64,12 @@
                                NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
                                NSLog(@"%@", txt);
                                
+                               // TODO: replace this with manual login
                                [delegate login];
                                
                            }];
 
     
-    
-    // TODO: if successful make a call to server to login and give control to tabbarcontroller
-
-    //[delegate home];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

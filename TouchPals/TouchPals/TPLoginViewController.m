@@ -17,9 +17,10 @@
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
 {    
     NSString *msg = message;
-     
-    if ([msg length] > 0)
+         
+    if ([msg length] == 0) {
         return;
+    }
     
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
@@ -117,7 +118,7 @@
                                    pu = [NSString stringWithFormat:@"Anonymous"];
 
                                [appDelegate setUser:[[TPUser alloc] initWithUsername:u email:e userId:i remainingSwaps:rs partnerUsername:pu]];
-                               
+                                                              
                                [appDelegate home];
                                
                            }];

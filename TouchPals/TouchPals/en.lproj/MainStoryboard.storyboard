@@ -270,7 +270,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="118" y="1218"/>
+            <point key="canvasLocation" x="141" y="753"/>
         </scene>
         <!--Signup View Controller - Sign Up-->
         <scene sceneID="kZx-3n-se6">
@@ -369,7 +369,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="528" y="1175"/>
+            <point key="canvasLocation" x="632" y="1101"/>
         </scene>
     </scenes>
     <resources>

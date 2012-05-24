@@ -25,7 +25,10 @@
 
 - (void) serverUpdateUsername:(NSString*)u
 {    
-    NSString *signupURL = [NSString stringWithFormat:@"http://localhost:3000/users/%d", [user userId]];
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+
+    
+    NSString *signupURL = [NSString stringWithFormat:@"http://localhost:3000/users.json?auth_token=%@", [appDelegate authToken]];
     
     NSURL *url = [NSURL URLWithString:signupURL];
     
@@ -81,16 +84,21 @@
     return YES;
 }
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
-    
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];	
+    
+    if ([appDelegate user] == nil) {
+        [appDelegate login];
+        return;
+    }
+    
     [self setUser:[appDelegate user]];
     
     [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
     [partnerNameField setText:[NSString stringWithFormat:@"Partner: %@", [user partnerUsername]]];
     [usernameField setText:[user username]];    
+
 }
 
 - (void)viewDidUnload
