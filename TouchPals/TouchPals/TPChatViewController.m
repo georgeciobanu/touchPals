@@ -12,6 +12,7 @@
 #import "TPChatEntry.h"
 #import "TPTableViewCellUser.h"
 #import "TPTableViewCellPartner.h"
+#import "SRWebSocket.h"
 
 @implementation TPChatViewController
 
@@ -25,6 +26,7 @@
         [appDelegate login];
     }
 }
+
 
 - (void)loggedIn
 {

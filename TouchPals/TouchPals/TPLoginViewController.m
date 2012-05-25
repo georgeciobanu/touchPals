@@ -41,13 +41,38 @@
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
 {
     NSLog(@"WebSocket closed, code:%d, reason:%@", code, reason);
+    [self reconnectSocket];
 }
+
 
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)merror;
 {
-    NSLog(@":( Websocket Failed With Error %@", merror);    
+    NSLog(@":( Websocket Failed With Error %@", merror); 
+    [self reconnectSocket];
 }
+
+- (void)reconnectSocket;
+{
+    
+    NSLog(@"reconnect");
+
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    [appDelegate webSocket].delegate = nil;
+    [[appDelegate webSocket] close];
+
+    SRWebSocket *_webSocket;
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8000"]]];
+    
+    _webSocket.delegate = self;
+    
+    self.title = @"Opening Connection...";
+    [_webSocket open];
+
+    [appDelegate setWebSocket:_webSocket];
+}
+
 
 
 - (void)loginWithEmail:(NSString *)e password:(NSString *)p
@@ -87,12 +112,13 @@
                                [appDelegate setAuthToken:auth_token];
                                
                                SRWebSocket *_webSocket;
-                               
                                _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8000"]]];
                                _webSocket.delegate = self;
                                
                                self.title = @"Opening Connection...";
                                [_webSocket open];
+                               
+                               [appDelegate setWebSocket:_webSocket];
                                
                                NSMutableDictionary *json2 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errors];
                                

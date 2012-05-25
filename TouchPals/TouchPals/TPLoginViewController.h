@@ -20,6 +20,6 @@
 - (IBAction)login:(id)sender;
 - (IBAction)signup:(id)sender;
 - (void)loginWithEmail:(NSString *)e password:(NSString *)p;
-
+- (void)reconnectSocket;
 
 @end
