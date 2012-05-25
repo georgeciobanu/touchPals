@@ -15,6 +15,11 @@ wss.on('connection', function(ws) {
         // Extract token from message
         socketByToken[token] = this;
     });
+    ws.on('error', function(error) {
+        console.log('some error happened:' + error);
+        console.log('A client may have called Close');
+    });
+    
 });
 
 redisClient.on("message", function (channel, message) {
