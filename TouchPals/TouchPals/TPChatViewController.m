@@ -34,8 +34,6 @@
     
     [tv setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [partnerNameField setText:[user partnerUsername]];
-    NSLog(@"partnernamefield changed");
-
     
     [self setChatMessages:[[NSMutableArray alloc] init]];
     
@@ -64,7 +62,6 @@
                                    
                                    [tv insertRowsAtIndexPaths:[NSArray arrayWithObject:ip] withRowAnimation:UITableViewRowAnimationTop];
                                }
-                               //[tv reloadData];
                                 
                            }];
 }

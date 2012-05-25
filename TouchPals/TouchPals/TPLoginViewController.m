@@ -41,15 +41,16 @@
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
 {
     NSLog(@"WebSocket closed, code:%d, reason:%@", code, reason);
-    [self reconnectSocket];
+    
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(reconnectSocket) userInfo:nil repeats:NO];
 }
 
 
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)merror;
 {
-    NSLog(@":( Websocket Failed With Error %@", merror); 
-    [self reconnectSocket];
+    NSLog(@":( Websocket Failed With Error %@", merror);
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(reconnectSocket) userInfo:nil repeats:NO];
 }
 
 - (void)reconnectSocket;
