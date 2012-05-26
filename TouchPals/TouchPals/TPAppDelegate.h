@@ -13,6 +13,8 @@
 @class TPSignupViewController;
 @class SRWebSocket;
 @class TPChatViewController;
+@class TPReconnectingViewController;
+@class TPFindingMatchViewController;
 
 @interface TPAppDelegate : UIResponder <UIApplicationDelegate>
 {
@@ -20,6 +22,8 @@
     TPLoginViewController *lvc;
     TPSignupViewController *svc;
     TPChatViewController *cvc;
+    TPReconnectingViewController *rvc;
+    TPFindingMatchViewController *fmvc;
 }
 
 
@@ -29,8 +33,14 @@
 @property (strong, nonatomic) NSString *authToken;
 
 - (void)home;
+- (void)homeClean;
 - (void)signup;
 - (void)login;
 - (void)receiveMsg:(NSString *)text;
+- (void)disconnected;
+- (void)searchingMatch;
+- (void)clearUser;
+
+- (void)loginWithEmail:(NSString *)e password:(NSString *)p;
 
 @end

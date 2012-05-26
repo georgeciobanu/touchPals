@@ -32,6 +32,10 @@
 {
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
+    [chatMessages removeAllObjects];
+    
+    [tv reloadData];
+    
     [tv setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [partnerNameField setText:[user partnerUsername]];
     
@@ -201,13 +205,6 @@
     [textField setText:@""];
     
     return YES;
-}
-
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

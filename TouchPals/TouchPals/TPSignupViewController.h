@@ -17,5 +17,6 @@
 }
 
 - (IBAction)signup:(id)sender;
+- (IBAction)login:(id)sender;
 
 @end

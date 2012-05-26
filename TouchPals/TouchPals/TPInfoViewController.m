@@ -17,9 +17,6 @@
 - (void) logout:(id)sender
 {
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    
-    [appDelegate setUser:nil];
-    
     [appDelegate login];
 }
 
@@ -86,6 +83,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];	
     
     if ([appDelegate user] == nil) {
@@ -99,12 +98,6 @@
     [partnerNameField setText:[NSString stringWithFormat:@"Partner: %@", [user partnerUsername]]];
     [usernameField setText:[user username]];    
 
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
