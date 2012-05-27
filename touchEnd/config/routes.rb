@@ -7,11 +7,18 @@ TouchEnd::Application.routes.draw do
   end
 
   resources :token_authentications, :only => [:create, :destroy]
-  devise_for :users, :controllers => { :sessions => "sessions" }
+  devise_for :users, :controllers => { 
+    :sessions => "sessions", 
+    :registrations => 'users/registrations' 
+  }
+  # devise_for :users, :controllers => {  }
 
-  devise_scope :user do
-    resources :sessions, :only => [:create, :destroy]
-  end
+  
+  # devise_scope :user do
+  #   post 'users/sign_up', :to => 'users/registrations#create'
+  # end
+  
+
   
 
   # The priority is based upon order of creation:
