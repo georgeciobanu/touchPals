@@ -29,6 +29,10 @@
 		B966EBC6156D9EE40006DE30 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B966EBC5156D9EE40006DE30 /* CFNetwork.framework */; };
 		B966EBC8156D9EEB0006DE30 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B966EBC7156D9EEB0006DE30 /* libicucore.dylib */; };
 		B966EBCA156D9EF00006DE30 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B966EBC9156D9EF00006DE30 /* Security.framework */; };
+		B97A3588156FF9A800E3DF16 /* TPReconnectingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B97A3586156FF9A800E3DF16 /* TPReconnectingViewController.m */; };
+		B97A3589156FF9A800E3DF16 /* TPReconnectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B97A3587156FF9A800E3DF16 /* TPReconnectingViewController.xib */; };
+		B97A358E1571827600E3DF16 /* TPFindingMatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B97A358C1571827600E3DF16 /* TPFindingMatchViewController.m */; };
+		B97A358F1571827600E3DF16 /* TPFindingMatchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B97A358D1571827600E3DF16 /* TPFindingMatchViewController.xib */; };
 		B9C145C8156B0E890066EDB5 /* TPChatEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C145C7156B0E890066EDB5 /* TPChatEntry.m */; };
 		B9C145CE156C09E40066EDB5 /* TPTableViewCellUser.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C145CD156C09E40066EDB5 /* TPTableViewCellUser.m */; };
 		B9C145D1156C12E30066EDB5 /* TPTableViewCellPartner.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C145D0156C12E30066EDB5 /* TPTableViewCellPartner.m */; };
@@ -69,6 +73,12 @@
 		B966EBC5156D9EE40006DE30 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B966EBC7156D9EEB0006DE30 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		B966EBC9156D9EF00006DE30 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		B97A3585156FF9A800E3DF16 /* TPReconnectingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPReconnectingViewController.h; sourceTree = "<group>"; };
+		B97A3586156FF9A800E3DF16 /* TPReconnectingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPReconnectingViewController.m; sourceTree = "<group>"; };
+		B97A3587156FF9A800E3DF16 /* TPReconnectingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPReconnectingViewController.xib; sourceTree = "<group>"; };
+		B97A358B1571827500E3DF16 /* TPFindingMatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPFindingMatchViewController.h; sourceTree = "<group>"; };
+		B97A358C1571827600E3DF16 /* TPFindingMatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPFindingMatchViewController.m; sourceTree = "<group>"; };
+		B97A358D1571827600E3DF16 /* TPFindingMatchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPFindingMatchViewController.xib; sourceTree = "<group>"; };
 		B9C145C6156B0E890066EDB5 /* TPChatEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPChatEntry.h; sourceTree = "<group>"; };
 		B9C145C7156B0E890066EDB5 /* TPChatEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPChatEntry.m; sourceTree = "<group>"; };
 		B9C145CC156C09E40066EDB5 /* TPTableViewCellUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPTableViewCellUser.h; sourceTree = "<group>"; };
@@ -146,6 +156,12 @@
 				B956AF75156ACD81007BEA6B /* TPChatViewController.m */,
 				B956AF7B156ACD82007BEA6B /* TPInfoViewController.h */,
 				B956AF7C156ACD82007BEA6B /* TPInfoViewController.m */,
+				B97A358B1571827500E3DF16 /* TPFindingMatchViewController.h */,
+				B97A358C1571827600E3DF16 /* TPFindingMatchViewController.m */,
+				B97A358D1571827600E3DF16 /* TPFindingMatchViewController.xib */,
+				B97A3585156FF9A800E3DF16 /* TPReconnectingViewController.h */,
+				B97A3586156FF9A800E3DF16 /* TPReconnectingViewController.m */,
+				B97A3587156FF9A800E3DF16 /* TPReconnectingViewController.xib */,
 				B956AF77156ACD81007BEA6B /* first.png */,
 				B956AF79156ACD82007BEA6B /* first@2x.png */,
 				B956AF7E156ACD82007BEA6B /* second.png */,
@@ -231,6 +247,8 @@
 				B956AF7A156ACD82007BEA6B /* first@2x.png in Resources */,
 				B956AF7F156ACD82007BEA6B /* second.png in Resources */,
 				B956AF81156ACD82007BEA6B /* second@2x.png in Resources */,
+				B97A3589156FF9A800E3DF16 /* TPReconnectingViewController.xib in Resources */,
+				B97A358F1571827600E3DF16 /* TPFindingMatchViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +272,8 @@
 				B966EBB8156D9E630006DE30 /* base64.c in Sources */,
 				B966EBB9156D9E630006DE30 /* SRWebSocket.m in Sources */,
 				B966EBBA156D9E630006DE30 /* NSData+SRB64Additions.m in Sources */,
+				B97A3588156FF9A800E3DF16 /* TPReconnectingViewController.m in Sources */,
+				B97A358E1571827600E3DF16 /* TPFindingMatchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

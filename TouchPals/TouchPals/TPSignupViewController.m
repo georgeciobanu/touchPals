@@ -11,6 +11,13 @@
 
 @implementation TPSignupViewController
 
+- (IBAction)login:(id)sender
+{
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    [appDelegate login];
+}
+
 - (IBAction)signup:(id)sender
 {
     if ([[email text] length] < 3) {
@@ -43,7 +50,7 @@
     
     NSURL *url = [NSURL URLWithString:signupURL];
     
-    NSString *JSONString = [NSString stringWithFormat:@"{\"user\": {\"email\":\"%@\",\"password\":\"%@\",\"password_confirmation\":\"%@\"}}", e, p, p];
+    NSString *JSONString = [NSString stringWithFormat:@"{\"user\": {\"email\":\"%@\",\"password\":\"%@\",\"password_confirmation\":\"%@\", \"username\":\"%@\"}}", e, p, p, u];
         
     NSData *JSONBody = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -65,7 +72,7 @@
                                NSLog(@"%@", txt);
                                
                                // TODO: replace this with manual login
-                               [delegate login];
+                               [delegate loginWithEmail:e password:p];
                                
                            }];
 

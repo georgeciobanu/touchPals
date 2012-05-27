@@ -12,6 +12,8 @@
 #import "TPSignupViewController.h"
 #import "TPChatViewController.h"
 #import "SRWebSocket.h"
+#import "TPReconnectingViewController.h"
+#import "TPFindingMatchViewController.h"
 
 @implementation TPAppDelegate
 
@@ -20,10 +22,20 @@
 @synthesize authToken;
 @synthesize webSocket;
 
+- (void)clearUser
+{
+    [self setUser:nil];
+    [cvc setUser:nil];
+}
+    
 - (void)receiveMsg:(NSString *)text
 {
-    NSLog(@"MSG RECEIVED:%@", text);
     [cvc receiveNewEntry:text date:[[NSDate alloc] init]];
+}
+
+- (void)homeClean
+{
+    [[self window] setRootViewController:tbc];
 }
 
 - (void)home
@@ -43,9 +55,24 @@
 
 - (void)login
 {
-    NSLog(@"Logging In");
     
-    [[self window] setRootViewController:lvc];     
+    [[self window] setRootViewController:lvc];
+    NSLog(@"Logging In");
+}
+
+- (void)disconnected
+{
+    [[self window] setRootViewController:rvc];
+}
+
+- (void)searchingMatch
+{
+    [[self window] setRootViewController:fmvc];
+}
+
+- (void)loginWithEmail:(NSString *)e password:(NSString *)p
+{
+    [lvc loginWithEmail:e password:p];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -55,9 +82,11 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil]; 
     lvc = [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
     svc = [storyboard instantiateViewControllerWithIdentifier:@"SignupView"];
+    rvc = [[TPReconnectingViewController alloc] init];
+    fmvc = [[TPFindingMatchViewController alloc] init];
+
     tbc = (UITabBarController *) [[self window] rootViewController];
     
-    //tbc = [storyboard instantiateViewControllerWithIdentifier:@"TabBar"];
     cvc = [[tbc viewControllers] objectAtIndex:0];
         
     if (!user) {
@@ -90,7 +119,7 @@
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
-    if ( [[self webSocket] readyState] != SR_OPEN ) {
+    if ( [[self webSocket] readyState] != SR_OPEN && [self user] != nil) {
         [lvc reconnectSocket];
     }
 }

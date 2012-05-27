@@ -11,21 +11,63 @@
 #import "TPUser.h"
 #import "SRWebSocket.h"
 #import "TPChatEntry.h"
+#import "TPReconnectingViewController.h"
 
 @implementation TPLoginViewController
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
 {    
     NSString *msg = message;
-         
+    
     if ([msg length] == 0) {
         return;
     }
     
+    NSError *errors;
+    NSData *data = [msg dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSMutableDictionary *json = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errors];
+    
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    [appDelegate receiveMsg:msg];
+    NSString *cmd = [json objectForKey:@"cmd"];
     
+    if ([@"msg" isEqualToString:cmd]) {
+        NSString *text = [json objectForKey:@"text"];
+        [appDelegate receiveMsg:text];
+    } else if ([@"divorce" isEqualToString:cmd]) {
+        //TODO: handle divorce
+        [[appDelegate user] setPartnerUsername:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Divorce" 
+                                                        message:@"Your partner got a divorce..." 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        [appDelegate searchingMatch];
+    } else if( [@"found_match" isEqualToString:cmd]) {
+        NSString *newPartner = [json objectForKey:@"partner_name"];
+
+        [[appDelegate user] setPartnerUsername:newPartner];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Wedding" 
+                                                        message:@"The matchmaker found someone for you!" 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        [appDelegate home];
+    }
+    
+    
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    NSLog(@"STOP ANIMATION");
+    [activityIndicator stopAnimating];
 }
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket;
@@ -36,6 +78,8 @@
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
 
     [webSocket send:[appDelegate authToken]];
+    
+    [appDelegate homeClean];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
@@ -43,19 +87,24 @@
     NSLog(@"WebSocket closed, code:%d, reason:%@", code, reason);
     
     [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(reconnectSocket) userInfo:nil repeats:NO];
+    
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate disconnected];
 }
-
-
-
+    
+    
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)merror;
 {
     NSLog(@":( Websocket Failed With Error %@", merror);
     [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(reconnectSocket) userInfo:nil repeats:NO];
+    
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate disconnected];
+
 }
 
 - (void)reconnectSocket;
 {
-    
     NSLog(@"reconnect");
 
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -70,7 +119,7 @@
     
     self.title = @"Opening Connection...";
     [_webSocket open];
-
+    
     [appDelegate setWebSocket:_webSocket];
 }
 
