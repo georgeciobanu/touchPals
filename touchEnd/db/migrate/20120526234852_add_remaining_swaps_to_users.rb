@@ -1,5 +1,5 @@
 class AddRemainingSwapsToUsers < ActiveRecord::Migration
   def change
-    add_column :users, :remining_swaps, :integer
+    add_column :users, :remaining_swaps, :integer
   end
 end
