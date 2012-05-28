@@ -11,6 +11,11 @@ TouchEnd::Application.routes.draw do
     :sessions => "sessions", 
     :registrations => 'users/registrations' 
   }
+  
+  devise_scope :user do
+    resources :sessions, :only => [:create, :destroy]
+  end
+  
   # devise_for :users, :controllers => {  }
 
   
