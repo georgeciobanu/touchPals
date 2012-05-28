@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120522232801) do
+ActiveRecord::Schema.define(:version => 20120526234852) do
 
   create_table "chats", :force => true do |t|
     t.integer  "sender_id"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(:version => 20120522232801) do
     t.datetime "updated_at",                             :null => false
     t.integer  "partner_id"
     t.string   "username"
+    t.integer  "remaining_swaps"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
