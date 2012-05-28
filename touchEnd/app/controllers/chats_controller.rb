@@ -1,5 +1,5 @@
 class ChatsController < ApplicationController
-  # before_filter :authenticate_user!  
+  before_filter :authenticate_user!
   
   # GET /chats
   # GET /chats.json
@@ -53,7 +53,8 @@ class ChatsController < ApplicationController
       if @chat.save
         # format.html { redirect_to @chat, notice: 'Chat was successfully created.' }
         @chat.text.insert(0, current_user.partner.authentication_token + ":")
-        TouchEnd::Application.config.redisConnection.publish 'chats', @chat.text        
+        @jsonCommand = ActiveSupport::JSON.encode(cmd: "msg", text: @chat.text)
+        TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
         format.json { render json: @chat, status: :created, location: @chat }
       else
         # format.html { render action: "new" }

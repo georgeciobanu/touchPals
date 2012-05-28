@@ -26,6 +26,8 @@ redisClient.on("message", function (channel, message) {
    // for (var k in socketByToken) {
    //   console.log("Key: " + k + " Value: " + socketByToken[k]);
    // }
+   console.log("Received message:");
+   console.log(message);
    separatorIndex = message.indexOf(":");
    token = message.slice(0, separatorIndex);
    text = message.slice(separatorIndex + 1, message.length);
