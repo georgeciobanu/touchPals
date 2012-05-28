@@ -15,6 +15,13 @@
 
 @implementation TPLoginViewController
 
+- (void)loginError:(NSString *)errMsg
+{
+    [activityIndicator stopAnimating];
+    NSLog(@"Error:%@", errMsg);
+    [error setText:errMsg];
+}
+
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
 {    
     NSString *msg = message;
@@ -156,6 +163,14 @@
                                
                                NSMutableDictionary *json1 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errors];
                                
+                               if ( [json1 objectForKey:@"error"] != nil ) {
+                                   NSString *err = [json1 objectForKey:@"error"];
+                                   if ([err isEqualToString:@"You need to sign in or sign up before continuing."]) {
+                                       err = [NSString stringWithFormat:@"Unknown error, please try again."];
+                                   }
+                                   [self loginError:err];
+                                   return;
+                               }
                                
                                NSString *auth_token = [(NSMutableDictionary *)[json1 objectForKey:@"session"] objectForKey:@"auth_token"];
                                
@@ -184,9 +199,7 @@
                                
                                NSInteger i = [[userJSON objectForKey:@"id"] intValue];
                                
-                               // TODO: GET REMAINING SWAPS
-                               NSInteger rs = 0;
-                               // NSInteger rs = [[userJSON objectForKey:@"remainingSwaps"] intValue];
+                               NSInteger rs = [[userJSON objectForKey:@"remaining_swaps"] intValue];
                                
                                NSString *pu = [json1 objectForKey:@"partner_username"];
                                
@@ -204,6 +217,8 @@
 
 - (IBAction)login:(id)sender
 {
+    
+    [error setText:@""];
     
     NSString *e = [email text];
     NSString *p = [password text];

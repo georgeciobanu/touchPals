@@ -11,6 +11,12 @@
 
 @implementation TPSignupViewController
 
+
+- (void)signupError:(NSString *)errMsg
+{
+    NSLog(@"Error:%@", errMsg);
+    [error setText:errMsg];
+}
 - (IBAction)login:(id)sender
 {
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -20,6 +26,8 @@
 
 - (IBAction)signup:(id)sender
 {
+    [error setText:@""];
+    
     if ([[email text] length] < 3) {
         [error setText:@"Invalid Email"];
         return;
@@ -64,12 +72,28 @@
     
     [NSURLConnection sendAsynchronousRequest:signupRequest 
                                        queue:queue 
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *errors){
                                
                                
                                // Manage the response here.
                                NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
                                NSLog(@"%@", txt);
+                               
+                               NSMutableDictionary *json1 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errors];
+
+                               if ( [json1 objectForKey:@"errors"] != nil ) {
+                                   
+                                   NSMutableDictionary *errorsDictionary = [json1 objectForKey:@"errors"];
+                                   
+                                   NSArray *emailErrors = [errorsDictionary objectForKey:@"email"];
+                                   if (emailErrors) {
+                                       [self signupError:[NSString stringWithFormat:@"Email: %@",[emailErrors objectAtIndex:0]]];
+                                   } else {
+                                       [self signupError:@"Unknown Error"];
+                                   }
+                                   return;
+                               }
+
                                
                                // TODO: replace this with manual login
                                [delegate loginWithEmail:e password:p];

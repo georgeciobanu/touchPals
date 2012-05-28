@@ -66,11 +66,17 @@
         // TODO: get a new partner
         
         [user decrementRemainingSwaps];
-        [partnerNameField setText:[NSString stringWithFormat:@"Partner: %@", [user partnerUsername]]];        
-        [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
+        
+        [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];        
+                
+        TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        
+        [user setPartnerUsername:nil];
+        
+        [appDelegate searchingMatch];
         
     } else {
-        // TODO: Ask if wants to buy extra swaps
+        
     }
 }
 
