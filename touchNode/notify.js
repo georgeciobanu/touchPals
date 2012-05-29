@@ -22,34 +22,32 @@ wss.on('connection', function(ws) {
     
 });
 
-redisClient.on("message", function (channel, message) {
+redisClient.on("message", function (channel, jsonMessage) {
    // for (var k in socketByToken) {
    //   console.log("Key: " + k + " Value: " + socketByToken[k]);
    // }
    console.log("Received message:");
-   console.log(message);
-   message = JSON.parse(message);
-   console.log("About to send command: " + message.cmd + " to user with token: " + message.token);
+   console.log(jsonMessage);
+   
+   // This is a potential security issue - JSON objects can contain code
+   var parsedMessage = JSON.parse(jsonMessage);
    try {
-     switch (message.cmd) {
-       case "msg":
-          socketByToken[message.token].send(message.text);
-          break;
-        case "found_match":
-          socketByToken[message.token].send(message.partner_name);
-          break;
-        default:
-          console.log("At the DMV getting a new license. Not implemented yet :-)");
-     }
+     var token = parsedMessage.token;
+     delete parsedMessage.token;
+     console.log("About to send command: " + JSON.stringify(parsedMessage) + " to user with token: " + token);
+     socketByToken[token].send(JSON.stringify(parsedMessage));
 
    } catch (err) {
      console.log(err);
      return;
    }
    
-   console.log("Sent message: " + text + " to user with token: " + token);
-
+   console.log("Sent message: " + parsedMessage + " to user with token: " + token);
 });
+
+// redisClient.on("error", function (error) {
+//   console.log("Some error happened to the redis client: " + error);
+// }
 
    
   // app.listen(8000);
