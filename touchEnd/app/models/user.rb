@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
         @partner.partner = self
         @partner.save
         found = true
-        @jsonCommand = ActiveSupport::JSON.encode(cmd: "found_match", partner_name: @partner.username)
+        @jsonCommand = ActiveSupport::JSON.encode(cmd: "found_match", partner_name: @partner.username, token: @partner.authentication_token)
         TouchEnd::Application.config.redisConnection.publish 'chats', jsonCommand
 
         if options[:save]

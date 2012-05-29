@@ -28,12 +28,20 @@ redisClient.on("message", function (channel, message) {
    // }
    console.log("Received message:");
    console.log(message);
-   separatorIndex = message.indexOf(":");
-   token = message.slice(0, separatorIndex);
-   text = message.slice(separatorIndex + 1, message.length);
-   console.log("About to send message: " + text + " to user with token: " + token);
+   message = JSON.parse(message);
+   console.log("About to send command: " + message.cmd + " to user with token: " + message.token);
    try {
-     socketByToken[token].send(text);
+     switch (message.cmd) {
+       case "msg":
+          socketByToken[message.token].send(message.text);
+          break;
+        case "found_match":
+          socketByToken[message.token].send(message.partner_name);
+          break;
+        default:
+          console.log("At the DMV getting a new license. Not implemented yet :-)");
+     }
+
    } catch (err) {
      console.log(err);
      return;
