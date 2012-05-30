@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(:version => 20120530161721) do
     t.datetime "updated_at",                             :null => false
     t.integer  "partner_id"
     t.string   "username"
-    t.integer  "remaining_swaps"
     t.boolean  "looking"
+    t.integer  "remaining_swaps"
     t.integer  "previous_partner_id"
   end
 

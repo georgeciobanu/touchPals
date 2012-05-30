@@ -83,8 +83,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
     
-    domainURL = @"http://localhost:3000";
-    socketURL = @"http://localhost:8000";
+    domainURL = @"http://192.168.2.107:3000";
+    socketURL = @"ws://192.168.2.107:8000";
 
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil]; 
