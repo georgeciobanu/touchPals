@@ -2,9 +2,8 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
 
   def update
-    puts "Something"
-    puts params[:username]
-    puts params["username"]
+    # TODO(george): This should be moved in the model
+    
     respond_to do |format|
       if params[:username] != nil && params[:username] != ""
         current_user.update_attributes :username => params[:username]
@@ -18,4 +17,7 @@ class UsersController < ApplicationController
       end
     end
   end
+  
+  def elope
+    render :json => current_user.elope
 end
