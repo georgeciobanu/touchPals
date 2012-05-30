@@ -85,6 +85,8 @@ class User < ActiveRecord::Base
     # TODO(george): three karma points, if three people divorce from you we take a swap away from you
     puts "Starting to get a partner"
     self.getPartner
+    
+    # TODO(george): If the prev partner wasn't active, they should not be given a new partner
     self.previous_partner.try(:getPartner)
 
     return true
