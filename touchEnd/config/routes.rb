@@ -1,7 +1,7 @@
 TouchEnd::Application.routes.draw do
   resources :invites
 
-  resources :chats, :only => [:create, :index]
+  resources :chats
   resources :token_authentications, :only => [:create, :destroy]
   devise_for :users, :controllers => { 
     :sessions => "sessions", 
