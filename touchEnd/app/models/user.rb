@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   belongs_to :partner, :class_name => 'User'
   # has_many :chats, :foreign_key
+  has_many :invites, :class_name => 'Invite', :foreign_key => :from_user_id
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
