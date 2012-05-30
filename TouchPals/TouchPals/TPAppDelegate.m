@@ -119,9 +119,18 @@
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
+    if ([self user]) {
+        [self home];   
+    }
+    /*
     if ( [[self webSocket] readyState] != SR_OPEN && [self user] != nil) {
         [lvc reconnectSocket];
     }
+    
+    if ([user partnerUsername] == nil) {
+        [self searchingMatch];
+    }
+     */
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

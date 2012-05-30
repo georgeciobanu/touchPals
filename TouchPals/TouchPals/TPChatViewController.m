@@ -37,7 +37,17 @@
     [tv reloadData];
     
     [tv setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [partnerNameField setText:[user partnerUsername]];
+    
+    [tv setBackgroundColor:[UIColor colorWithRed:242/255.0 green:239/255.0 blue:232/255.0 alpha:1]];
+    
+    
+    NSString *partner = [user partnerUsername];
+    if (!partner || [partner isEqual:[NSNull null]]) {
+        [user setPartnerUsername:nil];
+        [appDelegate searchingMatch];
+    } else {
+        [partnerNameField setText:[user partnerUsername]];
+    }
     
     [self setChatMessages:[[NSMutableArray alloc] init]];
     
@@ -79,6 +89,7 @@
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
 
     [appDelegate login];
+    
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -111,7 +122,8 @@
         if (!cell) {
             cell = [[TPTableViewCellUser alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UserCell"];
             
-            [cell.textLabel setTextColor:[UIColor colorWithRed:182.0f/255.0f green:44.0f/255.0f blue:47.0f/255.0f alpha:1.0f]];
+            [cell.textLabel setTextColor:[UIColor colorWithRed:125.0f/255.0f green:113.0f/255.0f blue:117.0f/255.0f alpha:1.0f]];
+
             cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
             cell.textLabel.numberOfLines = 0;
             cell.textLabel.font = [UIFont fontWithName:@"Georgia" size:14.0];
@@ -127,7 +139,8 @@
         if (!cell) {
             cell = [[TPTableViewCellPartner alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PartnerCell"];
             
-            [cell.textLabel setTextColor:[UIColor colorWithRed:94.0f/255.0f green:97.0f/255.0f blue:182.0f/255.0f alpha:1.0f]];
+            [cell.textLabel setTextColor:[UIColor colorWithRed:40.0f/255.0f green:111.0f/255.0f blue:183.0f/255.0f alpha:1.0f]];
+
             cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
             cell.textLabel.numberOfLines = 0;
             cell.textLabel.font = [UIFont fontWithName:@"Georgia" size:14.0];

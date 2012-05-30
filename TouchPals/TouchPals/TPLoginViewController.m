@@ -64,6 +64,11 @@
                                               otherButtonTitles:nil];
         [alert show];
         [appDelegate home];
+    } else if ([@"partner_name_change" isEqualToString:cmd]) {
+        NSString *newPartnerUsername = [json objectForKey:@"partner_name"];
+        
+        [[appDelegate user] setPartnerUsername:newPartnerUsername];
+        [appDelegate home];
     }
     
     
@@ -73,7 +78,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSLog(@"STOP ANIMATION");
     [activityIndicator stopAnimating];
 }
 
@@ -84,7 +88,9 @@
     
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
 
-    [webSocket send:[appDelegate authToken]];
+    NSString *auth_token = [appDelegate authToken];
+    NSLog(@"AUTHENTICATION TOKEN:\n%@\n",auth_token);
+    [webSocket send:auth_token];
     
     [appDelegate homeClean];
 }
@@ -161,6 +167,10 @@
                                NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
                                NSLog(@"%@", txt);
                                
+                               if (!data) {
+                                   [self loginError:@"Unknown error, please try again."];
+                               }
+                               
                                NSMutableDictionary *json1 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errors];
                                
                                if ( [json1 objectForKey:@"error"] != nil ) {
@@ -203,11 +213,12 @@
                                
                                NSString *pu = [json1 objectForKey:@"partner_username"];
                                
-                               if (pu == (NSString *)[NSNull null])
-                                   pu = [NSString stringWithFormat:@"Anonymous"];
-
                                [appDelegate setUser:[[TPUser alloc] initWithUsername:u email:e userId:i remainingSwaps:rs partnerUsername:pu]];
                                                               
+                               if (pu == (NSString *)[NSNull null]) {
+                                   [appDelegate searchingMatch];
+                               }
+
                                [appDelegate home];
                                
                            }];

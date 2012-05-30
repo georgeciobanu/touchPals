@@ -7,10 +7,7 @@
 //
 
 #import "TPFindingMatchViewController.h"
-
-@interface TPFindingMatchViewController ()
-
-@end
+#import "TPAppDelegate.h"
 
 @implementation TPFindingMatchViewController
 
@@ -41,4 +38,10 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (IBAction)logout:(id)sender
+{
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    [appDelegate login];
+}
 @end

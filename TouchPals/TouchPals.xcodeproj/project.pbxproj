@@ -33,6 +33,13 @@
 		B97A3589156FF9A800E3DF16 /* TPReconnectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B97A3587156FF9A800E3DF16 /* TPReconnectingViewController.xib */; };
 		B97A358E1571827600E3DF16 /* TPFindingMatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B97A358C1571827600E3DF16 /* TPFindingMatchViewController.m */; };
 		B97A358F1571827600E3DF16 /* TPFindingMatchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B97A358D1571827600E3DF16 /* TPFindingMatchViewController.xib */; };
+		B97A35A115740FE300E3DF16 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B97A35A015740FE300E3DF16 /* StoreKit.framework */; };
+		B97A35A515756DE400E3DF16 /* chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B97A35A315756DE300E3DF16 /* chat@2x.png */; };
+		B97A35A615756DE400E3DF16 /* chat.png in Resources */ = {isa = PBXBuildFile; fileRef = B97A35A415756DE300E3DF16 /* chat.png */; };
+		B97A35A915756FD400E3DF16 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = B97A35A715756FD300E3DF16 /* info.png */; };
+		B97A35AA15756FD400E3DF16 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B97A35A815756FD300E3DF16 /* info@2x.png */; };
+		B97A35AC1575721C00E3DF16 /* arrangedmarriage.png in Resources */ = {isa = PBXBuildFile; fileRef = B97A35AB1575721C00E3DF16 /* arrangedmarriage.png */; };
+		B97A35AE157581B900E3DF16 /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = B97A35AD157581B800E3DF16 /* title.png */; };
 		B9C145C8156B0E890066EDB5 /* TPChatEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C145C7156B0E890066EDB5 /* TPChatEntry.m */; };
 		B9C145CE156C09E40066EDB5 /* TPTableViewCellUser.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C145CD156C09E40066EDB5 /* TPTableViewCellUser.m */; };
 		B9C145D1156C12E30066EDB5 /* TPTableViewCellPartner.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C145D0156C12E30066EDB5 /* TPTableViewCellPartner.m */; };
@@ -79,6 +86,13 @@
 		B97A358B1571827500E3DF16 /* TPFindingMatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPFindingMatchViewController.h; sourceTree = "<group>"; };
 		B97A358C1571827600E3DF16 /* TPFindingMatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPFindingMatchViewController.m; sourceTree = "<group>"; };
 		B97A358D1571827600E3DF16 /* TPFindingMatchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPFindingMatchViewController.xib; sourceTree = "<group>"; };
+		B97A35A015740FE300E3DF16 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		B97A35A315756DE300E3DF16 /* chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat@2x.png"; sourceTree = "<group>"; };
+		B97A35A415756DE300E3DF16 /* chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chat.png; sourceTree = "<group>"; };
+		B97A35A715756FD300E3DF16 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
+		B97A35A815756FD300E3DF16 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
+		B97A35AB1575721C00E3DF16 /* arrangedmarriage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrangedmarriage.png; sourceTree = "<group>"; };
+		B97A35AD157581B800E3DF16 /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
 		B9C145C6156B0E890066EDB5 /* TPChatEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPChatEntry.h; sourceTree = "<group>"; };
 		B9C145C7156B0E890066EDB5 /* TPChatEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPChatEntry.m; sourceTree = "<group>"; };
 		B9C145CC156C09E40066EDB5 /* TPTableViewCellUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPTableViewCellUser.h; sourceTree = "<group>"; };
@@ -92,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B97A35A115740FE300E3DF16 /* StoreKit.framework in Frameworks */,
 				B966EBCA156D9EF00006DE30 /* Security.framework in Frameworks */,
 				B966EBC8156D9EEB0006DE30 /* libicucore.dylib in Frameworks */,
 				B966EBC6156D9EE40006DE30 /* CFNetwork.framework in Frameworks */,
@@ -107,6 +122,7 @@
 		B956AF50156ACD81007BEA6B = {
 			isa = PBXGroup;
 			children = (
+				B97A35A015740FE300E3DF16 /* StoreKit.framework */,
 				B966EBC9156D9EF00006DE30 /* Security.framework */,
 				B966EBC7156D9EEB0006DE30 /* libicucore.dylib */,
 				B966EBC5156D9EE40006DE30 /* CFNetwork.framework */,
@@ -144,6 +160,7 @@
 				B9C145C6156B0E890066EDB5 /* TPChatEntry.h */,
 				B9C145C7156B0E890066EDB5 /* TPChatEntry.m */,
 				B956AF71156ACD81007BEA6B /* MainStoryboard.storyboard */,
+				B97A35AD157581B800E3DF16 /* title.png */,
 				B956AF6E156ACD81007BEA6B /* TPAppDelegate.h */,
 				B956AF6F156ACD81007BEA6B /* TPAppDelegate.m */,
 				B943234C156C456200EB15C1 /* TPLoginViewController.h */,
@@ -166,6 +183,11 @@
 				B956AF79156ACD82007BEA6B /* first@2x.png */,
 				B956AF7E156ACD82007BEA6B /* second.png */,
 				B956AF80156ACD82007BEA6B /* second@2x.png */,
+				B97A35A415756DE300E3DF16 /* chat.png */,
+				B97A35A315756DE300E3DF16 /* chat@2x.png */,
+				B97A35A715756FD300E3DF16 /* info.png */,
+				B97A35A815756FD300E3DF16 /* info@2x.png */,
+				B97A35AB1575721C00E3DF16 /* arrangedmarriage.png */,
 				B956AF66156ACD81007BEA6B /* Supporting Files */,
 			);
 			path = TouchPals;
@@ -249,6 +271,12 @@
 				B956AF81156ACD82007BEA6B /* second@2x.png in Resources */,
 				B97A3589156FF9A800E3DF16 /* TPReconnectingViewController.xib in Resources */,
 				B97A358F1571827600E3DF16 /* TPFindingMatchViewController.xib in Resources */,
+				B97A35A515756DE400E3DF16 /* chat@2x.png in Resources */,
+				B97A35A615756DE400E3DF16 /* chat.png in Resources */,
+				B97A35A915756FD400E3DF16 /* info.png in Resources */,
+				B97A35AA15756FD400E3DF16 /* info@2x.png in Resources */,
+				B97A35AC1575721C00E3DF16 /* arrangedmarriage.png in Resources */,
+				B97A35AE157581B900E3DF16 /* title.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

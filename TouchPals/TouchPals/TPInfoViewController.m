@@ -9,6 +9,7 @@
 #import "TPInfoViewController.h"
 #import "TPUser.h"
 #import "TPAppDelegate.h"
+#import "StoreKit/SKPaymentQueue.h"
 
 @implementation TPInfoViewController
 
@@ -25,7 +26,7 @@
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
 
     
-    NSString *signupURL = [NSString stringWithFormat:@"http://localhost:3000/users.json?auth_token=%@", [appDelegate authToken]];
+    NSString *signupURL = [NSString stringWithFormat:@"http://localhost:3000/users/update.json?auth_token=%@", [appDelegate authToken]];
     
     NSURL *url = [NSURL URLWithString:signupURL];
     
@@ -63,19 +64,48 @@
 - (IBAction)getNewPartner:(id)sender
 {    
     if ([user remainingSwaps] > 0) {
-        // TODO: get a new partner
+        
+        TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        
+        NSString *elopeURL = [NSString stringWithFormat:@"http://localhost:3000/users/elope?auth_token=%@", [appDelegate authToken]];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:elopeURL]];
+        [request setHTTPMethod:@"GET"];
+        
+        NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        
+        if (!connection) {
+            NSLog(@"Error with server connection");
+            return;
+        }
+
         
         [user decrementRemainingSwaps];
         
-        [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];        
-                
-        TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-        
+        if ([user remainingSwaps] == 0) {
+            [remainingField setText:[NSString stringWithFormat:@"$9.99"]];
+        } else {
+        [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
+        }
+                        
         [user setPartnerUsername:nil];
         
         [appDelegate searchingMatch];
         
     } else {
+        if ([SKPaymentQueue canMakePayments]) {
+            
+            NSLog(@"Elope unsuccessful!");
+            
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Payments Unauthorized" 
+                                                            message:@"In-app purchases are not authorized!" 
+                                                           delegate:nil 
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+
+        }
+        
         
     }
 }
