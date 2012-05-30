@@ -19,8 +19,8 @@ class User < ActiveRecord::Base
     found = false
     User.transaction do
       # If they don't have a partner and I haven't had them as a partner before
-      @partner = User.where("partner_id is NULL AND (previous_partner_id is NULL OR previous_partner_id <> :my_previous_partner_id)",
-      {:previous_partner_id => self.previous_partner_id} ).lock(true).first
+      @partner = User.where("partner_id is NULL AND id <> :my_id AND (previous_partner_id is NULL OR previous_partner_id <> :my_id)",
+      {:previous_partner_id => self.previous_partner_id, :my_id => self.id} ).lock(true).first
 
       # Not sure I need to check again
       # We are guaranteed to have partner_id == nil because we haven't been saved
@@ -44,15 +44,11 @@ class User < ActiveRecord::Base
   def elope    
     User.transaction do
       @partner = self.partner
-      @old_partner_token = @partner.authentication_token
-      
-
-
-
-
-      if @partner.partner != self or self.partner == nil or self.remaining_swaps == 0
+      if @partner.try(:partner) != self or self.partner == nil or self.remaining_swaps == 0
         throw "Cannot divorce. Please try again"
       end
+      
+      @old_partner_token = @partner.authentication_token
 
       @partner.previous_partner_id = self.id      
       @partner.partner = nil
