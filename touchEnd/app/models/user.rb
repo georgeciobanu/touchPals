@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   belongs_to :partner, :class_name => 'User'
+  belongs_to :previous_partner, :class_name => 'User', :foreign_key => :previous_partner_id
   # has_many :chats, :foreign_key
   has_many :invites, :class_name => 'Invite', :foreign_key => :from_user_id
   
@@ -63,7 +64,7 @@ class User < ActiveRecord::Base
       
       @old_partner_token = @partner.authentication_token
 
-      @partner.previous_partner_id = self.id      
+      @partner.previous_partner_id = self.id
       @partner.partner = nil
       @partner.save
       
@@ -84,6 +85,8 @@ class User < ActiveRecord::Base
     # TODO(george): three karma points, if three people divorce from you we take a swap away from you
     puts "Starting to get a partner"
     self.getPartner
+    self.previous_partner.try(:getPartner)
+
     return true
   end
 
