@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120526234852) do
+ActiveRecord::Schema.define(:version => 20120530161721) do
 
   create_table "chats", :force => true do |t|
     t.integer  "sender_id"
@@ -19,6 +19,13 @@ ActiveRecord::Schema.define(:version => 20120526234852) do
     t.string   "text"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "invites", :force => true do |t|
+    t.integer  "from_user_id"
+    t.string   "email"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "users", :force => true do |t|
@@ -39,6 +46,7 @@ ActiveRecord::Schema.define(:version => 20120526234852) do
     t.string   "username"
     t.integer  "remaining_swaps"
     t.boolean  "looking"
+    t.integer  "previous_partner_id"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true

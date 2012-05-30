@@ -25,7 +25,7 @@
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
 
     
-    NSString *signupURL = [NSString stringWithFormat:@"http://localhost:3000/users/update.json?auth_token=%@", [appDelegate authToken]];
+    NSString *signupURL = [NSString stringWithFormat:@"%@/users/update.json?auth_token=%@", [appDelegate domainURL], [appDelegate authToken]];
     
     NSURL *url = [NSURL URLWithString:signupURL];
     
@@ -72,30 +72,38 @@
 
 - (void)elope
 {
+    NSLog(@"ELOPING");
+    
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    NSString *elopeURL = [NSString stringWithFormat:@"http://localhost:3000/users/elope?auth_token=%@", [appDelegate authToken]];
+    NSString *elopeURL = [NSString stringWithFormat:@"%@/users/elope?auth_token=%@", [appDelegate domainURL], [appDelegate authToken]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:elopeURL]];
     [request setHTTPMethod:@"GET"];
     
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    NSOperationQueue *queue = [NSOperationQueue new];
     
-    if (!connection) {
-        NSLog(@"Error with server connection");
-        return;
-    }
+    [NSURLConnection sendAsynchronousRequest:request 
+                                       queue:queue 
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                               
+                               NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+                               NSLog(@"%@", txt);
+                               
+                               [user decrementRemainingSwaps];
+                               [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
+
+
+                               if ([user remainingSwaps] == 0) {
+                                   [remainingField setText:[NSString stringWithFormat:@"$9.99"]];
+                               } else {
+                                   [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
+                               }
+                               
+                               [user setPartnerUsername:nil];
+                               [appDelegate searchingMatch];                               
+                           }];    
     
-    [user decrementRemainingSwaps];
     
-    if ([user remainingSwaps] == 0) {
-        [remainingField setText:[NSString stringWithFormat:@"$9.99"]];
-    } else {
-        [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
-    }
-    
-    [user setPartnerUsername:nil];
-    
-    [appDelegate searchingMatch];
 
     
 }
@@ -105,7 +113,8 @@
     NSLog(@"Transaction successful");
     
     [user setRemainingSwaps:([user remainingSwaps]+1)];
-    
+    [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
+
     [self elope];
     
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
@@ -119,7 +128,8 @@
     NSLog(@"Transaction successful");
 
     [user setRemainingSwaps:([user remainingSwaps]+1)];
-    
+    [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
+
     [self elope];    
     
     // Remove the transaction from the payment queue.
@@ -188,12 +198,9 @@
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:[NSString stringWithFormat:@"$%d", [elopeProduct price]], nil];
         [buyAlert show];
-
-        
-    }
-    
-    // Populate your UI from the products list.
-    // Save a reference to the products list.
+    } else {
+        NSLog(@"NO ELOPING PRODUCT FOUND");
+    }    
 }
 
 

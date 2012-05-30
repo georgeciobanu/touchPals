@@ -125,7 +125,7 @@
     [[appDelegate webSocket] close];
 
     SRWebSocket *_webSocket;
-    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8000"]]];
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[appDelegate socketURL]]]];
     
     _webSocket.delegate = self;
     
@@ -141,7 +141,7 @@
 {
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    NSString *loginURL = @"http://localhost:3000/sessions";
+    NSString *loginURL = [NSString stringWithFormat:@"%@/sessions", [appDelegate domainURL]];
     
     NSURL *url = [NSURL URLWithString:loginURL];
     
@@ -168,6 +168,7 @@
                                
                                if (!data) {
                                    [self loginError:@"Unknown error, please try again."];
+                                   return;
                                }
                                
                                NSMutableDictionary *json1 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errors];
@@ -186,7 +187,7 @@
                                [appDelegate setAuthToken:auth_token];
                                
                                SRWebSocket *_webSocket;
-                               _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8000"]]];
+                               _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[appDelegate socketURL]]]];
                                _webSocket.delegate = self;
                                
                                self.title = @"Opening Connection...";
