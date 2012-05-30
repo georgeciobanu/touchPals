@@ -5,9 +5,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     build_resource
     
     # getPartner defined on the User
-    resource.getPartner({:save => false})
+    resource.getPartner
     resource.remaining_swaps = 1
-    
+
     if resource.save
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
