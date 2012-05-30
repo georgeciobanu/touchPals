@@ -5,7 +5,7 @@ class ChatsController < ApplicationController
   # GET /chats.json
   def index
     @chats = Chat.where("sender_id in (:my_id, :partner_id) OR receiver_id in (:my_id, :partner_id)",
-      {:my_id => current_user.id, :partner_id => current_user.partner.id})
+      {:my_id => current_user.id, :partner_id => current_user.partner.try(:id)})
 
     respond_to do |format|
       format.html # index.html.erb
