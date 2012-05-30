@@ -21,20 +21,21 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    
     if ([self user] == nil) {
         TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
         [appDelegate login];
     }
+     
 }
 
 
 - (void)loggedIn
 {
+    
+    NSLog(@"LoggedIn");
+    
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    
-    [chatMessages removeAllObjects];
-    
-    [tv reloadData];
     
     [tv setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     
@@ -51,7 +52,7 @@
     
     [self setChatMessages:[[NSMutableArray alloc] init]];
     
-    NSString *signupURL = [NSString stringWithFormat:@"http://localhost:3000/chats.json?auth_token=%@", [appDelegate authToken]];
+    NSString *signupURL = [NSString stringWithFormat:@"%@/chats.json?auth_token=%@", [appDelegate domainURL], [appDelegate authToken]];
     
     NSURL *url = [NSURL URLWithString:signupURL];
     
@@ -63,7 +64,14 @@
                                        queue:queue 
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
                                
-                               NSMutableArray *chats = (NSMutableArray *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];                                
+                               NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+                               NSLog(@"%@", txt);
+
+                               NSMutableArray *chats = (NSMutableArray *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];                 
+                               
+                               [chatMessages removeAllObjects];
+                               [tv reloadData];
+
                                
                                for (NSMutableDictionary *chat in chats) {
                                    TPChatEntry *c = [[TPChatEntry alloc] initWithTimeSent:[[NSDate alloc] init]  text:[chat objectForKey:@"text"] userSent:([user userId] == [[chat objectForKey:@"sender_id"] intValue])];
@@ -71,9 +79,7 @@
                                    [chatMessages insertObject:c atIndex:0];
                                    
                                    NSIndexPath *ip = [NSIndexPath indexPathForRow:0 inSection:0];
-                                   
-                                   
-                                   
+                                                                     
                                    [tv insertRowsAtIndexPaths:[NSArray arrayWithObject:ip] withRowAnimation:UITableViewRowAnimationTop];
                                }
                                 
@@ -84,7 +90,7 @@
 {
     [super viewDidLoad];
     
-    [self setChatMessages:[[NSMutableArray alloc] init]];    
+    [self setChatMessages:[[NSMutableArray alloc] init]]; 
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -165,7 +171,7 @@
 {
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    NSString *signupURL = [NSString stringWithFormat:@"http://localhost:3000/chats.json?auth_token=%@", [appDelegate authToken]];
+    NSString *signupURL = [NSString stringWithFormat:@"%@/chats.json?auth_token=%@", [appDelegate domainURL], [appDelegate authToken]];
     
     NSURL *url = [NSURL URLWithString:signupURL];
     

@@ -22,6 +22,9 @@
 @synthesize user;
 @synthesize authToken;
 @synthesize webSocket;
+@synthesize domainURL;
+@synthesize socketURL;
+
 
 - (void)clearUser
 {
@@ -68,6 +71,7 @@
 
 - (void)searchingMatch
 {
+    NSLog(@"Searching For Match");
     [[self window] setRootViewController:fmvc];
 }
 
@@ -78,6 +82,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
+    
+    domainURL = @"http://localhost:3000";
+    socketURL = @"http://localhost:8000";
 
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil]; 
@@ -125,6 +132,7 @@
     if ([self user]) {
         [self home];   
     }
+    
     /*
     if ( [[self webSocket] readyState] != SR_OPEN && [self user] != nil) {
         [lvc reconnectSocket];

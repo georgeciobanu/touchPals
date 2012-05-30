@@ -29,6 +29,8 @@
     TPFindingMatchViewController *fmvc;
 }
 
+@property (nonatomic) NSString *domainURL;
+@property (nonatomic) NSString *socketURL;
 
 @property (nonatomic) SRWebSocket *webSocket;
 @property (strong, nonatomic) UIWindow *window;

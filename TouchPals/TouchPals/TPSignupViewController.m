@@ -54,7 +54,7 @@
     TPAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
 
     // TODO: make a call to server to signup
-    NSString *signupURL = @"http://localhost:3000/users";
+    NSString *signupURL = [NSString stringWithFormat:@"%@/users", [delegate domainURL]];
     
     NSURL *url = [NSURL URLWithString:signupURL];
     

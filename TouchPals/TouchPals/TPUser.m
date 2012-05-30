@@ -36,9 +36,7 @@
 
 - (void)decrementRemainingSwaps
 {
-    remainingSwaps--;
-    
-    // TODO: let server know new number of swaps remaining
+    [self setRemainingSwaps:(remainingSwaps-1)];    
 }
 
 
