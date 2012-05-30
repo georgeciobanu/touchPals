@@ -89,10 +89,9 @@
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
 
     NSString *auth_token = [appDelegate authToken];
-    NSLog(@"AUTHENTICATION TOKEN:\n%@\n",auth_token);
     [webSocket send:auth_token];
     
-    [appDelegate homeClean];
+    [appDelegate home];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;

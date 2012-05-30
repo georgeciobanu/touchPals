@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <StoreKit/StoreKit.h>
 
 @class TPUser;
 @class TPLoginViewController;
 @class TPSignupViewController;
 @class SRWebSocket;
 @class TPChatViewController;
+@class TPInfoViewController;
 @class TPReconnectingViewController;
 @class TPFindingMatchViewController;
 
@@ -22,6 +24,7 @@
     TPLoginViewController *lvc;
     TPSignupViewController *svc;
     TPChatViewController *cvc;
+    TPInfoViewController *ivc;
     TPReconnectingViewController *rvc;
     TPFindingMatchViewController *fmvc;
 }

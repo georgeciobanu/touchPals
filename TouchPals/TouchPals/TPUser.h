@@ -12,7 +12,7 @@
 
 @property (nonatomic) NSString *username;
 @property (nonatomic, readonly) NSString *email;
-@property (nonatomic, readonly) NSInteger remainingSwaps;
+@property (nonatomic) NSInteger remainingSwaps;
 @property (nonatomic) NSString *partnerUsername;
 @property (nonatomic, readonly) NSInteger userId;
 

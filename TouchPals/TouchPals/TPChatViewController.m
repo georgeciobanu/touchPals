@@ -36,7 +36,7 @@
     
     [tv reloadData];
     
-    [tv setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [tv setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     
     [tv setBackgroundColor:[UIColor colorWithRed:242/255.0 green:239/255.0 blue:232/255.0 alpha:1]];
     
@@ -84,12 +84,7 @@
 {
     [super viewDidLoad];
     
-    [self setChatMessages:[[NSMutableArray alloc] init]];
-    
-    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-
-    [appDelegate login];
-    
+    [self setChatMessages:[[NSMutableArray alloc] init]];    
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;

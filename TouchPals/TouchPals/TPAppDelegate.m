@@ -11,6 +11,7 @@
 #import "TPLoginViewController.h"
 #import "TPSignupViewController.h"
 #import "TPChatViewController.h"
+#import "TPInfoViewController.h"
 #import "SRWebSocket.h"
 #import "TPReconnectingViewController.h"
 #import "TPFindingMatchViewController.h"
@@ -82,17 +83,19 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil]; 
     lvc = [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
     svc = [storyboard instantiateViewControllerWithIdentifier:@"SignupView"];
+    ivc = [storyboard instantiateViewControllerWithIdentifier:@"InfoView"];
     rvc = [[TPReconnectingViewController alloc] init];
     fmvc = [[TPFindingMatchViewController alloc] init];
 
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:ivc];
+    
     tbc = (UITabBarController *) [[self window] rootViewController];
     
     cvc = [[tbc viewControllers] objectAtIndex:0];
-        
+    
     if (!user) {
         [self login];
     }
-    
     
     return YES;
 }
