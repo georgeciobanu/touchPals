@@ -16,12 +16,24 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :authentication_token, :partner_id, :username,
                   :remaining_swaps;
 
-  def getPartner(options)
+  def getPartner
+    if self.partner_id != nil
+      throw "You need to divorce first"
+    end
+    
     found = false
     User.transaction do
-      # If they don't have a partner and I haven't had them as a partner before
-      @partner = User.where("partner_id is NULL AND id <> :my_id AND (previous_partner_id is NULL OR previous_partner_id <> :my_id)",
-      {:previous_partner_id => self.previous_partner_id, :my_id => self.id} ).lock(true).first
+      # Check that they do not have a partner
+      # and that I am not one of their previous partners - this is tricky since I can sometimes have a NULL ID
+      # which causes "previous_partner_id is NULL OR previous_partner_id <> :my_id"
+      # and that it is not me :-)
+      @query = "partner_id is NULL AND id <> :my_id AND (previous_partner_id is NULL OR previous_partner_id <> :my_id)"
+      if self.id == nil
+        # Simpler query if the current user is just being created
+        @query = "partner_id is NULL"
+      end
+
+      @partner = User.where(@query, {:previous_partner_id => self.previous_partner_id, :my_id => self.id} ).lock(true).first
 
       # Not sure I need to check again
       # We are guaranteed to have partner_id == nil because we haven't been saved
@@ -34,7 +46,7 @@ class User < ActiveRecord::Base
             token: @partner.authentication_token)
         TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
 
-        if options[:save]
+        if self.id != nil
           self.save
         end
       end
@@ -60,7 +72,7 @@ class User < ActiveRecord::Base
       self.remaining_swaps -= 1
 
       self.save
-       
+
       @jsonCommand = ActiveSupport::JSON.encode(cmd: "divorce", token: @old_partner_token)
       TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
     end # Transaction
@@ -71,7 +83,7 @@ class User < ActiveRecord::Base
     # TODO(george): gotta have previousPartner
     # TODO(george): three karma points, if three people divorce from you we take a swap away from you
     puts "Starting to get a partner"
-    self.getPartner({:save => true})
+    self.getPartner
     return true
   end
 
