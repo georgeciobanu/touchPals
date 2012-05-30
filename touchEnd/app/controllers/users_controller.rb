@@ -20,4 +20,5 @@ class UsersController < ApplicationController
   
   def elope
     render :json => current_user.elope
+  end
 end
