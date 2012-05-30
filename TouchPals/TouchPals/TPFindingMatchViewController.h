@@ -10,4 +10,6 @@
 
 @interface TPFindingMatchViewController : UIViewController
 
+- (IBAction)logout:(id)sender;
+
 @end

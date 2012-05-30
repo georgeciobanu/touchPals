@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20120526234852) do
     t.integer  "partner_id"
     t.string   "username"
     t.integer  "remaining_swaps"
+    t.boolean  "looking"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true

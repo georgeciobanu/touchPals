@@ -93,9 +93,7 @@
                                    }
                                    return;
                                }
-
                                
-                               // TODO: replace this with manual login
                                [delegate loginWithEmail:e password:p];
                                
                            }];
