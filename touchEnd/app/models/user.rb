@@ -55,9 +55,17 @@ class User < ActiveRecord::Base
     return found
   end
 
-  def elope    
+  def elope(receipt)
+    puts "Receipt:"
+    puts receipt
+    
     User.transaction do
       @partner = self.partner
+      # Users can only elope if they have a receipt or if they have a remaining swap
+      if receipt
+        self.remaining_swaps += 1
+      end
+      
       if @partner.try(:partner) != self or self.partner == nil or self.remaining_swaps == 0
         throw "Cannot divorce. Please try again"
       end
