@@ -14,7 +14,7 @@ TouchEnd::Application.routes.draw do
 
 
   match '/users/update' => 'users#update', :via => :put
-  match '/users/elope' => 'users#elope', :via => :get
+  match '/users/elope' => 'users#elope', :via => :put
   
   # devise_for :users, :controllers => {  }
 
@@ -22,9 +22,7 @@ TouchEnd::Application.routes.draw do
   # devise_scope :user do
   #   post 'users/sign_up', :to => 'users/registrations#create'
   # end
-  
 
-  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
