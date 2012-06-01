@@ -17,6 +17,8 @@
     IBOutlet UIActivityIndicatorView *activityIndicator;
 }
 
+- (void)startWebSocketWithAuthToken:(NSString *)authToken;
+
 - (IBAction)login:(id)sender;
 - (IBAction)signup:(id)sender;
 - (void)loginWithEmail:(NSString *)e password:(NSString *)p;

@@ -29,6 +29,10 @@
 		B966EBC6156D9EE40006DE30 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B966EBC5156D9EE40006DE30 /* CFNetwork.framework */; };
 		B966EBC8156D9EEB0006DE30 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B966EBC7156D9EEB0006DE30 /* libicucore.dylib */; };
 		B966EBCA156D9EF00006DE30 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B966EBC9156D9EF00006DE30 /* Security.framework */; };
+		B9782828157837AC00B8DF4F /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = B9782827157837AC00B8DF4F /* background.png */; };
+		B9782836157844CC00B8DF4F /* smalllogo.png in Resources */ = {isa = PBXBuildFile; fileRef = B9782834157844CC00B8DF4F /* smalllogo.png */; };
+		B9782837157844CC00B8DF4F /* smalllogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9782835157844CC00B8DF4F /* smalllogo@2x.png */; };
+		B978283915784BC300B8DF4F /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = B978283815784BC300B8DF4F /* title.png */; };
 		B97A3588156FF9A800E3DF16 /* TPReconnectingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B97A3586156FF9A800E3DF16 /* TPReconnectingViewController.m */; };
 		B97A3589156FF9A800E3DF16 /* TPReconnectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B97A3587156FF9A800E3DF16 /* TPReconnectingViewController.xib */; };
 		B97A358E1571827600E3DF16 /* TPFindingMatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B97A358C1571827600E3DF16 /* TPFindingMatchViewController.m */; };
@@ -39,7 +43,6 @@
 		B97A35A915756FD400E3DF16 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = B97A35A715756FD300E3DF16 /* info.png */; };
 		B97A35AA15756FD400E3DF16 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B97A35A815756FD300E3DF16 /* info@2x.png */; };
 		B97A35AC1575721C00E3DF16 /* arrangedmarriage.png in Resources */ = {isa = PBXBuildFile; fileRef = B97A35AB1575721C00E3DF16 /* arrangedmarriage.png */; };
-		B97A35AE157581B900E3DF16 /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = B97A35AD157581B800E3DF16 /* title.png */; };
 		B9C145C8156B0E890066EDB5 /* TPChatEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C145C7156B0E890066EDB5 /* TPChatEntry.m */; };
 		B9C145CE156C09E40066EDB5 /* TPTableViewCellUser.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C145CD156C09E40066EDB5 /* TPTableViewCellUser.m */; };
 		B9C145D1156C12E30066EDB5 /* TPTableViewCellPartner.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C145D0156C12E30066EDB5 /* TPTableViewCellPartner.m */; };
@@ -50,14 +53,14 @@
 		B943234D156C456200EB15C1 /* TPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPLoginViewController.m; sourceTree = "<group>"; };
 		B9432350156C49AE00EB15C1 /* TPSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPSignupViewController.h; sourceTree = "<group>"; };
 		B9432351156C49AE00EB15C1 /* TPSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPSignupViewController.m; sourceTree = "<group>"; };
-		B956AF5B156ACD81007BEA6B /* TouchPals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TouchPals.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B956AF5B156ACD81007BEA6B /* ArrangedMarriage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArrangedMarriage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B956AF5F156ACD81007BEA6B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B956AF61156ACD81007BEA6B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B956AF63156ACD81007BEA6B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		B956AF67156ACD81007BEA6B /* TouchPals-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TouchPals-Info.plist"; sourceTree = "<group>"; };
+		B956AF67156ACD81007BEA6B /* ArrangedMarriage-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ArrangedMarriage-Info.plist"; sourceTree = "<group>"; };
 		B956AF69156ACD81007BEA6B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B956AF6B156ACD81007BEA6B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		B956AF6D156ACD81007BEA6B /* TouchPals-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TouchPals-Prefix.pch"; sourceTree = "<group>"; };
+		B956AF6D156ACD81007BEA6B /* ArrangedMarriage-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ArrangedMarriage-Prefix.pch"; sourceTree = "<group>"; };
 		B956AF6E156ACD81007BEA6B /* TPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPAppDelegate.h; sourceTree = "<group>"; };
 		B956AF6F156ACD81007BEA6B /* TPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TPAppDelegate.m; sourceTree = "<group>"; };
 		B956AF72156ACD81007BEA6B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
@@ -80,6 +83,10 @@
 		B966EBC5156D9EE40006DE30 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B966EBC7156D9EEB0006DE30 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		B966EBC9156D9EF00006DE30 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		B9782827157837AC00B8DF4F /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = ../../background.png; sourceTree = "<group>"; };
+		B9782834157844CC00B8DF4F /* smalllogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = smalllogo.png; path = ../smalllogo.png; sourceTree = "<group>"; };
+		B9782835157844CC00B8DF4F /* smalllogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "smalllogo@2x.png"; path = "../smalllogo@2x.png"; sourceTree = "<group>"; };
+		B978283815784BC300B8DF4F /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = title.png; path = ../title.png; sourceTree = "<group>"; };
 		B97A3585156FF9A800E3DF16 /* TPReconnectingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPReconnectingViewController.h; sourceTree = "<group>"; };
 		B97A3586156FF9A800E3DF16 /* TPReconnectingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPReconnectingViewController.m; sourceTree = "<group>"; };
 		B97A3587156FF9A800E3DF16 /* TPReconnectingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPReconnectingViewController.xib; sourceTree = "<group>"; };
@@ -92,7 +99,7 @@
 		B97A35A715756FD300E3DF16 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		B97A35A815756FD300E3DF16 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
 		B97A35AB1575721C00E3DF16 /* arrangedmarriage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrangedmarriage.png; sourceTree = "<group>"; };
-		B97A35AD157581B800E3DF16 /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
+		B97A35E61576FA5700E3DF16 /* TouchPals copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TouchPals copy-Info.plist"; path = "/Users/jcottrell/Documents/touchproject/TouchPals/TouchPals copy-Info.plist"; sourceTree = "<absolute>"; };
 		B9C145C6156B0E890066EDB5 /* TPChatEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPChatEntry.h; sourceTree = "<group>"; };
 		B9C145C7156B0E890066EDB5 /* TPChatEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPChatEntry.m; sourceTree = "<group>"; };
 		B9C145CC156C09E40066EDB5 /* TPTableViewCellUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPTableViewCellUser.h; sourceTree = "<group>"; };
@@ -122,6 +129,9 @@
 		B956AF50156ACD81007BEA6B = {
 			isa = PBXGroup;
 			children = (
+				B978283815784BC300B8DF4F /* title.png */,
+				B9782834157844CC00B8DF4F /* smalllogo.png */,
+				B9782835157844CC00B8DF4F /* smalllogo@2x.png */,
 				B97A35A015740FE300E3DF16 /* StoreKit.framework */,
 				B966EBC9156D9EF00006DE30 /* Security.framework */,
 				B966EBC7156D9EEB0006DE30 /* libicucore.dylib */,
@@ -129,13 +139,14 @@
 				B956AF65156ACD81007BEA6B /* TouchPals */,
 				B956AF5E156ACD81007BEA6B /* Frameworks */,
 				B956AF5C156ACD81007BEA6B /* Products */,
+				B97A35E61576FA5700E3DF16 /* TouchPals copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
 		B956AF5C156ACD81007BEA6B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B956AF5B156ACD81007BEA6B /* TouchPals.app */,
+				B956AF5B156ACD81007BEA6B /* ArrangedMarriage.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -160,7 +171,6 @@
 				B9C145C6156B0E890066EDB5 /* TPChatEntry.h */,
 				B9C145C7156B0E890066EDB5 /* TPChatEntry.m */,
 				B956AF71156ACD81007BEA6B /* MainStoryboard.storyboard */,
-				B97A35AD157581B800E3DF16 /* title.png */,
 				B956AF6E156ACD81007BEA6B /* TPAppDelegate.h */,
 				B956AF6F156ACD81007BEA6B /* TPAppDelegate.m */,
 				B943234C156C456200EB15C1 /* TPLoginViewController.h */,
@@ -179,6 +189,7 @@
 				B97A3585156FF9A800E3DF16 /* TPReconnectingViewController.h */,
 				B97A3586156FF9A800E3DF16 /* TPReconnectingViewController.m */,
 				B97A3587156FF9A800E3DF16 /* TPReconnectingViewController.xib */,
+				B9782827157837AC00B8DF4F /* background.png */,
 				B956AF77156ACD81007BEA6B /* first.png */,
 				B956AF79156ACD82007BEA6B /* first@2x.png */,
 				B956AF7E156ACD82007BEA6B /* second.png */,
@@ -202,10 +213,10 @@
 				B966EBB5156D9E630006DE30 /* SRWebSocket.m */,
 				B966EBB6156D9E630006DE30 /* NSData+SRB64Additions.h */,
 				B966EBB7156D9E630006DE30 /* NSData+SRB64Additions.m */,
-				B956AF67156ACD81007BEA6B /* TouchPals-Info.plist */,
+				B956AF67156ACD81007BEA6B /* ArrangedMarriage-Info.plist */,
 				B956AF68156ACD81007BEA6B /* InfoPlist.strings */,
 				B956AF6B156ACD81007BEA6B /* main.m */,
-				B956AF6D156ACD81007BEA6B /* TouchPals-Prefix.pch */,
+				B956AF6D156ACD81007BEA6B /* ArrangedMarriage-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -213,9 +224,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B956AF5A156ACD81007BEA6B /* TouchPals */ = {
+		B956AF5A156ACD81007BEA6B /* ArrangedMarriage */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B956AF84156ACD82007BEA6B /* Build configuration list for PBXNativeTarget "TouchPals" */;
+			buildConfigurationList = B956AF84156ACD82007BEA6B /* Build configuration list for PBXNativeTarget "ArrangedMarriage" */;
 			buildPhases = (
 				B956AF57156ACD81007BEA6B /* Sources */,
 				B956AF58156ACD81007BEA6B /* Frameworks */,
@@ -225,9 +236,9 @@
 			);
 			dependencies = (
 			);
-			name = TouchPals;
+			name = ArrangedMarriage;
 			productName = TouchPals;
-			productReference = B956AF5B156ACD81007BEA6B /* TouchPals.app */;
+			productReference = B956AF5B156ACD81007BEA6B /* ArrangedMarriage.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -240,7 +251,7 @@
 				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "McGill University";
 			};
-			buildConfigurationList = B956AF55156ACD81007BEA6B /* Build configuration list for PBXProject "TouchPals" */;
+			buildConfigurationList = B956AF55156ACD81007BEA6B /* Build configuration list for PBXProject "ArrangedMarriage" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -253,7 +264,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B956AF5A156ACD81007BEA6B /* TouchPals */,
+				B956AF5A156ACD81007BEA6B /* ArrangedMarriage */,
 			);
 		};
 /* End PBXProject section */
@@ -276,7 +287,10 @@
 				B97A35A915756FD400E3DF16 /* info.png in Resources */,
 				B97A35AA15756FD400E3DF16 /* info@2x.png in Resources */,
 				B97A35AC1575721C00E3DF16 /* arrangedmarriage.png in Resources */,
-				B97A35AE157581B900E3DF16 /* title.png in Resources */,
+				B9782828157837AC00B8DF4F /* background.png in Resources */,
+				B9782836157844CC00B8DF4F /* smalllogo.png in Resources */,
+				B9782837157844CC00B8DF4F /* smalllogo@2x.png in Resources */,
+				B978283915784BC300B8DF4F /* title.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,9 +390,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TouchPals/TouchPals-Prefix.pch";
-				INFOPLIST_FILE = "TouchPals/TouchPals-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "TouchPals/ArrangedMarriage-Prefix.pch";
+				INFOPLIST_FILE = "TouchPals/ArrangedMarriage-Info.plist";
+				PRODUCT_NAME = ArrangedMarriage;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -387,9 +401,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TouchPals/TouchPals-Prefix.pch";
-				INFOPLIST_FILE = "TouchPals/TouchPals-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "TouchPals/ArrangedMarriage-Prefix.pch";
+				INFOPLIST_FILE = "TouchPals/ArrangedMarriage-Info.plist";
+				PRODUCT_NAME = ArrangedMarriage;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -397,7 +411,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B956AF55156ACD81007BEA6B /* Build configuration list for PBXProject "TouchPals" */ = {
+		B956AF55156ACD81007BEA6B /* Build configuration list for PBXProject "ArrangedMarriage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B956AF82156ACD82007BEA6B /* Debug */,
@@ -406,7 +420,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B956AF84156ACD82007BEA6B /* Build configuration list for PBXNativeTarget "TouchPals" */ = {
+		B956AF84156ACD82007BEA6B /* Build configuration list for PBXNativeTarget "ArrangedMarriage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B956AF85156ACD82007BEA6B /* Debug */,

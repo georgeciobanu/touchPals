@@ -11,6 +11,12 @@
 
 @implementation TPFindingMatchViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self view].backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
+}
+
 - (IBAction)logout:(id)sender
 {
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];

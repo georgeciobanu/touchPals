@@ -11,6 +11,13 @@
 
 @implementation TPSignupViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self view].backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
+}
+
 
 - (void)signupError:(NSString *)errMsg
 {
@@ -78,6 +85,12 @@
                                // Manage the response here.
                                NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
                                NSLog(@"%@", txt);
+                               
+                               if (!data) {
+                                   [self signupError:@"Unknown error, please try again."];
+                                   return;
+                               }
+
                                
                                NSMutableDictionary *json1 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errors];
 

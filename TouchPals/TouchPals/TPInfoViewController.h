@@ -21,6 +21,7 @@
     
     UIAlertView *buyAlert;
     UIAlertView *elopeAlert;
+    __weak IBOutlet UITextField *inviteEmailField;
 }
 
 @property (nonatomic) TPUser *user;
@@ -29,5 +30,6 @@
 - (IBAction)getNewPartner:(id)sender;
 - (IBAction)updateUsername:(id)sender;
 - (IBAction)logout:(id)sender;
+- (IBAction)inviteFriend:(id)sender;
 
 @end

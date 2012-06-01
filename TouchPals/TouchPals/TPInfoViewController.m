@@ -20,6 +20,45 @@
     [appDelegate login];
 }
 
+- (IBAction)inviteFriend:(id)sender
+{
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+
+    NSString *email = [inviteEmailField text];
+    
+    if ([email length] > 0) {
+        NSString *inviteURL = [NSString stringWithFormat:@"%@/invites.json?auth_token=%@", [appDelegate domainURL], [appDelegate authToken]];
+        
+        NSURL *url = [NSURL URLWithString:inviteURL];
+        
+        NSMutableURLRequest *inviteRequest = [[NSMutableURLRequest alloc] initWithURL:url];
+        
+        NSString *jsonStr = [NSString stringWithFormat:@"{\"email\":\"%@\"}", email];
+        
+        NSData *jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
+        
+        inviteRequest.HTTPMethod = @"POST";
+        [inviteRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        inviteRequest.HTTPBody = jsonData;
+        
+        NSOperationQueue *queue = [NSOperationQueue new];
+        
+        [NSURLConnection sendAsynchronousRequest:inviteRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+            
+            NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+            NSLog(@"%@", txt);
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invitation Sent!" 
+                                                            message:@"You will get a free extra swap when your friend signs up!" 
+                                                           delegate:nil 
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            
+            [alert show];            
+        }];
+    }
+}
+
 - (void) serverUpdateUsername:(NSString*)u
 {    
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -46,7 +85,7 @@
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
                                NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
                                NSLog(@"%@", txt);
-
+                               
                            }];
 
 }
@@ -62,15 +101,14 @@
 
 - (void) failedTransaction: (SKPaymentTransaction *)transaction
 {
+    NSLog(@"TRANSACTION FAILED");
     if (transaction.error.code != SKErrorPaymentCancelled) {
         NSLog(@"Transaction Failed");
-        
-        //TODO: display alert
     }
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 
-- (void)elope
+- (void)elopeWithReceipt:(NSData *)receipt
 {
     NSLog(@"ELOPING");
     
@@ -78,8 +116,22 @@
     
     NSString *elopeURL = [NSString stringWithFormat:@"%@/users/elope?auth_token=%@", [appDelegate domainURL], [appDelegate authToken]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:elopeURL]];
-    [request setHTTPMethod:@"GET"];
+    [request setHTTPMethod:@"PUT"];
+    [request addValue: @"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue: @"application/json" forHTTPHeaderField:@"Accept"];
+
+
     
+    if (!receipt) {
+        receipt = [@"{}" dataUsingEncoding:NSUTF8StringEncoding];
+    } else {
+        receipt = [[NSString stringWithFormat:@"{%@}"] dataUsingEncoding:NSUTF8StringEncoding];
+    }
+        
+    request.HTTPBody = receipt;
+    
+    NSLog(@"Receipt JSON:%@", request.HTTPBody);
+
     NSOperationQueue *queue = [NSOperationQueue new];
     
     [NSURLConnection sendAsynchronousRequest:request 
@@ -89,18 +141,21 @@
                                NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
                                NSLog(@"%@", txt);
                                
-                               [user decrementRemainingSwaps];
-                               [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
-
-
-                               if ([user remainingSwaps] == 0) {
-                                   [remainingField setText:[NSString stringWithFormat:@"$9.99"]];
+                               if ([txt isEqualToString:@"true"]) {
+                                   [user decrementRemainingSwaps];                                   
+                                   
+                                   if ([user remainingSwaps] == 0) {
+                                       [remainingField setText:[NSString stringWithFormat:@"$9.99"]];
+                                   } else {
+                                       [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
+                                   }
+                                   
+                                   [user setPartnerUsername:nil];
+                                   [appDelegate searchingMatch];                               
                                } else {
-                                   [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
+                                   //TODO: say it did not work
                                }
                                
-                               [user setPartnerUsername:nil];
-                               [appDelegate searchingMatch];                               
                            }];    
     
     
@@ -110,13 +165,14 @@
 
 - (void) restoreTransaction: (SKPaymentTransaction *)transaction
 {
-    NSLog(@"Transaction successful");
-    
+    NSLog(@"Transaction successfully restored -- nothing else done");
+    /*
     [user setRemainingSwaps:([user remainingSwaps]+1)];
     [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
-
-    [self elope];
     
+    NSData *receipt = [transaction transactionReceipt];
+    [self elopeWithReceipt:receipt];
+    */
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 
@@ -129,8 +185,9 @@
 
     [user setRemainingSwaps:([user remainingSwaps]+1)];
     [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
-
-    [self elope];    
+    
+    NSData *receipt = [transaction transactionReceipt];
+    [self elopeWithReceipt:receipt];
     
     // Remove the transaction from the payment queue.
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
@@ -144,12 +201,15 @@
         switch (transaction.transactionState)
         {
             case SKPaymentTransactionStatePurchased:
+                NSLog(@"Purchased");
                 [self completeTransaction:transaction];
                 break;
             case SKPaymentTransactionStateFailed:
+                NSLog(@"Failed");
                 [self failedTransaction:transaction];
                 break;
             case SKPaymentTransactionStateRestored:
+                NSLog(@"Restored");
                 [self restoreTransaction:transaction];
             default:
                 break;
@@ -161,7 +221,7 @@
 - (void) requestProductData
 {
     SKProductsRequest *request= [[SKProductsRequest alloc] initWithProductIdentifiers:
-                                 [NSSet setWithObject:@"elope_001"]];
+                                 [NSSet setWithObject:@"elope_01"]];
     request.delegate = self;
     [request start];
 }
@@ -169,9 +229,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {    
     if (alertView == buyAlert && buttonIndex == 1) {
-        
-        NSLog(@"PURCHASING");
-        
+                
         SKProduct *selectedProduct = elopeProduct;
         
         SKPayment *payment = [SKPayment paymentWithProduct:selectedProduct];
@@ -179,7 +237,7 @@
         [[SKPaymentQueue defaultQueue] addPayment:payment];
 
     } else if (alertView == elopeAlert && buttonIndex == 1) {
-        [self elope];
+        [self elopeWithReceipt:nil];
     }
 }
 
@@ -196,7 +254,7 @@
                                                         message:@"Are you sure you want to elope?" 
                                                        delegate:self 
                                               cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:[NSString stringWithFormat:@"$%d", [elopeProduct price]], nil];
+                                              otherButtonTitles:[NSString stringWithFormat:@"OK"], nil];
         [buyAlert show];
     } else {
         NSLog(@"NO ELOPING PRODUCT FOUND");
@@ -256,7 +314,11 @@
     
     [self setUser:[appDelegate user]];
     
-    [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
+    if ([user remainingSwaps] == 0) {
+        [remainingField setText:[NSString stringWithFormat:@"$9.99"]];
+    } else {
+        [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
+    }
     [partnerNameField setText:[NSString stringWithFormat:@"Partner: %@", [user partnerUsername]]];
     [usernameField setText:[user username]];    
 
@@ -267,4 +329,15 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self view].backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
+
+}
+
+- (void)viewDidUnload {
+    inviteEmailField = nil;
+    [super viewDidUnload];
+}
 @end

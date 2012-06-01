@@ -15,6 +15,13 @@
 
 @implementation TPLoginViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self view].backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
+}
+
 - (void)loginError:(NSString *)errMsg
 {
     [activityIndicator stopAnimating];
@@ -43,7 +50,6 @@
         NSString *text = [json objectForKey:@"text"];
         [appDelegate receiveMsg:text];
     } else if ([@"divorce" isEqualToString:cmd]) {
-        //TODO: handle divorce
         [[appDelegate user] setPartnerUsername:nil];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Divorce" 
                                                         message:@"Your partner got a divorce..." 
@@ -53,6 +59,7 @@
         [alert show];
         [appDelegate searchingMatch];
     } else if( [@"found_match" isEqualToString:cmd]) {
+        NSLog(@"PARTNER FOUND");
         NSString *newPartner = [json objectForKey:@"partner_name"];
 
         [[appDelegate user] setPartnerUsername:newPartner];
@@ -160,9 +167,6 @@
     [NSURLConnection sendAsynchronousRequest:loginRequest 
                                        queue:queue 
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *errors){
-                               
-                               
-                               // FOR DEBUGGING
                                NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
                                NSLog(@"%@", txt);
                                
@@ -185,15 +189,8 @@
                                NSString *auth_token = [(NSMutableDictionary *)[json1 objectForKey:@"session"] objectForKey:@"auth_token"];
                                
                                [appDelegate setAuthToken:auth_token];
-                               
-                               SRWebSocket *_webSocket;
-                               _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[appDelegate socketURL]]]];
-                               _webSocket.delegate = self;
-                               
-                               self.title = @"Opening Connection...";
-                               [_webSocket open];
-                               
-                               [appDelegate setWebSocket:_webSocket];
+
+                               [self startWebSocketWithAuthToken:auth_token];
                                
                                NSMutableDictionary *json2 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errors];
                                
@@ -217,13 +214,24 @@
                                                               
                                if (pu == (NSString *)[NSNull null]) {
                                    [appDelegate searchingMatch];
-                               }
-
-                               [appDelegate home];
-                               
+                               }                               
                            }];
     
 
+}
+
+- (void)startWebSocketWithAuthToken:(NSString *)authToken
+{
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    SRWebSocket *_webSocket;
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[appDelegate socketURL]]]];
+    _webSocket.delegate = self;
+    
+    self.title = @"Opening Connection...";
+    [_webSocket open];
+    
+    [appDelegate setWebSocket:_webSocket];
 }
 
 - (IBAction)login:(id)sender

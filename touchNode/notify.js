@@ -1,5 +1,5 @@
 var WebSocketServer = require('ws').Server,
-    wss = new WebSocketServer({port:8000, host:'192.168.2.107'});
+    wss = new WebSocketServer({port:8000});
 var socketByToken = {};
 
 var redis = require("redis"),

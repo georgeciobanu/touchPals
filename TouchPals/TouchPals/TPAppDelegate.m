@@ -25,7 +25,6 @@
 @synthesize domainURL;
 @synthesize socketURL;
 
-
 - (void)clearUser
 {
     [self setUser:nil];
@@ -34,7 +33,7 @@
     
 - (void)receiveMsg:(NSString *)text
 {
-    [cvc receiveNewEntry:text date:[[NSDate alloc] init]];
+    [cvc receiveNewEntry:text date:nil];
 }
 
 - (void)homeClean
@@ -83,10 +82,26 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
     
-    domainURL = @"http://192.168.2.107:3000";
-    socketURL = @"ws://192.168.2.107:8000";
-
+    domainURL = @"http://localhost:3000";
+    socketURL = @"ws://localhost:8000";
     
+//    
+//    #if TARGET_IPHONE_SIMULATOR
+//    {
+//        domainURL = @"http://192.168.2.107:3000";
+//        socketURL = @"ws://192.168.2.107:8000";
+//    }
+//    #else
+//    {
+//        domainURL = @"http://ec2-50-18-246-120.us-west-1.compute.amazonaws.com:3000";
+//        socketURL = @"ws://ec2-50-18-246-120.us-west-1.compute.amazonaws.com:8000";
+//    }
+//    #endif
+
+    [self window].backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
+
+
+        
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil]; 
     lvc = [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
     svc = [storyboard instantiateViewControllerWithIdentifier:@"SignupView"];
@@ -121,6 +136,7 @@
     if ( [[self webSocket] readyState] == SR_OPEN) {
         [self webSocket].delegate = nil;
         [[self webSocket] close];
+        NSLog(@"CLOSED WEB SOCKET");
     }
 
 }
@@ -130,7 +146,8 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
     if ([self user]) {
-        [self home];   
+        [self home];  
+        [lvc startWebSocketWithAuthToken:[self authToken]];
     }
     
     /*
