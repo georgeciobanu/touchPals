@@ -1,5 +1,5 @@
 var WebSocket = require('ws');
-var ws = new WebSocket('ws://localhost:8000');
+var ws = new WebSocket('wss://localhost:8000');
 ws.on('open', function() {
     console.log("connected");
     ws.send('WXpw8wRzRnVYWQqE8oYx');

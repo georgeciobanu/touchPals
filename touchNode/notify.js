@@ -1,5 +1,20 @@
-var WebSocketServer = require('ws').Server,
-    wss = new WebSocketServer({port:8000, host:'ec2-50-18-246-120.us-west-1.compute.amazonaws.com'});
+var fs = require('fs');
+
+var options = {
+  key: fs.readFileSync('arranged_marriage.key'),
+  cert: fs.readFileSync('arranged_marriage.crt')
+};
+
+var app = require('https').createServer(options);
+
+app.listen(8000);
+var WebSocketServer = require('ws').Server;
+var wss = new WebSocketServer({server: app});
+
+
+
+// var WebSocketServer = require('ws').Server,
+//     wss = new WebSocketServer({port:8000, host:'localhost'});
 var socketByToken = {};
 
 var redis = require("redis"),
