@@ -72,4 +72,4 @@ console.log("Connected to Redis...");
 wss.on('close', function(ws) {
     console.log("Server: someone disconnected to me");
 });
-});
+
