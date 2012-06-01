@@ -14,7 +14,7 @@ TouchEnd::Application.routes.draw do
 
 
   match '/users/update' => 'users#update', :via => :put
-  match '/users/elope' => 'users#elope', :via => :get
+  match '/users/elope' => 'users#elope', :via => :put
   
   # devise_for :users, :controllers => {  }
 
