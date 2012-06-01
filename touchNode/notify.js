@@ -1,10 +1,11 @@
 var fs = require('fs');
 
 var options = {
-  key: fs.readFileSync('arranged_marriage.key'),
-  cert: fs.readFileSync('arranged_marriage.crt')
+  key: fs.readFileSync('/home/ec2-user/code/touchPals/touchNode/arranged_marriage.key'),
+  cert: fs.readFileSync('/home/ec2-user/code/touchPals/touchNode/arranged_marriage.crt')
 };
 
+console.log("Things are going well");
 var app = require('https').createServer(options);
 
 app.listen(8000);
