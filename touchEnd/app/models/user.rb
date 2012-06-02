@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
       @partner = User.where(@query, {:previous_partner_id => self.previous_partner_id, :my_id => self.id} ).lock(true).first
 
       # Not sure I need to check again
-      # We are guaranteed to have partner_id == nil because we haven't been saved
+      
       if @partner && @partner.partner_id == nil
         self.partner = @partner
         @partner.partner = self
@@ -46,6 +46,9 @@ class User < ActiveRecord::Base
         @jsonCommand = ActiveSupport::JSON.encode(cmd: "found_match", partner_name: @partner.username, 
             token: @partner.authentication_token)
         TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
+        n1 = APNS::Notification.new(current_user.apn_token, 'The matchmaker found a partner! Meet ' + @partner.username)
+        n2 = APNS::Notification.new(@partner.apn_token, 'The matchmaker found a partner! Meet ' + current_user.username)
+        APNS.send_notification(n1, n2)
 
         if self.id != nil
           self.save
