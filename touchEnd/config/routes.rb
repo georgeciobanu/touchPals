@@ -1,7 +1,9 @@
 TouchEnd::Application.routes.draw do
   resources :invites
 
-  resources :chats
+  resources :chats, :except => [:index]
+  match '/chats' => 'chats#index', :via => :put
+    
   resources :token_authentications, :only => [:create, :destroy]
   devise_for :users, :controllers => { 
     :sessions => "sessions", 
@@ -15,6 +17,7 @@ TouchEnd::Application.routes.draw do
 
   match '/users/update' => 'users#update', :via => :put
   match '/users/elope' => 'users#elope', :via => :put
+
   
   # devise_for :users, :controllers => {  }
 
