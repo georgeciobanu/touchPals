@@ -13,12 +13,12 @@ class UsersController < ApplicationController
     if params[:apn_token]
       current_user.apn_token = params[:apn_token]
     end
-    
+
     current_user.save
-    
+
     render :json => current_user
   end
-  
+
   def elope
     render :json => current_user.elope(params)
   end

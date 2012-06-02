@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  reporter_id: 1
+  reportee_id: 1
+
+two:
+  reporter_id: 1
+  reportee_id: 1

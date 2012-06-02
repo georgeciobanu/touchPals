@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   belongs_to :previous_partner, :class_name => 'User', :foreign_key => :previous_partner_id
   # has_many :chats, :foreign_key
   has_many :invites, :class_name => 'Invite', :foreign_key => :from_user_id
+  has_many :feedbacks
+  has_many :reports
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -12,6 +14,10 @@ class User < ActiveRecord::Base
 
   before_save :ensure_authentication_token
 
+  valid_email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i  
+  validates :email, presence: true, 
+                    format: {with: valid_email_regex},
+                    uniqueness: { case_sensitive: false }
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :authentication_token, :partner_id, :username,
@@ -21,7 +27,7 @@ class User < ActiveRecord::Base
     if self.partner_id != nil
       throw "You need to divorce first"
     end
-    
+
     found = false
     User.transaction do
       # Check that they do not have a partner
@@ -55,6 +61,7 @@ class User < ActiveRecord::Base
         end
       end
     end # Locking transaction
+    
     return found
   end
 

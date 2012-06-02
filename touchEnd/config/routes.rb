@@ -1,4 +1,8 @@
 TouchEnd::Application.routes.draw do
+  resources :feedbacks
+
+  resources :reports
+
   resources :invites
 
   resources :chats, :except => [:index]
@@ -9,7 +13,7 @@ TouchEnd::Application.routes.draw do
     :sessions => "sessions", 
     :registrations => 'users/registrations' 
   }
-  
+
   devise_scope :user do
     resources :sessions, :only => [:create, :destroy]
   end
