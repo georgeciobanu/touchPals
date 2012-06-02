@@ -47,8 +47,11 @@ class User < ActiveRecord::Base
         @partner.partner = self
         @partner.save
         found = true
-        @jsonCommand = ActiveSupport::JSON.encode(cmd: "found_match", partner_name: @partner.username, 
+        @jsonCommand = ActiveSupport::JSON.encode(cmd: "found_match", partner_name: self.username,
             token: @partner.authentication_token)
+        @jsonCommand = ActiveSupport::JSON.encode(cmd: "found_match", partner_name: @partner.username,
+            token: self.authentication_token)
+
         TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
         
         if self.id && self.apn_token
@@ -83,12 +86,12 @@ class User < ActiveRecord::Base
       @partner.previous_partner_id = self.id
       @partner.partner = nil
       @partner.save
-      
+
       self.previous_partner_id = self.partner.id
       self.partner = nil
-      if receipt
+      if receipt != ""
         Rails.logger.info("I got a receipt!")
-        Rails.logger.info(receipt)
+        Rails.logger.info("\"" + receipt"\"")
       else
         self.remaining_swaps -= 1
       end
