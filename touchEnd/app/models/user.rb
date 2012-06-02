@@ -95,7 +95,7 @@ class User < ActiveRecord::Base
 
       self.save
 
-      @jsonCommand = ActiveSupport::JSON.encode(cmd: "divorce", token: self.previous_partner.token)
+      @jsonCommand = ActiveSupport::JSON.encode(cmd: "divorce", token: @partner.token)
       TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
     end # Transaction
 
