@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :authentication_token, :partner_id, :username,
-                  :remaining_swaps;
+                  :remaining_swaps, :badge_count, :apn_token;
 
   def getPartner
     if self.partner_id != nil
