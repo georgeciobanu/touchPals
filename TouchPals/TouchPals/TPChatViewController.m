@@ -21,6 +21,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     
     if ([self user] == nil) {
         TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -29,6 +30,12 @@
      
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+}
 
 - (void)loggedIn
 {
@@ -53,15 +60,15 @@
         [partnerNameField setText:[user partnerUsername]];
     }
     
-    NSString *signupURL = [NSString stringWithFormat:@"%@/chats.json?auth_token=%@", [appDelegate domainURL], [appDelegate authToken]];
+    NSString *chatURL = [NSString stringWithFormat:@"%@/chats.json?auth_token=%@", [appDelegate domainURL], [appDelegate authToken]];
     
-    NSURL *url = [NSURL URLWithString:signupURL];
+    NSURL *url = [NSURL URLWithString:chatURL];
     
-    NSMutableURLRequest *signupRequest = [[NSMutableURLRequest alloc] initWithURL:url];
+    NSMutableURLRequest *chatRequest = [[NSMutableURLRequest alloc] initWithURL:url];
     
     NSOperationQueue *queue = [NSOperationQueue new];
     
-    [NSURLConnection sendAsynchronousRequest:signupRequest 
+    [NSURLConnection sendAsynchronousRequest:chatRequest 
                                        queue:queue 
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
                                

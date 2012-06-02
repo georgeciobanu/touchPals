@@ -79,11 +79,16 @@
     [lvc loginWithEmail:e password:p];
 }
 
+-(void)applicationDidFinishLaunching:(UIApplication *)application 
+{
+    NSLog(@"REGISTERING");
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
     
-    domainURL = @"http://localhost:3000";
-    socketURL = @"ws://localhost:8000";
+//    domainURL = @"https://localhost:3000";
+//    socketURL = @"wss://localhost:8000";
     
 //    
 //    #if TARGET_IPHONE_SIMULATOR
@@ -93,14 +98,14 @@
 //    }
 //    #else
 //    {
-//        domainURL = @"http://ec2-50-18-246-120.us-west-1.compute.amazonaws.com:3000";
-//        socketURL = @"ws://ec2-50-18-246-120.us-west-1.compute.amazonaws.com:8000";
+        domainURL = @"https://184.169.134.227:3000";
+        socketURL = @"wss://184.169.134.227:8000";
 //    }
 //    #endif
 
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeBadge)];	
+
     [self window].backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
-
-
         
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil]; 
     lvc = [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
@@ -169,6 +174,36 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken 
+{
+    // Show the device token obtained from apple to the log
+    NSLog(@"deviceToken: %@", deviceToken);
+}
+
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err 
+{ 
+    NSString *str = [NSString stringWithFormat: @"Error: %@", err];
+    NSLog(@"%@", str);    
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    id alert = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+    
+    NSLog(@"Notification: %@", alert);
+    
+    if (alert) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Notification" 
+                                                            message:[NSString stringWithFormat:@"%@", alert]
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+
+        
+        [alertView show];
+    }
 }
 
 @end

@@ -33,6 +33,9 @@
 		B9782836157844CC00B8DF4F /* smalllogo.png in Resources */ = {isa = PBXBuildFile; fileRef = B9782834157844CC00B8DF4F /* smalllogo.png */; };
 		B9782837157844CC00B8DF4F /* smalllogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9782835157844CC00B8DF4F /* smalllogo@2x.png */; };
 		B978283915784BC300B8DF4F /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = B978283815784BC300B8DF4F /* title.png */; };
+		B978283C1579757500B8DF4F /* TPElopeConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B978283B1579757500B8DF4F /* TPElopeConnectionDelegate.m */; };
+		B978283F1579793F00B8DF4F /* TPUsernameConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B978283E1579793F00B8DF4F /* TPUsernameConnectionDelegate.m */; };
+		B978284215797DE600B8DF4F /* TPInviteConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B978284115797DE500B8DF4F /* TPInviteConnectionDelegate.m */; };
 		B97A3588156FF9A800E3DF16 /* TPReconnectingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B97A3586156FF9A800E3DF16 /* TPReconnectingViewController.m */; };
 		B97A3589156FF9A800E3DF16 /* TPReconnectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B97A3587156FF9A800E3DF16 /* TPReconnectingViewController.xib */; };
 		B97A358E1571827600E3DF16 /* TPFindingMatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B97A358C1571827600E3DF16 /* TPFindingMatchViewController.m */; };
@@ -87,6 +90,12 @@
 		B9782834157844CC00B8DF4F /* smalllogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = smalllogo.png; path = ../smalllogo.png; sourceTree = "<group>"; };
 		B9782835157844CC00B8DF4F /* smalllogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "smalllogo@2x.png"; path = "../smalllogo@2x.png"; sourceTree = "<group>"; };
 		B978283815784BC300B8DF4F /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = title.png; path = ../title.png; sourceTree = "<group>"; };
+		B978283A1579757400B8DF4F /* TPElopeConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPElopeConnectionDelegate.h; sourceTree = "<group>"; };
+		B978283B1579757500B8DF4F /* TPElopeConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPElopeConnectionDelegate.m; sourceTree = "<group>"; };
+		B978283D1579793E00B8DF4F /* TPUsernameConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPUsernameConnectionDelegate.h; sourceTree = "<group>"; };
+		B978283E1579793F00B8DF4F /* TPUsernameConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPUsernameConnectionDelegate.m; sourceTree = "<group>"; };
+		B978284015797DE500B8DF4F /* TPInviteConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPInviteConnectionDelegate.h; sourceTree = "<group>"; };
+		B978284115797DE500B8DF4F /* TPInviteConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPInviteConnectionDelegate.m; sourceTree = "<group>"; };
 		B97A3585156FF9A800E3DF16 /* TPReconnectingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPReconnectingViewController.h; sourceTree = "<group>"; };
 		B97A3586156FF9A800E3DF16 /* TPReconnectingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPReconnectingViewController.m; sourceTree = "<group>"; };
 		B97A3587156FF9A800E3DF16 /* TPReconnectingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPReconnectingViewController.xib; sourceTree = "<group>"; };
@@ -183,6 +192,12 @@
 				B956AF75156ACD81007BEA6B /* TPChatViewController.m */,
 				B956AF7B156ACD82007BEA6B /* TPInfoViewController.h */,
 				B956AF7C156ACD82007BEA6B /* TPInfoViewController.m */,
+				B978284015797DE500B8DF4F /* TPInviteConnectionDelegate.h */,
+				B978284115797DE500B8DF4F /* TPInviteConnectionDelegate.m */,
+				B978283A1579757400B8DF4F /* TPElopeConnectionDelegate.h */,
+				B978283B1579757500B8DF4F /* TPElopeConnectionDelegate.m */,
+				B978283D1579793E00B8DF4F /* TPUsernameConnectionDelegate.h */,
+				B978283E1579793F00B8DF4F /* TPUsernameConnectionDelegate.m */,
 				B97A358B1571827500E3DF16 /* TPFindingMatchViewController.h */,
 				B97A358C1571827600E3DF16 /* TPFindingMatchViewController.m */,
 				B97A358D1571827600E3DF16 /* TPFindingMatchViewController.xib */,
@@ -316,6 +331,9 @@
 				B966EBBA156D9E630006DE30 /* NSData+SRB64Additions.m in Sources */,
 				B97A3588156FF9A800E3DF16 /* TPReconnectingViewController.m in Sources */,
 				B97A358E1571827600E3DF16 /* TPFindingMatchViewController.m in Sources */,
+				B978283C1579757500B8DF4F /* TPElopeConnectionDelegate.m in Sources */,
+				B978283F1579793F00B8DF4F /* TPUsernameConnectionDelegate.m in Sources */,
+				B978284215797DE600B8DF4F /* TPInviteConnectionDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
