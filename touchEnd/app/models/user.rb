@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
         TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
         n1 = APNS::Notification.new(self.apn_token, 'The matchmaker found a partner! Meet ' + @partner.username)
         n2 = APNS::Notification.new(@partner.apn_token, 'The matchmaker found a partner! Meet ' + self.username)
-        APNS.send_notification(n1, n2)
+        APNS.send_notifications([n1, n2])
         
         # If this is when we are created, the caller will do the save
         if self.id != nil
