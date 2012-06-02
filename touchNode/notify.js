@@ -1,8 +1,8 @@
 var fs = require('fs');
 
 var options = {
-  key: fs.readFileSync('/home/ec2-user/code/touchPals/touchNode/arranged_marriage.key'),
-  cert: fs.readFileSync('/home/ec2-user/code/touchPals/touchNode/arranged_marriage.crt')
+  key: fs.readFileSync('../certificates/arranged_marriage.key'),
+  cert: fs.readFileSync('../certificates/arranged_marriage.crt')
 };
 
 console.log("Things are going well");
