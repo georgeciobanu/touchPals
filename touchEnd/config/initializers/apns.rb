@@ -1,9 +1,9 @@
 if Rails.env.production?
   APNS.host = 'gateway.push.apple.com' 
-  APNS.pem  = 'push_arrangedmarriage_prod.pem'
+  APNS.pem  = 'push_chataffair_prod.pem'
   # gateway.sandbox.push.apple.com is default
 else
-  APNS.pem  = 'push_arrangedmarriage_dev.pem'
+  APNS.pem  = 'push_chataffair_dev.pem'
 end
 # this is the file you just created
 
