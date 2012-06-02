@@ -91,7 +91,7 @@ class User < ActiveRecord::Base
       self.partner = nil
       if receipt != ""
         Rails.logger.info("I got a receipt!")
-        Rails.logger.info("\"" + receipt"\"")
+        Rails.logger.info("\"" + receipt+ "\"")
       else
         self.remaining_swaps -= 1
       end
