@@ -89,12 +89,11 @@ class User < ActiveRecord::Base
 
       self.previous_partner_id = self.partner.id
       self.partner = nil
-      if receipt != ""
-        Rails.logger.info("I got a receipt!")
-        Rails.logger.info("\"" + receipt+ "\"")
-      else
-        self.remaining_swaps -= 1
-      end
+      # if receipt != ""
+      #   Rails.logger.info("I got a receipt!")
+      #   Rails.logger.info("\"" + receipt+ "\"")
+      # else
+      self.remaining_swaps -= 1
 
       self.save
 
