@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TPSignupViewController : UIViewController <UITextFieldDelegate>
+@interface TPSignupViewController : UIViewController <UITextFieldDelegate, NSURLConnectionDelegate>
 {
     IBOutlet UITextField *email;
     IBOutlet UITextField *username;
     IBOutlet UITextField *password;
     IBOutlet UILabel *error;
+    
+    NSMutableData *receivedData;
 }
 
 - (IBAction)signup:(id)sender;

@@ -143,6 +143,113 @@
 }
 
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+	// every response could mean a redirect
+	receivedData = nil;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+	if (!receivedData)
+	{
+		receivedData = [[NSMutableData alloc] initWithData:data];
+	}
+	else
+	{
+		[receivedData appendData:data];
+	}
+}
+
+// all worked
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+	NSString *str = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+	NSLog(@"%@", str);
+    
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    NSData *data = receivedData;
+
+    if (!data) {
+        [self loginError:@"Unknown error, please try again."];
+        return;
+    }
+    
+    
+    NSMutableDictionary *json1 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+    
+    if ( [json1 objectForKey:@"error"] != nil ) {
+        NSString *err = [json1 objectForKey:@"error"];
+        if ([err isEqualToString:@"You need to sign in or sign up before continuing."]) {
+            err = [NSString stringWithFormat:@"Unknown error, please try again."];
+        }
+        [self loginError:err];
+        return;
+    }
+    
+    NSString *auth_token = [(NSMutableDictionary *)[json1 objectForKey:@"session"] objectForKey:@"auth_token"];
+    
+    [appDelegate setAuthToken:auth_token];
+    
+    [self startWebSocketWithAuthToken:auth_token];
+    
+    NSMutableDictionary *json2 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+    
+    
+    NSMutableDictionary *userJSON = (NSMutableDictionary *)[json2 objectForKey:@"user"];
+    
+    NSString *e = [userJSON objectForKey:@"email"];
+    NSString *u = [userJSON objectForKey:@"username"];
+    
+    if (u == (NSString *)[NSNull null])
+        u = [NSString stringWithFormat:@"Anonymous"];
+    
+    
+    NSInteger i = [[userJSON objectForKey:@"id"] intValue];
+    
+    NSInteger rs = [[userJSON objectForKey:@"remaining_swaps"] intValue];
+    
+    NSString *pu = [json1 objectForKey:@"partner_username"];
+    
+    [appDelegate setUser:[[TPUser alloc] initWithUsername:u email:e userId:i remainingSwaps:rs partnerUsername:pu]];
+    
+    if (pu == (NSString *)[NSNull null]) {
+        [appDelegate searchingMatch];
+    }                               
+
+}
+
+// and error occured
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)errors
+{
+	NSLog(@"Error retrieving data, %@", [errors localizedDescription]);
+}
+
+- (BOOL)connection:(NSURLConnection *)connection
+canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
+{
+	return [protectionSpace.authenticationMethod
+			isEqualToString:NSURLAuthenticationMethodServerTrust];
+}
+
+- (void)connection:(NSURLConnection *)connection
+didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+	if ([challenge.protectionSpace.authenticationMethod
+		 isEqualToString:NSURLAuthenticationMethodServerTrust])
+	{
+		// we only trust our own domain
+		if ([challenge.protectionSpace.host isEqualToString:@"184.169.134.227"])
+		{
+			NSURLCredential *credential =
+            [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+			[challenge.sender useCredential:credential forAuthenticationChallenge:challenge];
+		}
+	}
+    
+	[challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
+}
 
 - (void)loginWithEmail:(NSString *)e password:(NSString *)p
 {
@@ -162,18 +269,26 @@
     [loginRequest addValue: @"application/json" forHTTPHeaderField:@"Accept"];
     loginRequest.HTTPBody = JSONBody;
     
+    [NSURLConnection connectionWithRequest:loginRequest delegate:self];
+    
+    /*
     NSOperationQueue *queue = [NSOperationQueue new];
+    
     
     [NSURLConnection sendAsynchronousRequest:loginRequest 
                                        queue:queue 
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *errors){
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *errors) {
                                NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
                                NSLog(@"%@", txt);
                                
+                               if(errors) {
+                                   NSLog(@"ERRORS:%@", errors);
+                               }
                                if (!data) {
                                    [self loginError:@"Unknown error, please try again."];
                                    return;
                                }
+                               
                                
                                NSMutableDictionary *json1 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errors];
                                
@@ -216,6 +331,8 @@
                                    [appDelegate searchingMatch];
                                }                               
                            }];
+     
+     */
     
 
 }

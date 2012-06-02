@@ -13,7 +13,6 @@
 
 @interface TPInfoViewController : UIViewController <UITextFieldDelegate, SKProductsRequestDelegate, UIAlertViewDelegate, SKPaymentTransactionObserver>
 {
-    IBOutlet UILabel *remainingField;
     IBOutlet UILabel *partnerNameField;
     IBOutlet UITextField *usernameField;
     
@@ -22,7 +21,11 @@
     UIAlertView *buyAlert;
     UIAlertView *elopeAlert;
     __weak IBOutlet UITextField *inviteEmailField;
+    
+    
 }
+
+@property (nonatomic) IBOutlet UILabel *remainingField;
 
 @property (nonatomic) TPUser *user;
 

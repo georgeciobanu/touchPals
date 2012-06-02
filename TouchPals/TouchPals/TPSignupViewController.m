@@ -31,6 +31,90 @@
     [appDelegate login];
 }
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+	// every response could mean a redirect
+	receivedData = nil;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+	if (!receivedData)
+	{
+		receivedData = [[NSMutableData alloc] initWithData:data];
+	}
+	else
+	{
+		[receivedData appendData:data];
+	}
+}
+
+// all worked
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+	NSString *str = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+	NSLog(@"%@", str);
+    
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    NSData *data = receivedData;
+    if (!data) {
+        [self signupError:@"Unknown error, please try again."];
+        return;
+    }
+    
+    NSMutableDictionary *json1 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+    
+    if ( [json1 objectForKey:@"errors"] != nil ) {
+        
+        NSMutableDictionary *errorsDictionary = [json1 objectForKey:@"errors"];
+        
+        NSArray *emailErrors = [errorsDictionary objectForKey:@"email"];
+        if (emailErrors) {
+            [self signupError:[NSString stringWithFormat:@"Email: %@",[emailErrors objectAtIndex:0]]];
+        } else {
+            [self signupError:@"Unknown Error"];
+        }
+        return;
+    }
+    
+    [appDelegate loginWithEmail:[email text] password:[password text]];
+               
+    
+}
+
+// and error occured
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)errors
+{
+	NSLog(@"Error retrieving data, %@", [errors localizedDescription]);
+}
+
+- (BOOL)connection:(NSURLConnection *)connection
+canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
+{
+	return [protectionSpace.authenticationMethod
+			isEqualToString:NSURLAuthenticationMethodServerTrust];
+}
+
+- (void)connection:(NSURLConnection *)connection
+didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+	if ([challenge.protectionSpace.authenticationMethod
+		 isEqualToString:NSURLAuthenticationMethodServerTrust])
+	{
+		// we only trust our own domain
+		if ([challenge.protectionSpace.host isEqualToString:@"184.169.134.227"])
+		{
+			NSURLCredential *credential =
+            [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+			[challenge.sender useCredential:credential forAuthenticationChallenge:challenge];
+		}
+	}
+    
+	[challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
+}
+
+
 - (IBAction)signup:(id)sender
 {
     [error setText:@""];
@@ -75,6 +159,9 @@
     [signupRequest addValue: @"application/json" forHTTPHeaderField:@"Accept"];
     signupRequest.HTTPBody = JSONBody;
     
+    [NSURLConnection connectionWithRequest:signupRequest delegate:self];
+
+    /*
     NSOperationQueue *queue = [NSOperationQueue new];
     
     [NSURLConnection sendAsynchronousRequest:signupRequest 
@@ -110,7 +197,7 @@
                                [delegate loginWithEmail:e password:p];
                                
                            }];
-
+*/
     
 }
 

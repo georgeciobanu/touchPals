@@ -9,12 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "SRWebSocket.h"
 
-@interface TPLoginViewController : UIViewController <UITextFieldDelegate, SRWebSocketDelegate>
+@interface TPLoginViewController : UIViewController <UITextFieldDelegate, SRWebSocketDelegate, NSURLConnectionDelegate>
 {
     IBOutlet UITextField *email;
     IBOutlet UITextField *password;
     IBOutlet UILabel *error;
     IBOutlet UIActivityIndicatorView *activityIndicator;
+    
+    NSMutableData *receivedData;
+    NSStringEncoding encoding;
+
 }
 
 - (void)startWebSocketWithAuthToken:(NSString *)authToken;

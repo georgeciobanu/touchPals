@@ -9,9 +9,12 @@
 #import "TPInfoViewController.h"
 #import "TPUser.h"
 #import "TPAppDelegate.h"
+#import "TPElopeConnectionDelegate.h"
+#import "TPUsernameConnectionDelegate.h"
+#import "TPInviteConnectionDelegate.h"
 
 @implementation TPInfoViewController
-
+@synthesize remainingField;
 @synthesize user;
 
 - (void) logout:(id)sender
@@ -41,6 +44,12 @@
         [inviteRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         inviteRequest.HTTPBody = jsonData;
         
+        TPInviteConnectionDelegate *connDelegate = [[TPInviteConnectionDelegate alloc] initWithIVC:self];
+        
+        [NSURLConnection connectionWithRequest:inviteRequest delegate:connDelegate];
+
+        
+        /*
         NSOperationQueue *queue = [NSOperationQueue new];
         
         [NSURLConnection sendAsynchronousRequest:inviteRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -56,11 +65,13 @@
             
             [alert show];            
         }];
+         */
     }
 }
 
 - (void) serverUpdateUsername:(NSString*)u
 {    
+    
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
 
     
@@ -78,6 +89,13 @@
     [usernameRequest addValue: @"application/json" forHTTPHeaderField:@"Content-Type"];
     usernameRequest.HTTPBody = JSONBody;
 
+    
+    TPUsernameConnectionDelegate *connDelegate = [[TPUsernameConnectionDelegate alloc] initWithIVC:self];
+    
+    [NSURLConnection connectionWithRequest:usernameRequest delegate:connDelegate];
+
+    
+    /*
     NSOperationQueue *queue = [NSOperationQueue new];
     
     [NSURLConnection sendAsynchronousRequest:usernameRequest 
@@ -87,6 +105,7 @@
                                NSLog(@"%@", txt);
                                
                            }];
+     */
 
 }
 
@@ -131,7 +150,13 @@
     request.HTTPBody = receipt;
     
     NSLog(@"Receipt JSON:%@", request.HTTPBody);
+    
+    TPElopeConnectionDelegate *connDelegate = [[TPElopeConnectionDelegate alloc] initWithIVC:self];
+    
+    [NSURLConnection connectionWithRequest:request delegate:connDelegate];
 
+    
+/*
     NSOperationQueue *queue = [NSOperationQueue new];
     
     [NSURLConnection sendAsynchronousRequest:request 
@@ -145,9 +170,9 @@
                                    [user decrementRemainingSwaps];                                   
                                    
                                    if ([user remainingSwaps] == 0) {
-                                       [remainingField setText:[NSString stringWithFormat:@"$9.99"]];
+                                       [[self remainingField] setText:[NSString stringWithFormat:@"$9.99"]];
                                    } else {
-                                       [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
+                                       [[self remainingField] setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
                                    }
                                    
                                    [user setPartnerUsername:nil];
@@ -157,10 +182,7 @@
                                }
                                
                            }];    
-    
-    
-
-    
+*/
 }
 
 - (void) restoreTransaction: (SKPaymentTransaction *)transaction
