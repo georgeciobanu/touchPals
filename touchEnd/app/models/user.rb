@@ -52,10 +52,11 @@ class User < ActiveRecord::Base
         @jsonCommand = ActiveSupport::JSON.encode(cmd: "found_match", partner_name: @partner.username, 
             token: @partner.authentication_token)
         TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
-        n1 = APNS::Notification.new(current_user.apn_token, 'The matchmaker found a partner! Meet ' + @partner.username)
-        n2 = APNS::Notification.new(@partner.apn_token, 'The matchmaker found a partner! Meet ' + current_user.username)
+        n1 = APNS::Notification.new(self.apn_token, 'The matchmaker found a partner! Meet ' + @partner.username)
+        n2 = APNS::Notification.new(@partner.apn_token, 'The matchmaker found a partner! Meet ' + self.username)
         APNS.send_notification(n1, n2)
-
+        
+        # If this is when we are created, the caller will do the save
         if self.id != nil
           self.save
         end
