@@ -75,15 +75,10 @@ class User < ActiveRecord::Base
     User.transaction do
       @partner = self.partner
       # Users can only elope if they have a receipt or if they have a remaining swap
-      if receipt
-        self.remaining_swaps += 1
-      end
       
       if @partner.try(:partner) != self or self.partner == nil or self.remaining_swaps == 0
         throw "Cannot divorce. Please try again"
       end
-      
-      @old_partner_token = @partner.authentication_token
 
       @partner.previous_partner_id = self.id
       @partner.partner = nil
@@ -91,11 +86,16 @@ class User < ActiveRecord::Base
       
       self.previous_partner_id = self.partner.id
       self.partner = nil
-      self.remaining_swaps -= 1
+      if receipt
+        Rails.logger.info("I got a receipt!")
+        Rails.logger.info(receipt)
+      else
+        self.remaining_swaps -= 1
+      end
 
       self.save
 
-      @jsonCommand = ActiveSupport::JSON.encode(cmd: "divorce", token: @old_partner_token)
+      @jsonCommand = ActiveSupport::JSON.encode(cmd: "divorce", token: self.previous_partner.token)
       TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
     end # Transaction
 
