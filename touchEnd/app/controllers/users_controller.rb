@@ -22,4 +22,9 @@ class UsersController < ApplicationController
   def elope
     render :json => current_user.elope(params)
   end
+  
+  def info
+    render :json => { :user => current_user, :partner_username => current_user.partner && current_user.partner.username,
+            :remaining_swaps => current_user.remaining_swaps}
+  end    
 end

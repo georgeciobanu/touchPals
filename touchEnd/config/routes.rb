@@ -20,6 +20,7 @@ TouchEnd::Application.routes.draw do
 
 
   match '/users/update' => 'users#update', :via => :put
+  match '/users/info' => 'users#info', :via => :put
   match '/users/elope' => 'users#elope', :via => :put
 
   
