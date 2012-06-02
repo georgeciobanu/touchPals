@@ -159,46 +159,7 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
     [signupRequest addValue: @"application/json" forHTTPHeaderField:@"Accept"];
     signupRequest.HTTPBody = JSONBody;
     
-    [NSURLConnection connectionWithRequest:signupRequest delegate:self];
-
-    /*
-    NSOperationQueue *queue = [NSOperationQueue new];
-    
-    [NSURLConnection sendAsynchronousRequest:signupRequest 
-                                       queue:queue 
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *errors){
-                               
-                               
-                               // Manage the response here.
-                               NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-                               NSLog(@"%@", txt);
-                               
-                               if (!data) {
-                                   [self signupError:@"Unknown error, please try again."];
-                                   return;
-                               }
-
-                               
-                               NSMutableDictionary *json1 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errors];
-
-                               if ( [json1 objectForKey:@"errors"] != nil ) {
-                                   
-                                   NSMutableDictionary *errorsDictionary = [json1 objectForKey:@"errors"];
-                                   
-                                   NSArray *emailErrors = [errorsDictionary objectForKey:@"email"];
-                                   if (emailErrors) {
-                                       [self signupError:[NSString stringWithFormat:@"Email: %@",[emailErrors objectAtIndex:0]]];
-                                   } else {
-                                       [self signupError:@"Unknown Error"];
-                                   }
-                                   return;
-                               }
-                               
-                               [delegate loginWithEmail:e password:p];
-                               
-                           }];
-*/
-    
+    [NSURLConnection connectionWithRequest:signupRequest delegate:self];    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

@@ -30,27 +30,99 @@
      
 }
 
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+	// every response could mean a redirect
+	receivedData = nil;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+	if (!receivedData)
+	{
+		receivedData = [[NSMutableData alloc] initWithData:data];
+	}
+	else
+	{
+		[receivedData appendData:data];
+	}
+}
+
+// all worked
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+	NSString *str = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+	NSLog(@"%@", str);
+        
+    NSData *data = receivedData;
+    
+    NSMutableArray *chats = (NSMutableArray *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];                 
+    
+    [chatMessages removeAllObjects];
+    [tv reloadData];
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"]; 
+    
+    for (NSMutableDictionary *chat in chats) {
+        
+        NSString *dateString = [chat objectForKey:@"created_at"];                                   
+        
+        TPChatEntry *c = [[TPChatEntry alloc] initWithTimeSent:[dateFormat dateFromString:dateString]  text:[chat objectForKey:@"text"] userSent:([user userId] == [[chat objectForKey:@"sender_id"] intValue])];
+        
+        [chatMessages insertObject:c atIndex:0];                                   
+    }
+    
+    [tv performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];        
+}
+
+// and error occured
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)errors
+{
+	NSLog(@"Error retrieving data, %@", [errors localizedDescription]);
+}
+
+- (BOOL)connection:(NSURLConnection *)connection
+canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
+{
+	return [protectionSpace.authenticationMethod
+			isEqualToString:NSURLAuthenticationMethodServerTrust];
+}
+
+- (void)connection:(NSURLConnection *)connection
+didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+	if ([challenge.protectionSpace.authenticationMethod
+		 isEqualToString:NSURLAuthenticationMethodServerTrust])
+	{
+		// we only trust our own domain
+		if ([challenge.protectionSpace.host isEqualToString:@"184.169.134.227"])
+		{
+			NSURLCredential *credential =
+            [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+			[challenge.sender useCredential:credential forAuthenticationChallenge:challenge];
+		}
+	}
+    
+	[challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
+}
+
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];    
 }
 
 - (void)loggedIn
-{
-    
-    NSLog(@"LoggedIn");
-    
+{  
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
     [tv setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     
-    [tv
-     
-     setBackgroundColor:[UIColor colorWithRed:242/255.0 green:239/255.0 blue:232/255.0 alpha:0.5
-                         ]];
-    
+    [tv setBackgroundColor:[UIColor colorWithRed:242/255.0 green:239/255.0 blue:232/255.0 alpha:0.5]];
     
     NSString *partner = [user partnerUsername];
     if (!partner || [partner isEqual:[NSNull null]]) {
@@ -60,43 +132,25 @@
         [partnerNameField setText:[user partnerUsername]];
     }
     
-    NSString *chatURL = [NSString stringWithFormat:@"%@/chats.json?auth_token=%@", [appDelegate domainURL], [appDelegate authToken]];
+    NSString *chatURL = [NSString stringWithFormat:@"%@/chats.json", [appDelegate domainURL]];
     
     NSURL *url = [NSURL URLWithString:chatURL];
     
     NSMutableURLRequest *chatRequest = [[NSMutableURLRequest alloc] initWithURL:url];
     
-    NSOperationQueue *queue = [NSOperationQueue new];
+    [chatRequest setHTTPMethod:@"PUT"];
+    [chatRequest addValue: @"application/json" forHTTPHeaderField:@"Content-Type"];
+    [chatRequest addValue: @"application/json" forHTTPHeaderField:@"Accept"];
     
-    [NSURLConnection sendAsynchronousRequest:chatRequest 
-                                       queue:queue 
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
-                               
-                               NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-                               NSLog(@"%@", txt);
+    NSString *JSONString = [NSString stringWithFormat:@"{\"auth_token\":\"%@\"}", [appDelegate authToken]];
+    
+    NSData *JSONBody = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    chatRequest.HTTPBody = JSONBody;
 
-                               NSMutableArray *chats = (NSMutableArray *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];                 
-                               
-                               [chatMessages removeAllObjects];
-                               [tv reloadData];
-                               
-                               NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-                               [dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"]; 
-
-
-                               
-                               
-                               for (NSMutableDictionary *chat in chats) {
-                                   
-                                   NSString *dateString = [chat objectForKey:@"created_at"];                                   
-                                   
-                                   TPChatEntry *c = [[TPChatEntry alloc] initWithTimeSent:[dateFormat dateFromString:dateString]  text:[chat objectForKey:@"text"] userSent:([user userId] == [[chat objectForKey:@"sender_id"] intValue])];
-                                   
-                                   [chatMessages insertObject:c atIndex:0];                                   
-                               }
-                               
-                               [tv performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];                               
-                           }];
+    [NSURLConnection connectionWithRequest:chatRequest delegate:self];
+    
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)viewDidLoad
@@ -147,7 +201,7 @@
         [[cell textLabel] setText:[c text]];
         
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"HH:mm a EEE, MMM d"];
+        [dateFormat setDateFormat:@"hh:mm a EEE, MMM d"];
         NSString *dateString = [dateFormat stringFromDate:[c timeSent]];
         
         
@@ -211,13 +265,13 @@
 {
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    NSString *signupURL = [NSString stringWithFormat:@"%@/chats.json?auth_token=%@", [appDelegate domainURL], [appDelegate authToken]];
+    NSString *signupURL = [NSString stringWithFormat:@"%@/chats.json", [appDelegate domainURL]];
     
     NSURL *url = [NSURL URLWithString:signupURL];
     
     NSMutableURLRequest *usernameRequest = [[NSMutableURLRequest alloc] initWithURL:url];
             
-    NSString *JSONString = [NSString stringWithFormat:@"{\"text\": \"%@\", \"sender_id\": \"%d\" }", [chatEntry text], [user userId]];
+    NSString *JSONString = [NSString stringWithFormat:@"{\"text\": \"%@\", \"sender_id\": \"%d\", \"auth_token\":\"%@\" }", [chatEntry text], [user userId], [appDelegate authToken]];
     
     NSData *JSONBody = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
     

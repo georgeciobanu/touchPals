@@ -14,7 +14,6 @@
 {
     [super viewDidLoad];
     [self view].backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
-
 }
 
 @end

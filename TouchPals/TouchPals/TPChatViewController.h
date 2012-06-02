@@ -12,11 +12,13 @@
 @class TPTableViewController;
 @class TPUser;
 
-@interface TPChatViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface TPChatViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, NSURLConnectionDelegate>
 {
     IBOutlet UILabel *partnerNameField;
     IBOutlet UITableView *tv;
     IBOutlet UITextField *inputField;
+    
+    NSMutableData *receivedData;
 }
 
 @property (nonatomic) TPUser *user;

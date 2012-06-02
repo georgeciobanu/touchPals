@@ -15,8 +15,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B956AF5A156ACD81007BEA6B"
                BuildableName = "ArrangedMarriage.app"
-               BlueprintName = "ArrangedMarriage"
-               ReferencedContainer = "container:ArrangedMarriage.xcodeproj">
+               BlueprintName = "ChatAffair"
+               ReferencedContainer = "container:ChatAffair.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -47,8 +47,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B956AF5A156ACD81007BEA6B"
             BuildableName = "ArrangedMarriage.app"
-            BlueprintName = "ArrangedMarriage"
-            ReferencedContainer = "container:ArrangedMarriage.xcodeproj">
+            BlueprintName = "ChatAffair"
+            ReferencedContainer = "container:ChatAffair.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -66,8 +66,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B956AF5A156ACD81007BEA6B"
             BuildableName = "ArrangedMarriage.app"
-            BlueprintName = "ArrangedMarriage"
-            ReferencedContainer = "container:ArrangedMarriage.xcodeproj">
+            BlueprintName = "ChatAffair"
+            ReferencedContainer = "container:ChatAffair.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -84,8 +84,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B956AF5A156ACD81007BEA6B"
             BuildableName = "ArrangedMarriage.app"
-            BlueprintName = "ArrangedMarriage"
-            ReferencedContainer = "container:ArrangedMarriage.xcodeproj">
+            BlueprintName = "ChatAffair"
+            ReferencedContainer = "container:ChatAffair.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -36,6 +36,9 @@
 		B978283C1579757500B8DF4F /* TPElopeConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B978283B1579757500B8DF4F /* TPElopeConnectionDelegate.m */; };
 		B978283F1579793F00B8DF4F /* TPUsernameConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B978283E1579793F00B8DF4F /* TPUsernameConnectionDelegate.m */; };
 		B978284215797DE600B8DF4F /* TPInviteConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B978284115797DE500B8DF4F /* TPInviteConnectionDelegate.m */; };
+		B97828451579A87800B8DF4F /* TPDeviceTokenConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B97828441579A87800B8DF4F /* TPDeviceTokenConnectionDelegate.m */; };
+		B97828481579B30400B8DF4F /* TPReportConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B97828471579B30300B8DF4F /* TPReportConnectionDelegate.m */; };
+		B978284B1579B78A00B8DF4F /* TPFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B978284A1579B78900B8DF4F /* TPFeedbackViewController.m */; };
 		B97A3588156FF9A800E3DF16 /* TPReconnectingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B97A3586156FF9A800E3DF16 /* TPReconnectingViewController.m */; };
 		B97A3589156FF9A800E3DF16 /* TPReconnectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B97A3587156FF9A800E3DF16 /* TPReconnectingViewController.xib */; };
 		B97A358E1571827600E3DF16 /* TPFindingMatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B97A358C1571827600E3DF16 /* TPFindingMatchViewController.m */; };
@@ -56,14 +59,14 @@
 		B943234D156C456200EB15C1 /* TPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPLoginViewController.m; sourceTree = "<group>"; };
 		B9432350156C49AE00EB15C1 /* TPSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPSignupViewController.h; sourceTree = "<group>"; };
 		B9432351156C49AE00EB15C1 /* TPSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPSignupViewController.m; sourceTree = "<group>"; };
-		B956AF5B156ACD81007BEA6B /* ArrangedMarriage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArrangedMarriage.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B956AF5B156ACD81007BEA6B /* ChatAffair.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatAffair.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B956AF5F156ACD81007BEA6B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B956AF61156ACD81007BEA6B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B956AF63156ACD81007BEA6B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		B956AF67156ACD81007BEA6B /* ArrangedMarriage-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ArrangedMarriage-Info.plist"; sourceTree = "<group>"; };
+		B956AF67156ACD81007BEA6B /* ChatAffair-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ChatAffair-Info.plist"; sourceTree = "<group>"; };
 		B956AF69156ACD81007BEA6B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B956AF6B156ACD81007BEA6B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		B956AF6D156ACD81007BEA6B /* ArrangedMarriage-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ArrangedMarriage-Prefix.pch"; sourceTree = "<group>"; };
+		B956AF6D156ACD81007BEA6B /* ChatAffair-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChatAffair-Prefix.pch"; sourceTree = "<group>"; };
 		B956AF6E156ACD81007BEA6B /* TPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPAppDelegate.h; sourceTree = "<group>"; };
 		B956AF6F156ACD81007BEA6B /* TPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TPAppDelegate.m; sourceTree = "<group>"; };
 		B956AF72156ACD81007BEA6B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
@@ -96,6 +99,12 @@
 		B978283E1579793F00B8DF4F /* TPUsernameConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPUsernameConnectionDelegate.m; sourceTree = "<group>"; };
 		B978284015797DE500B8DF4F /* TPInviteConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPInviteConnectionDelegate.h; sourceTree = "<group>"; };
 		B978284115797DE500B8DF4F /* TPInviteConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPInviteConnectionDelegate.m; sourceTree = "<group>"; };
+		B97828431579A87700B8DF4F /* TPDeviceTokenConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPDeviceTokenConnectionDelegate.h; sourceTree = "<group>"; };
+		B97828441579A87800B8DF4F /* TPDeviceTokenConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPDeviceTokenConnectionDelegate.m; sourceTree = "<group>"; };
+		B97828461579B30300B8DF4F /* TPReportConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPReportConnectionDelegate.h; sourceTree = "<group>"; };
+		B97828471579B30300B8DF4F /* TPReportConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPReportConnectionDelegate.m; sourceTree = "<group>"; };
+		B97828491579B78800B8DF4F /* TPFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPFeedbackViewController.h; sourceTree = "<group>"; };
+		B978284A1579B78900B8DF4F /* TPFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPFeedbackViewController.m; sourceTree = "<group>"; };
 		B97A3585156FF9A800E3DF16 /* TPReconnectingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPReconnectingViewController.h; sourceTree = "<group>"; };
 		B97A3586156FF9A800E3DF16 /* TPReconnectingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPReconnectingViewController.m; sourceTree = "<group>"; };
 		B97A3587156FF9A800E3DF16 /* TPReconnectingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPReconnectingViewController.xib; sourceTree = "<group>"; };
@@ -155,7 +164,7 @@
 		B956AF5C156ACD81007BEA6B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B956AF5B156ACD81007BEA6B /* ArrangedMarriage.app */,
+				B956AF5B156ACD81007BEA6B /* ChatAffair.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -184,6 +193,8 @@
 				B956AF6F156ACD81007BEA6B /* TPAppDelegate.m */,
 				B943234C156C456200EB15C1 /* TPLoginViewController.h */,
 				B943234D156C456200EB15C1 /* TPLoginViewController.m */,
+				B97828431579A87700B8DF4F /* TPDeviceTokenConnectionDelegate.h */,
+				B97828441579A87800B8DF4F /* TPDeviceTokenConnectionDelegate.m */,
 				B9432350156C49AE00EB15C1 /* TPSignupViewController.h */,
 				B9432351156C49AE00EB15C1 /* TPSignupViewController.m */,
 				B956AF9A156AD6C2007BEA6B /* TPUser.h */,
@@ -192,6 +203,10 @@
 				B956AF75156ACD81007BEA6B /* TPChatViewController.m */,
 				B956AF7B156ACD82007BEA6B /* TPInfoViewController.h */,
 				B956AF7C156ACD82007BEA6B /* TPInfoViewController.m */,
+				B97828491579B78800B8DF4F /* TPFeedbackViewController.h */,
+				B978284A1579B78900B8DF4F /* TPFeedbackViewController.m */,
+				B97828461579B30300B8DF4F /* TPReportConnectionDelegate.h */,
+				B97828471579B30300B8DF4F /* TPReportConnectionDelegate.m */,
 				B978284015797DE500B8DF4F /* TPInviteConnectionDelegate.h */,
 				B978284115797DE500B8DF4F /* TPInviteConnectionDelegate.m */,
 				B978283A1579757400B8DF4F /* TPElopeConnectionDelegate.h */,
@@ -228,10 +243,10 @@
 				B966EBB5156D9E630006DE30 /* SRWebSocket.m */,
 				B966EBB6156D9E630006DE30 /* NSData+SRB64Additions.h */,
 				B966EBB7156D9E630006DE30 /* NSData+SRB64Additions.m */,
-				B956AF67156ACD81007BEA6B /* ArrangedMarriage-Info.plist */,
+				B956AF67156ACD81007BEA6B /* ChatAffair-Info.plist */,
 				B956AF68156ACD81007BEA6B /* InfoPlist.strings */,
 				B956AF6B156ACD81007BEA6B /* main.m */,
-				B956AF6D156ACD81007BEA6B /* ArrangedMarriage-Prefix.pch */,
+				B956AF6D156ACD81007BEA6B /* ChatAffair-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -239,9 +254,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B956AF5A156ACD81007BEA6B /* ArrangedMarriage */ = {
+		B956AF5A156ACD81007BEA6B /* ChatAffair */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B956AF84156ACD82007BEA6B /* Build configuration list for PBXNativeTarget "ArrangedMarriage" */;
+			buildConfigurationList = B956AF84156ACD82007BEA6B /* Build configuration list for PBXNativeTarget "ChatAffair" */;
 			buildPhases = (
 				B956AF57156ACD81007BEA6B /* Sources */,
 				B956AF58156ACD81007BEA6B /* Frameworks */,
@@ -251,9 +266,9 @@
 			);
 			dependencies = (
 			);
-			name = ArrangedMarriage;
+			name = ChatAffair;
 			productName = TouchPals;
-			productReference = B956AF5B156ACD81007BEA6B /* ArrangedMarriage.app */;
+			productReference = B956AF5B156ACD81007BEA6B /* ChatAffair.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -266,7 +281,7 @@
 				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "McGill University";
 			};
-			buildConfigurationList = B956AF55156ACD81007BEA6B /* Build configuration list for PBXProject "ArrangedMarriage" */;
+			buildConfigurationList = B956AF55156ACD81007BEA6B /* Build configuration list for PBXProject "ChatAffair" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -279,7 +294,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B956AF5A156ACD81007BEA6B /* ArrangedMarriage */,
+				B956AF5A156ACD81007BEA6B /* ChatAffair */,
 			);
 		};
 /* End PBXProject section */
@@ -334,6 +349,9 @@
 				B978283C1579757500B8DF4F /* TPElopeConnectionDelegate.m in Sources */,
 				B978283F1579793F00B8DF4F /* TPUsernameConnectionDelegate.m in Sources */,
 				B978284215797DE600B8DF4F /* TPInviteConnectionDelegate.m in Sources */,
+				B97828451579A87800B8DF4F /* TPDeviceTokenConnectionDelegate.m in Sources */,
+				B97828481579B30400B8DF4F /* TPReportConnectionDelegate.m in Sources */,
+				B978284B1579B78A00B8DF4F /* TPFeedbackViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,9 +426,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TouchPals/ArrangedMarriage-Prefix.pch";
-				INFOPLIST_FILE = "TouchPals/ArrangedMarriage-Info.plist";
-				PRODUCT_NAME = ArrangedMarriage;
+				GCC_PREFIX_HEADER = "TouchPals/ChatAffair-Prefix.pch";
+				INFOPLIST_FILE = "TouchPals/ChatAffair-Info.plist";
+				PRODUCT_NAME = ChatAffair;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -419,9 +437,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TouchPals/ArrangedMarriage-Prefix.pch";
-				INFOPLIST_FILE = "TouchPals/ArrangedMarriage-Info.plist";
-				PRODUCT_NAME = ArrangedMarriage;
+				GCC_PREFIX_HEADER = "TouchPals/ChatAffair-Prefix.pch";
+				INFOPLIST_FILE = "TouchPals/ChatAffair-Info.plist";
+				PRODUCT_NAME = ChatAffair;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -429,7 +447,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B956AF55156ACD81007BEA6B /* Build configuration list for PBXProject "ArrangedMarriage" */ = {
+		B956AF55156ACD81007BEA6B /* Build configuration list for PBXProject "ChatAffair" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B956AF82156ACD82007BEA6B /* Debug */,
@@ -438,7 +456,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B956AF84156ACD82007BEA6B /* Build configuration list for PBXNativeTarget "ArrangedMarriage" */ = {
+		B956AF84156ACD82007BEA6B /* Build configuration list for PBXNativeTarget "ChatAffair" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B956AF85156ACD82007BEA6B /* Debug */,

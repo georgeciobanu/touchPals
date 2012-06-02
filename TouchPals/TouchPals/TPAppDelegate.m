@@ -25,6 +25,8 @@
 @synthesize domainURL;
 @synthesize socketURL;
 
+@synthesize deviceTok;
+
 - (void)clearUser
 {
     [self setUser:nil];
@@ -58,7 +60,6 @@
 
 - (void)login
 {
-    
     [[self window] setRootViewController:lvc];
     NSLog(@"Logging In");
 }
@@ -178,14 +179,21 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken 
 {
-    // Show the device token obtained from apple to the log
-    NSLog(@"deviceToken: %@", deviceToken);
+    
+    NSString *tok = [deviceToken description];
+    
+    tok = [tok stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    tok = [tok stringByReplacingOccurrencesOfString:@" " withString:@""]; 
+    
+    NSLog(@"deviceToken: %@", tok);
+
+    [self setDeviceTok:tok];
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err 
 { 
     NSString *str = [NSString stringWithFormat: @"Error: %@", err];
-    NSLog(@"%@", str);    
+    NSLog(@"%@", str);
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo

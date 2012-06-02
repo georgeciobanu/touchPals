@@ -12,6 +12,7 @@
 #import "TPElopeConnectionDelegate.h"
 #import "TPUsernameConnectionDelegate.h"
 #import "TPInviteConnectionDelegate.h"
+#import "TPReportConnectionDelegate.h"
 
 @implementation TPInfoViewController
 @synthesize remainingField;
@@ -23,6 +24,30 @@
     [appDelegate login];
 }
 
+- (IBAction)reportPartner:(id)sender
+{
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+
+    NSString *reportURL = [NSString stringWithFormat:@"%@/reports.json", [appDelegate domainURL]];
+    
+    NSURL *url = [NSURL URLWithString:reportURL];
+    
+    NSMutableURLRequest *reportRequest = [[NSMutableURLRequest alloc] initWithURL:url];
+    
+    NSString *jsonStr = [NSString stringWithFormat:@"{\"auth_token\":\"%@\"}", [appDelegate authToken]];
+    
+    NSData *jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
+    
+    reportRequest.HTTPMethod = @"POST";
+    [reportRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    reportRequest.HTTPBody = jsonData;
+    
+    TPReportConnectionDelegate *connDelegate = [[TPReportConnectionDelegate alloc] init];
+    
+    [NSURLConnection connectionWithRequest:reportRequest delegate:connDelegate];        
+
+}
+
 - (IBAction)inviteFriend:(id)sender
 {
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -30,13 +55,13 @@
     NSString *email = [inviteEmailField text];
     
     if ([email length] > 0) {
-        NSString *inviteURL = [NSString stringWithFormat:@"%@/invites.json?auth_token=%@", [appDelegate domainURL], [appDelegate authToken]];
+        NSString *inviteURL = [NSString stringWithFormat:@"%@/invites.json", [appDelegate domainURL]];
         
         NSURL *url = [NSURL URLWithString:inviteURL];
         
         NSMutableURLRequest *inviteRequest = [[NSMutableURLRequest alloc] initWithURL:url];
         
-        NSString *jsonStr = [NSString stringWithFormat:@"{\"email\":\"%@\"}", email];
+        NSString *jsonStr = [NSString stringWithFormat:@"{\"email\":\"%@\", \"auth_token\":\"%@\"}", email, [appDelegate authToken]];
         
         NSData *jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
         
@@ -46,26 +71,7 @@
         
         TPInviteConnectionDelegate *connDelegate = [[TPInviteConnectionDelegate alloc] initWithIVC:self];
         
-        [NSURLConnection connectionWithRequest:inviteRequest delegate:connDelegate];
-
-        
-        /*
-        NSOperationQueue *queue = [NSOperationQueue new];
-        
-        [NSURLConnection sendAsynchronousRequest:inviteRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-            
-            NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-            NSLog(@"%@", txt);
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invitation Sent!" 
-                                                            message:@"You will get a free extra swap when your friend signs up!" 
-                                                           delegate:nil 
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-            
-            [alert show];            
-        }];
-         */
+        [NSURLConnection connectionWithRequest:inviteRequest delegate:connDelegate];        
     }
 }
 
@@ -75,13 +81,13 @@
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
 
     
-    NSString *signupURL = [NSString stringWithFormat:@"%@/users/update.json?auth_token=%@", [appDelegate domainURL], [appDelegate authToken]];
+    NSString *signupURL = [NSString stringWithFormat:@"%@/users/update.json", [appDelegate domainURL]];
     
     NSURL *url = [NSURL URLWithString:signupURL];
     
     NSMutableURLRequest *usernameRequest = [[NSMutableURLRequest alloc] initWithURL:url];
     
-    NSString *JSONString = [NSString stringWithFormat:@"{\"username\": \"%@\" }", u];
+    NSString *JSONString = [NSString stringWithFormat:@"{\"username\": \"%@\", \"auth_token\":\"%@\" }", u, [appDelegate authToken]];
     
     NSData *JSONBody = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -93,20 +99,6 @@
     TPUsernameConnectionDelegate *connDelegate = [[TPUsernameConnectionDelegate alloc] initWithIVC:self];
     
     [NSURLConnection connectionWithRequest:usernameRequest delegate:connDelegate];
-
-    
-    /*
-    NSOperationQueue *queue = [NSOperationQueue new];
-    
-    [NSURLConnection sendAsynchronousRequest:usernameRequest 
-                                       queue:queue 
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
-                               NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-                               NSLog(@"%@", txt);
-                               
-                           }];
-     */
-
 }
 
 - (IBAction)updateUsername:(id)sender
@@ -133,13 +125,20 @@
     
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    NSString *elopeURL = [NSString stringWithFormat:@"%@/users/elope?auth_token=%@", [appDelegate domainURL], [appDelegate authToken]];
+    NSString *elopeURL = [NSString stringWithFormat:@"%@/users/elope", [appDelegate domainURL], [appDelegate authToken]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:elopeURL]];
+    
+    NSString *JSONString = [NSString stringWithFormat:@"{\"auth_token\":\"%@\"}", [appDelegate authToken]];
+    
+    NSData *JSONBody = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+
+    
     [request setHTTPMethod:@"PUT"];
     [request addValue: @"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue: @"application/json" forHTTPHeaderField:@"Accept"];
 
-
+    request.HTTPBody = JSONBody;
+    
     
     if (!receipt) {
         receipt = [@"{}" dataUsingEncoding:NSUTF8StringEncoding];
@@ -154,47 +153,18 @@
     TPElopeConnectionDelegate *connDelegate = [[TPElopeConnectionDelegate alloc] initWithIVC:self];
     
     [NSURLConnection connectionWithRequest:request delegate:connDelegate];
-
-    
-/*
-    NSOperationQueue *queue = [NSOperationQueue new];
-    
-    [NSURLConnection sendAsynchronousRequest:request 
-                                       queue:queue 
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                               
-                               NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-                               NSLog(@"%@", txt);
-                               
-                               if ([txt isEqualToString:@"true"]) {
-                                   [user decrementRemainingSwaps];                                   
-                                   
-                                   if ([user remainingSwaps] == 0) {
-                                       [[self remainingField] setText:[NSString stringWithFormat:@"$9.99"]];
-                                   } else {
-                                       [[self remainingField] setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
-                                   }
-                                   
-                                   [user setPartnerUsername:nil];
-                                   [appDelegate searchingMatch];                               
-                               } else {
-                                   //TODO: say it did not work
-                               }
-                               
-                           }];    
-*/
 }
 
 - (void) restoreTransaction: (SKPaymentTransaction *)transaction
 {
     NSLog(@"Transaction successfully restored -- nothing else done");
-    /*
+    
     [user setRemainingSwaps:([user remainingSwaps]+1)];
     [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
     
     NSData *receipt = [transaction transactionReceipt];
     [self elopeWithReceipt:receipt];
-    */
+    
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 
@@ -243,7 +213,7 @@
 - (void) requestProductData
 {
     SKProductsRequest *request= [[SKProductsRequest alloc] initWithProductIdentifiers:
-                                 [NSSet setWithObject:@"elope_01"]];
+                                 [NSSet setWithObject:@"elope_02"]];
     request.delegate = self;
     [request start];
 }

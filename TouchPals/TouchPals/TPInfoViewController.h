@@ -34,5 +34,6 @@
 - (IBAction)updateUsername:(id)sender;
 - (IBAction)logout:(id)sender;
 - (IBAction)inviteFriend:(id)sender;
+- (IBAction)reportPartner:(id)sender;
 
 @end

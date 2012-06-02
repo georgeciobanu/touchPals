@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "container:TouchPals/ArrangedMarriage.xcodeproj">
+      location = "container:TouchPals/ChatAffair.xcodeproj">
    </FileRef>
 </Workspace>

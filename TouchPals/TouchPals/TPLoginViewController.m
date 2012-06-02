@@ -12,6 +12,7 @@
 #import "SRWebSocket.h"
 #import "TPChatEntry.h"
 #import "TPReconnectingViewController.h"
+#import "TPDeviceTokenConnectionDelegate.h"
 
 @implementation TPLoginViewController
 
@@ -62,14 +63,7 @@
         NSLog(@"PARTNER FOUND");
         NSString *newPartner = [json objectForKey:@"partner_name"];
 
-        [[appDelegate user] setPartnerUsername:newPartner];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Wedding" 
-                                                        message:@"The matchmaker found someone for you!" 
-                                                       delegate:nil 
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
+        [[appDelegate user] setPartnerUsername:newPartner];        
         [appDelegate home];
     } else if ([@"partner_name_change" isEqualToString:cmd]) {
         NSString *newPartnerUsername = [json objectForKey:@"partner_name"];
@@ -216,7 +210,28 @@
     
     if (pu == (NSString *)[NSNull null]) {
         [appDelegate searchingMatch];
-    }                               
+    }                  
+        
+    
+    NSString *signupURL = [NSString stringWithFormat:@"%@/users/update.json", [appDelegate domainURL]];
+    
+    NSURL *url = [NSURL URLWithString:signupURL];
+    
+    NSMutableURLRequest *usernameRequest = [[NSMutableURLRequest alloc] initWithURL:url];
+    
+    NSString *JSONString = [NSString stringWithFormat:@"{\"apn_token\": \"%@\", \"auth_token\":\"%@\" }", [appDelegate deviceTok], [appDelegate authToken]];
+    
+    NSData *JSONBody = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    usernameRequest.HTTPMethod = @"PUT";
+    [usernameRequest addValue: @"application/json" forHTTPHeaderField:@"Content-Type"];
+    usernameRequest.HTTPBody = JSONBody;
+    
+    
+    TPDeviceTokenConnectionDelegate *connDelegate = [[TPDeviceTokenConnectionDelegate alloc] init];
+    
+    [NSURLConnection connectionWithRequest:usernameRequest delegate:connDelegate];
+
 
 }
 
@@ -270,71 +285,6 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
     loginRequest.HTTPBody = JSONBody;
     
     [NSURLConnection connectionWithRequest:loginRequest delegate:self];
-    
-    /*
-    NSOperationQueue *queue = [NSOperationQueue new];
-    
-    
-    [NSURLConnection sendAsynchronousRequest:loginRequest 
-                                       queue:queue 
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *errors) {
-                               NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-                               NSLog(@"%@", txt);
-                               
-                               if(errors) {
-                                   NSLog(@"ERRORS:%@", errors);
-                               }
-                               if (!data) {
-                                   [self loginError:@"Unknown error, please try again."];
-                                   return;
-                               }
-                               
-                               
-                               NSMutableDictionary *json1 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errors];
-                               
-                               if ( [json1 objectForKey:@"error"] != nil ) {
-                                   NSString *err = [json1 objectForKey:@"error"];
-                                   if ([err isEqualToString:@"You need to sign in or sign up before continuing."]) {
-                                       err = [NSString stringWithFormat:@"Unknown error, please try again."];
-                                   }
-                                   [self loginError:err];
-                                   return;
-                               }
-                               
-                               NSString *auth_token = [(NSMutableDictionary *)[json1 objectForKey:@"session"] objectForKey:@"auth_token"];
-                               
-                               [appDelegate setAuthToken:auth_token];
-
-                               [self startWebSocketWithAuthToken:auth_token];
-                               
-                               NSMutableDictionary *json2 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errors];
-                               
-                               
-                               NSMutableDictionary *userJSON = (NSMutableDictionary *)[json2 objectForKey:@"user"];
-                               
-                               NSString *e = [userJSON objectForKey:@"email"];
-                               NSString *u = [userJSON objectForKey:@"username"];
-                               
-                               if (u == (NSString *)[NSNull null])
-                                   u = [NSString stringWithFormat:@"Anonymous"];
-                               
-                               
-                               NSInteger i = [[userJSON objectForKey:@"id"] intValue];
-                               
-                               NSInteger rs = [[userJSON objectForKey:@"remaining_swaps"] intValue];
-                               
-                               NSString *pu = [json1 objectForKey:@"partner_username"];
-                               
-                               [appDelegate setUser:[[TPUser alloc] initWithUsername:u email:e userId:i remainingSwaps:rs partnerUsername:pu]];
-                                                              
-                               if (pu == (NSString *)[NSNull null]) {
-                                   [appDelegate searchingMatch];
-                               }                               
-                           }];
-     
-     */
-    
-
 }
 
 - (void)startWebSocketWithAuthToken:(NSString *)authToken
