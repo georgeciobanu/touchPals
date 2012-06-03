@@ -4,7 +4,8 @@ class User < ActiveRecord::Base
   # has_many :chats, :foreign_key
   has_many :invites, :class_name => 'Invite', :foreign_key => :from_user_id
   has_many :feedbacks
-  has_many :reports
+  has_many :reports 
+  has_many :purchase_receipts
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -72,14 +73,14 @@ class User < ActiveRecord::Base
   end
 
   def elope(receipt)
-    puts "Receipt:"
-    puts receipt
-    
+    Rails.logger.info("Receipt below")
+    Rails.logger.info(receipt)
     User.transaction do
       @partner = self.partner
       # Users can only elope if they have a receipt or if they have a remaining swap
       
-      if @partner.try(:partner) != self or self.partner == nil or self.remaining_swaps == 0
+      if @partner.try(:partner) != self or self.partner == nil or 
+        (self.remaining_swaps == 0 && !receipt)
         throw "Cannot divorce. Please try again"
       end
 
@@ -89,11 +90,12 @@ class User < ActiveRecord::Base
 
       self.previous_partner_id = self.partner.id
       self.partner = nil
-      # if receipt != ""
-      #   Rails.logger.info("I got a receipt!")
-      #   Rails.logger.info("\"" + receipt+ "\"")
-      # else
-      self.remaining_swaps -= 1
+      if receipt && receipt != ""
+        Rails.logger.info("I got a receipt!")
+        PurchaseReceipt.create(receipt: receipt, user_id: self.id)
+      else
+        self.remaining_swaps -= 1
+      end
 
       self.save
 

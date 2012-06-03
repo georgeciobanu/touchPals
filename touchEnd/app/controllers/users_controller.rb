@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   def elope
-    render :json => current_user.elope(params)
+    render :json => current_user.elope(params[:receipt])
   end
   
   def info
