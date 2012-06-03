@@ -18,6 +18,9 @@ var wss = new WebSocketServer({server: app});
 //     wss = new WebSocketServer({port:8000, host:'localhost'});
 var socketByToken = {};
 
+// Good to know about this potential bug - it occurs sometimes when
+// the redis server is down and the client tries to reconnect before a certain number of tries
+// https://github.com/mranney/node_redis/issues/20
 var redis = require("redis"),
        redisClient = redis.createClient();
 
@@ -39,9 +42,6 @@ wss.on('connection', function(ws) {
 });
 
 redisClient.on("message", function (channel, jsonMessage) {
-   // for (var k in socketByToken) {
-   //   console.log("Key: " + k + " Value: " + socketByToken[k]);
-   // }
    console.log("Received message:");
    console.log(jsonMessage);
    
@@ -58,18 +58,22 @@ redisClient.on("message", function (channel, jsonMessage) {
      console.log(err);
      return;
    }
-   
+
    console.log("Sent message: " + parsedMessage + " to user with token: " + token);
 });
 
-// redisClient.on("error", function (error) {
-//   console.log("Some error happened to the redis client: " + error);
-// }
+redisClient.on("error", function (error) {
+  console.log("Some error happened to the redis client: " + error);
+});
+
+
+redisClient.on("connect", function (maybe) {
+  console.log("Connected to Redis...");
+});
 
    
-  // app.listen(8000);
 redisClient.subscribe("chats");
-console.log("Connected to Redis...");
+
 
 wss.on('close', function(ws) {
     console.log("Server: someone disconnected to me");
