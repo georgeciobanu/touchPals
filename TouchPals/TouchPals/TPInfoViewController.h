@@ -29,11 +29,13 @@
 
 @property (nonatomic) TPUser *user;
 
-
+- (void)setNewPartner:(NSString *)pn;
 - (IBAction)getNewPartner:(id)sender;
 - (IBAction)updateUsername:(id)sender;
 - (IBAction)logout:(id)sender;
 - (IBAction)inviteFriend:(id)sender;
 - (IBAction)reportPartner:(id)sender;
+
+- (void)setNewRS;
 
 @end

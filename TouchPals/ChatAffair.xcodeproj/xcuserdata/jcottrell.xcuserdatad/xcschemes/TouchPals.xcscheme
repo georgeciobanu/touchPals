@@ -14,7 +14,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B956AF5A156ACD81007BEA6B"
-               BuildableName = "ArrangedMarriage.app"
+               BuildableName = "ChatAffair.app"
                BlueprintName = "ChatAffair"
                ReferencedContainer = "container:ChatAffair.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B956AF5A156ACD81007BEA6B"
-            BuildableName = "ArrangedMarriage.app"
+            BuildableName = "ChatAffair.app"
             BlueprintName = "ChatAffair"
             ReferencedContainer = "container:ChatAffair.xcodeproj">
          </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B956AF5A156ACD81007BEA6B"
-            BuildableName = "ArrangedMarriage.app"
+            BuildableName = "ChatAffair.app"
             BlueprintName = "ChatAffair"
             ReferencedContainer = "container:ChatAffair.xcodeproj">
          </BuildableReference>
@@ -83,7 +83,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B956AF5A156ACD81007BEA6B"
-            BuildableName = "ArrangedMarriage.app"
+            BuildableName = "ChatAffair.app"
             BlueprintName = "ChatAffair"
             ReferencedContainer = "container:ChatAffair.xcodeproj">
          </BuildableReference>

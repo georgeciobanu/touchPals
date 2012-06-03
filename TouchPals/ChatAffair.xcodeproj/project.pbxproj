@@ -39,6 +39,7 @@
 		B97828451579A87800B8DF4F /* TPDeviceTokenConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B97828441579A87800B8DF4F /* TPDeviceTokenConnectionDelegate.m */; };
 		B97828481579B30400B8DF4F /* TPReportConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B97828471579B30300B8DF4F /* TPReportConnectionDelegate.m */; };
 		B978284B1579B78A00B8DF4F /* TPFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B978284A1579B78900B8DF4F /* TPFeedbackViewController.m */; };
+		B9782860157ADEFD00B8DF4F /* TPUserInfoConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B978285F157ADEFC00B8DF4F /* TPUserInfoConnectionDelegate.m */; };
 		B97A3588156FF9A800E3DF16 /* TPReconnectingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B97A3586156FF9A800E3DF16 /* TPReconnectingViewController.m */; };
 		B97A3589156FF9A800E3DF16 /* TPReconnectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B97A3587156FF9A800E3DF16 /* TPReconnectingViewController.xib */; };
 		B97A358E1571827600E3DF16 /* TPFindingMatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B97A358C1571827600E3DF16 /* TPFindingMatchViewController.m */; };
@@ -105,6 +106,8 @@
 		B97828471579B30300B8DF4F /* TPReportConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPReportConnectionDelegate.m; sourceTree = "<group>"; };
 		B97828491579B78800B8DF4F /* TPFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPFeedbackViewController.h; sourceTree = "<group>"; };
 		B978284A1579B78900B8DF4F /* TPFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPFeedbackViewController.m; sourceTree = "<group>"; };
+		B978285E157ADEFB00B8DF4F /* TPUserInfoConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPUserInfoConnectionDelegate.h; sourceTree = "<group>"; };
+		B978285F157ADEFC00B8DF4F /* TPUserInfoConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPUserInfoConnectionDelegate.m; sourceTree = "<group>"; };
 		B97A3585156FF9A800E3DF16 /* TPReconnectingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPReconnectingViewController.h; sourceTree = "<group>"; };
 		B97A3586156FF9A800E3DF16 /* TPReconnectingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPReconnectingViewController.m; sourceTree = "<group>"; };
 		B97A3587156FF9A800E3DF16 /* TPReconnectingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPReconnectingViewController.xib; sourceTree = "<group>"; };
@@ -193,6 +196,8 @@
 				B956AF6F156ACD81007BEA6B /* TPAppDelegate.m */,
 				B943234C156C456200EB15C1 /* TPLoginViewController.h */,
 				B943234D156C456200EB15C1 /* TPLoginViewController.m */,
+				B978285E157ADEFB00B8DF4F /* TPUserInfoConnectionDelegate.h */,
+				B978285F157ADEFC00B8DF4F /* TPUserInfoConnectionDelegate.m */,
 				B97828431579A87700B8DF4F /* TPDeviceTokenConnectionDelegate.h */,
 				B97828441579A87800B8DF4F /* TPDeviceTokenConnectionDelegate.m */,
 				B9432350156C49AE00EB15C1 /* TPSignupViewController.h */,
@@ -353,6 +358,7 @@
 				B97828451579A87800B8DF4F /* TPDeviceTokenConnectionDelegate.m in Sources */,
 				B97828481579B30400B8DF4F /* TPReportConnectionDelegate.m in Sources */,
 				B978284B1579B78A00B8DF4F /* TPFeedbackViewController.m in Sources */,
+				B9782860157ADEFD00B8DF4F /* TPUserInfoConnectionDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -51,23 +51,17 @@
     NSString *txt = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
     NSLog(@"%@", txt);
     
-    if ([txt isEqualToString:@"true"]) {
-        
-        
-        
-        [[ivc user] decrementRemainingSwaps];                                   
-        
-        if ([[ivc user] remainingSwaps] == 0) {
-            [ [ivc remainingField] setText:[NSString stringWithFormat:@"$9.99"]];
-        } else {
-            [ [ivc remainingField] setText:[NSString stringWithFormat:@"%d Remaining Swaps", [[ivc user] remainingSwaps]]];
-        }
-        
-        [[ivc user] setPartnerUsername:nil];
-        [appDelegate searchingMatch];                               
+    [[ivc user] decrementRemainingSwaps];                                   
+    
+    if ([[ivc user] remainingSwaps] == 0) {
+        [ [ivc remainingField] setText:[NSString stringWithFormat:@"$9.99"]];
     } else {
-        //TODO: say it did not work
+        [ [ivc remainingField] setText:[NSString stringWithFormat:@"%d Remaining Swaps", [[ivc user] remainingSwaps]]];
     }
+    
+    [appDelegate setHasPartner:NO];
+    NSLog(@"ELOPE SEARCHING");
+    [appDelegate searchingMatch];                               
     
     
 }

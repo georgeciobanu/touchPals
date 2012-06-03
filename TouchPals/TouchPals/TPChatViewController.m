@@ -26,8 +26,7 @@
     if ([self user] == nil) {
         TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
         [appDelegate login];
-    }
-     
+    }     
 }
 
 
@@ -113,7 +112,14 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
     [super viewDidAppear:animated];
     
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];    
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0]; 
+    
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    if (![appDelegate hasPartner]) {
+        [appDelegate searchingMatch];
+    }
+
 }
 
 - (void)loggedIn
@@ -126,8 +132,9 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
     
     NSString *partner = [user partnerUsername];
     if (!partner || [partner isEqual:[NSNull null]]) {
-        [user setPartnerUsername:nil];
-        [appDelegate searchingMatch];
+        [appDelegate setHasPartner:NO];
+        //NSLog(@"Called searching match from chat logging in");
+        //[appDelegate searchingMatch];
     } else {
         [partnerNameField setText:[user partnerUsername]];
     }
