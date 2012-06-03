@@ -18,6 +18,34 @@
 @synthesize remainingField;
 @synthesize user;
 
+- (void)setNewPartner:(NSString *)pn
+{
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    [self setUser:[appDelegate user]];
+    
+    NSString *newText = [NSString stringWithFormat:@"Partner: %@", [[appDelegate user] partnerUsername]];
+    
+    [partnerNameField setText:newText];
+    
+    [[self view] setNeedsDisplay];
+}
+
+- (void)setNewRS
+{
+    
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+
+    [self setUser:[appDelegate user]];
+
+    if ([[self user] remainingSwaps] == 0) {
+        [ [self remainingField] setText:[NSString stringWithFormat:@"$9.99"]];
+    } else {
+        [ [self remainingField] setText:[NSString stringWithFormat:@"%d Remaining Swaps", [[self user] remainingSwaps]]];
+    }
+
+}
+
 - (void) logout:(id)sender
 {
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -125,31 +153,27 @@
     
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    NSString *elopeURL = [NSString stringWithFormat:@"%@/users/elope", [appDelegate domainURL], [appDelegate authToken]];
+    NSString *elopeURL = [NSString stringWithFormat:@"%@/users/elope.json", [appDelegate domainURL]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:elopeURL]];
     
-    NSString *JSONString = [NSString stringWithFormat:@"{\"auth_token\":\"%@\"}", [appDelegate authToken]];
+    NSMutableDictionary *jsonDict = [[NSMutableDictionary alloc] init];
     
-    NSData *JSONBody = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+    [jsonDict setObject:[appDelegate authToken] forKey:@"auth_token"];
+    
+    if (receipt) {
+        NSLog(@"Receipt sent");
+        
+        NSString *receiptStr = [[NSString alloc] initWithData:receipt encoding:NSUTF8StringEncoding];
 
+        [jsonDict setObject:receiptStr forKey:receiptStr];
+    }
     
     [request setHTTPMethod:@"PUT"];
     [request addValue: @"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue: @"application/json" forHTTPHeaderField:@"Accept"];
 
-    request.HTTPBody = JSONBody;
-    
-    
-    if (!receipt) {
-        receipt = [@"{}" dataUsingEncoding:NSUTF8StringEncoding];
-    } else {
-        receipt = [[NSString stringWithFormat:@"{%@}"] dataUsingEncoding:NSUTF8StringEncoding];
-    }
+    request.HTTPBody = [NSJSONSerialization dataWithJSONObject:jsonDict options:kNilOptions error:nil];
         
-    request.HTTPBody = receipt;
-    
-    NSLog(@"Receipt JSON:%@", request.HTTPBody);
-    
     TPElopeConnectionDelegate *connDelegate = [[TPElopeConnectionDelegate alloc] initWithIVC:self];
     
     [NSURLConnection connectionWithRequest:request delegate:connDelegate];
@@ -311,7 +335,7 @@
     } else {
         [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
     }
-    [partnerNameField setText:[NSString stringWithFormat:@"Partner: %@", [user partnerUsername]]];
+    [partnerNameField setText:[NSString stringWithFormat:@"Partner: %@", [[appDelegate user] partnerUsername]]];
     [usernameField setText:[user username]];    
 
 }
@@ -319,6 +343,20 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    NSLog(@"viewdidappear");
+    
+    TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    if (![appDelegate hasPartner]) {
+        [appDelegate searchingMatch];
+    }
+
 }
 
 - (void)viewDidLoad

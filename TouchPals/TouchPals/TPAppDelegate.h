@@ -27,6 +27,8 @@
     TPInfoViewController *ivc;
     TPReconnectingViewController *rvc;
     TPFindingMatchViewController *fmvc;
+    
+    BOOL hasPartner;
 }
 
 @property (nonatomic) NSString *domainURL;
@@ -39,6 +41,7 @@
 
 @property (strong, nonatomic) NSString *deviceTok;
 
+
 - (void)home;
 - (void)homeClean;
 - (void)signup;
@@ -48,6 +51,13 @@
 - (void)searchingMatch;
 - (void)clearUser;
 
+- (BOOL)hasPartner;
+- (void)setHasPartner:(BOOL)hp;
+
 - (void)loginWithEmail:(NSString *)e password:(NSString *)p;
+
+- (void)refreshIVC;
+
+- (BOOL)loginOrSignup;
 
 @end

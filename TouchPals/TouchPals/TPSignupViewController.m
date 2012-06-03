@@ -35,6 +35,7 @@
 {
 	// every response could mean a redirect
 	receivedData = nil;
+    
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -55,6 +56,8 @@
 	NSString *str = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
 	NSLog(@"%@", str);
     
+    
+    
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
     NSData *data = receivedData;
@@ -64,6 +67,13 @@
     }
     
     NSMutableDictionary *json1 = (NSMutableDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+    
+    if ([json1 objectForKey:@"error"]) {
+        NSString *errorMsg = [json1 objectForKey:@"error"];
+        
+        [self signupError:errorMsg];
+        return;
+    }
     
     if ( [json1 objectForKey:@"errors"] != nil ) {
         

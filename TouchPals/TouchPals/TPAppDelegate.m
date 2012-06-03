@@ -27,6 +27,22 @@
 
 @synthesize deviceTok;
 
+- (void)refreshIVC
+{
+    [ivc setNewPartner:[user partnerUsername]];
+    [ivc setNewRS];
+}
+
+- (BOOL)hasPartner
+{
+    return hasPartner;
+}
+
+- (void)setHasPartner:(BOOL)hp
+{
+    hasPartner = hp;
+}
+
 - (void)clearUser
 {
     [self setUser:nil];
@@ -45,6 +61,7 @@
 
 - (void)home
 {
+    NSLog(@"HOME");
     [[self window] setRootViewController:tbc];
     
     [cvc setUser:[self user]];
@@ -54,7 +71,6 @@
 - (void)signup
 {
     NSLog(@"Signing Up");
-    
     [[self window] setRootViewController:svc];
 }
 
@@ -71,8 +87,10 @@
 
 - (void)searchingMatch
 {
-    NSLog(@"Searching For Match");
-    [[self window] setRootViewController:fmvc];
+    if ([[self window] rootViewController] != fmvc) {
+        NSLog(@"Searching For Match");
+        [[self window] setRootViewController:fmvc];
+    }
 }
 
 - (void)loginWithEmail:(NSString *)e password:(NSString *)p
@@ -80,9 +98,15 @@
     [lvc loginWithEmail:e password:p];
 }
 
--(void)applicationDidFinishLaunching:(UIApplication *)application 
+- (BOOL)loginOrSignup
 {
-    NSLog(@"REGISTERING");
+    if ([[self window] rootViewController] == lvc) {
+        return YES;
+    } else if ([[[self window] rootViewController] class] == [TPSignupViewController class]) {
+            return YES;
+    }
+    
+    return  NO;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -104,6 +128,8 @@
 //    }
 //    #endif
 
+    hasPartner = YES;
+    
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeBadge)];	
 
     [self window].backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
@@ -111,15 +137,18 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil]; 
     lvc = [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
     svc = [storyboard instantiateViewControllerWithIdentifier:@"SignupView"];
-    ivc = [storyboard instantiateViewControllerWithIdentifier:@"InfoView"];
     rvc = [[TPReconnectingViewController alloc] init];
     fmvc = [[TPFindingMatchViewController alloc] init];
 
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:ivc];
     
     tbc = (UITabBarController *) [[self window] rootViewController];
     
     cvc = [[tbc viewControllers] objectAtIndex:0];
+    ivc = [[tbc viewControllers] objectAtIndex:1];
+    
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:ivc];
+
+    
     
     if (!user) {
         [self login];
@@ -152,19 +181,13 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
     if ([self user]) {
-        [self home];  
+        if (hasPartner) {
+            [self home];  
+        }
         [lvc startWebSocketWithAuthToken:[self authToken]];
-    }
-    
-    /*
-    if ( [[self webSocket] readyState] != SR_OPEN && [self user] != nil) {
-        [lvc reconnectSocket];
-    }
-    
-    if ([user partnerUsername] == nil) {
-        [self searchingMatch];
-    }
-     */
+        
+        
+    }    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

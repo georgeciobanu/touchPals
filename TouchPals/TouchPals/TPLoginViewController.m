@@ -13,6 +13,7 @@
 #import "TPChatEntry.h"
 #import "TPReconnectingViewController.h"
 #import "TPDeviceTokenConnectionDelegate.h"
+#import "TPUserInfoConnectionDelegate.h"
 
 @implementation TPLoginViewController
 
@@ -51,25 +52,35 @@
         NSString *text = [json objectForKey:@"text"];
         [appDelegate receiveMsg:text];
     } else if ([@"divorce" isEqualToString:cmd]) {
-        [[appDelegate user] setPartnerUsername:nil];
+        [appDelegate setHasPartner:NO];
+        NSLog(@"DIVORCE SEARCHING");
+        [appDelegate searchingMatch];
+
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Divorce" 
-                                                        message:@"Your partner got a divorce..." 
+                                                        message:@"Your partner got a divorce." 
                                                        delegate:nil 
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
-        [appDelegate searchingMatch];
-    } else if( [@"found_match" isEqualToString:cmd]) {
+    }
+    /* else if( [@"found_match" isEqualToString:cmd]) {
+        
+        [appDelegate setHasPartner:YES];
+
         NSLog(@"PARTNER FOUND");
         NSString *newPartner = [json objectForKey:@"partner_name"];
 
-        [[appDelegate user] setPartnerUsername:newPartner];        
+        [[appDelegate user] setPartnerUsername:newPartner];
+        [appDelegate refreshIVC];
         [appDelegate home];
-    } else if ([@"partner_name_change" isEqualToString:cmd]) {
+    }*/
+     else if ([@"partner_name_change" isEqualToString:cmd]) {
         NSString *newPartnerUsername = [json objectForKey:@"partner_name"];
         
         [[appDelegate user] setPartnerUsername:newPartnerUsername];
+             
         [appDelegate home];
+        
     }
     
     
@@ -92,7 +103,25 @@
     NSString *auth_token = [appDelegate authToken];
     [webSocket send:auth_token];
     
-    [appDelegate home];
+    NSString *signupURL = [NSString stringWithFormat:@"%@/users/info.json", [appDelegate domainURL]];
+    
+    NSURL *url = [NSURL URLWithString:signupURL];
+    
+    NSMutableURLRequest *usernameRequest = [[NSMutableURLRequest alloc] initWithURL:url];
+    
+    NSMutableDictionary *jsonDict = [[NSMutableDictionary alloc] init];
+    
+    [jsonDict setObject:[appDelegate authToken] forKey:@"auth_token"];
+    
+    NSData *JSONBody = [NSJSONSerialization dataWithJSONObject:jsonDict options:kNilOptions error:nil];
+    
+    usernameRequest.HTTPMethod = @"PUT";
+    [usernameRequest addValue: @"application/json" forHTTPHeaderField:@"Content-Type"];
+    usernameRequest.HTTPBody = JSONBody;
+    
+    TPUserInfoConnectionDelegate *connDelegate = [[TPUserInfoConnectionDelegate alloc] init];
+    
+    [NSURLConnection connectionWithRequest:usernameRequest delegate:connDelegate];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
@@ -209,7 +238,7 @@
     [appDelegate setUser:[[TPUser alloc] initWithUsername:u email:e userId:i remainingSwaps:rs partnerUsername:pu]];
     
     if (pu == (NSString *)[NSNull null]) {
-        [appDelegate searchingMatch];
+        //[appDelegate searchingMatch];
     }                  
         
     
@@ -219,14 +248,19 @@
     
     NSMutableURLRequest *usernameRequest = [[NSMutableURLRequest alloc] initWithURL:url];
     
-    NSString *JSONString = [NSString stringWithFormat:@"{\"apn_token\": \"%@\", \"auth_token\":\"%@\" }", [appDelegate deviceTok], [appDelegate authToken]];
+    NSMutableDictionary *jsonDict = [[NSMutableDictionary alloc] init];
     
-    NSData *JSONBody = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+    [jsonDict setObject:[appDelegate authToken] forKey:@"auth_token"];
     
+    if ([appDelegate deviceTok]) {
+        [jsonDict setObject:[appDelegate deviceTok] forKey:@"apn_token"];
+    }
+    
+    NSData *JSONBody = [NSJSONSerialization dataWithJSONObject:jsonDict options:kNilOptions error:nil];
+        
     usernameRequest.HTTPMethod = @"PUT";
     [usernameRequest addValue: @"application/json" forHTTPHeaderField:@"Content-Type"];
     usernameRequest.HTTPBody = JSONBody;
-    
     
     TPDeviceTokenConnectionDelegate *connDelegate = [[TPDeviceTokenConnectionDelegate alloc] init];
     
@@ -270,7 +304,7 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    NSString *loginURL = [NSString stringWithFormat:@"%@/sessions", [appDelegate domainURL]];
+    NSString *loginURL = [NSString stringWithFormat:@"%@/sessions.json", [appDelegate domainURL]];
     
     NSURL *url = [NSURL URLWithString:loginURL];
     
