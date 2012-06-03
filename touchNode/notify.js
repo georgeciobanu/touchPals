@@ -46,8 +46,9 @@ redisClient.on("message", function (channel, jsonMessage) {
    console.log(jsonMessage);
    
    // This is a potential security issue - JSON objects can contain code
-   var parsedMessage = JSON.parse(jsonMessage);
+   var parsedMessage = "";
    try {
+     parsedMessage = JSON.parse(jsonMessage);
      var token = parsedMessage.token;
      delete parsedMessage.token;
      console.log("About to send command: " + JSON.stringify(parsedMessage) + " to user with token: " + token);
