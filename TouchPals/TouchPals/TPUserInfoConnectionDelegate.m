@@ -41,6 +41,13 @@
         
         NSInteger rs = [[json1 objectForKey:@"remaining_swaps"] integerValue];
         
+        
+        if ([NSNull null] != [json1 objectForKey:@"days_left"]) {
+            [[appDelegate user] setDaysLeft:[[json1 objectForKey:@"days_left"] integerValue]];
+        } else {
+            [[appDelegate user] setDaysLeft:0];
+        }
+        
         [[appDelegate user] setPartnerUsername:partnerName];
         NSLog(@"New partner:%@", partnerName);
         

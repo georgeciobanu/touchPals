@@ -15,6 +15,7 @@
 @synthesize userId;
 @synthesize remainingSwaps;
 @synthesize partnerUsername;
+@synthesize daysLeft;
 
 - (id)initWithUsername:(NSString *)u email:(NSString *)e userId:(NSInteger)uid remainingSwaps:(NSInteger) rs partnerUsername:(NSString *)p
 {
@@ -25,6 +26,7 @@
     userId = uid;
     remainingSwaps = rs;
     partnerUsername = p;
+    daysLeft = 0;
     
     return self;
 }

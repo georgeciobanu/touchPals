@@ -16,12 +16,17 @@
 #import "TPUserInfoConnectionDelegate.h"
 
 @implementation TPLoginViewController
+@synthesize signedIn;
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     [self view].backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    
+    [self setSignedIn:NO];
+    
 }
 
 - (void)loginError:(NSString *)errMsg
@@ -56,25 +61,13 @@
         NSLog(@"DIVORCE SEARCHING");
         [appDelegate searchingMatch];
 
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Divorce" 
-                                                        message:@"Your partner got a divorce." 
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mathmaker" 
+                                                        message:@"The Matchmaker is hard at work to find you a new partner!" 
                                                        delegate:nil 
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
-    }
-    /* else if( [@"found_match" isEqualToString:cmd]) {
-        
-        [appDelegate setHasPartner:YES];
-
-        NSLog(@"PARTNER FOUND");
-        NSString *newPartner = [json objectForKey:@"partner_name"];
-
-        [[appDelegate user] setPartnerUsername:newPartner];
-        [appDelegate refreshIVC];
-        [appDelegate home];
-    }*/
-     else if ([@"partner_name_change" isEqualToString:cmd]) {
+    } else if ([@"partner_name_change" isEqualToString:cmd]) {
         NSString *newPartnerUsername = [json objectForKey:@"partner_name"];
         
         [[appDelegate user] setPartnerUsername:newPartnerUsername];
@@ -82,9 +75,6 @@
         [appDelegate home];
         
     }
-    
-    
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -128,10 +118,15 @@
 {
     NSLog(@"WebSocket closed, code:%d, reason:%@", code, reason);
     
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(reconnectSocket) userInfo:nil repeats:NO];
-    
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    [appDelegate disconnected];
+
+    NSLog(@"Skipped reconnect:%@", ([appDelegate loginOrSignup] ? @"YES" : @"NO"));
+    
+    if (![appDelegate loginOrSignup]) {
+        [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(reconnectSocket) userInfo:nil repeats:NO];
+        
+        [appDelegate disconnected];
+    }
 }
     
     
@@ -213,6 +208,14 @@
     
     NSString *auth_token = [(NSMutableDictionary *)[json1 objectForKey:@"session"] objectForKey:@"auth_token"];
     
+    if (auth_token == nil) {
+        [self loginError:@"Server error, please try again."];
+        return;
+    }
+    
+    NSLog(@"SET SIGNED IN");
+    [self setSignedIn:YES];    
+    
     [appDelegate setAuthToken:auth_token];
     
     [self startWebSocketWithAuthToken:auth_token];
@@ -231,17 +234,19 @@
     
     NSInteger i = [[userJSON objectForKey:@"id"] intValue];
     
-    NSInteger rs = [[userJSON objectForKey:@"remaining_swaps"] intValue];
+    NSInteger rs = [[userJSON objectForKey:@"remaining_swaps"] integerValue];
     
     NSString *pu = [json1 objectForKey:@"partner_username"];
     
     [appDelegate setUser:[[TPUser alloc] initWithUsername:u email:e userId:i remainingSwaps:rs partnerUsername:pu]];
     
-    if (pu == (NSString *)[NSNull null]) {
-        //[appDelegate searchingMatch];
-    }                  
-        
     
+    if ([NSNull null] != [json1 objectForKey:@"days_left"]) {
+        [[appDelegate user] setDaysLeft:[[json1 objectForKey:@"days_left"] integerValue]];
+    } else {
+        [[appDelegate user] setDaysLeft:0];
+    }
+        
     NSString *signupURL = [NSString stringWithFormat:@"%@/users/update.json", [appDelegate domainURL]];
     
     NSURL *url = [NSURL URLWithString:signupURL];
@@ -335,6 +340,12 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
     [appDelegate setWebSocket:_webSocket];
 }
 
+- (IBAction)backgroundTapped:(id)sender 
+{
+    [[self view] endEditing:YES];
+}
+
+
 - (IBAction)login:(id)sender
 {
     
@@ -359,6 +370,8 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
     TPAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     [delegate signup];
 }
+
+
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {

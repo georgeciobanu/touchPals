@@ -21,7 +21,10 @@
 
 }
 
+@property (nonatomic, assign) BOOL signedIn;
+
 - (void)startWebSocketWithAuthToken:(NSString *)authToken;
+- (IBAction)backgroundTapped:(id)sender;
 
 - (IBAction)login:(id)sender;
 - (IBAction)signup:(id)sender;

@@ -18,13 +18,18 @@
 @synthesize remainingField;
 @synthesize user;
 
+- (IBAction)backgroundTapped:(id)sender 
+{
+    [[self view] endEditing:YES];
+}
+
 - (void)setNewPartner:(NSString *)pn
 {
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
     [self setUser:[appDelegate user]];
     
-    NSString *newText = [NSString stringWithFormat:@"Partner: %@", [[appDelegate user] partnerUsername]];
+    NSString *newText = [NSString stringWithFormat:@"%d days left with %@", [[appDelegate user] daysLeft], [[appDelegate user] partnerUsername]];
     
     [partnerNameField setText:newText];
     
@@ -165,7 +170,8 @@
         
         NSString *receiptStr = [[NSString alloc] initWithData:receipt encoding:NSUTF8StringEncoding];
 
-        [jsonDict setObject:receiptStr forKey:receiptStr];
+        [jsonDict setObject:receiptStr forKey:@"receipt"
+         ];
     }
     
     [request setHTTPMethod:@"PUT"];
@@ -323,11 +329,6 @@
     
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];	
     
-    if ([appDelegate user] == nil) {
-        [appDelegate login];
-        return;
-    }
-    
     [self setUser:[appDelegate user]];
     
     if ([user remainingSwaps] == 0) {
@@ -335,7 +336,7 @@
     } else {
         [remainingField setText:[NSString stringWithFormat:@"%d Remaining Swaps", [user remainingSwaps]]];
     }
-    [partnerNameField setText:[NSString stringWithFormat:@"Partner: %@", [[appDelegate user] partnerUsername]]];
+    [partnerNameField setText:[NSString stringWithFormat:@"%d days left with %@", [[appDelegate user] daysLeft], [[appDelegate user] partnerUsername]]];
     [usernameField setText:[user username]];    
 
 }

@@ -16,6 +16,8 @@
 @property (nonatomic) NSString *partnerUsername;
 @property (nonatomic, readonly) NSInteger userId;
 
+@property (nonatomic) NSInteger daysLeft;
+
 - (void)updateUsername:(NSString *)u;
 
 - (void)decrementRemainingSwaps;

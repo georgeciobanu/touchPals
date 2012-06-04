@@ -19,17 +19,6 @@
 @synthesize user;
 @synthesize chatMessages;
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    if ([self user] == nil) {
-        TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-        [appDelegate login];
-    }     
-}
-
-
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
 	// every response could mean a redirect
@@ -66,7 +55,10 @@
     
     for (NSMutableDictionary *chat in chats) {
         
-        NSString *dateString = [chat objectForKey:@"created_at"];                                   
+        NSString *dateString = [chat objectForKey:@"created_at"];    
+
+        NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+        [dateFormat setTimeZone:gmt];
         
         TPChatEntry *c = [[TPChatEntry alloc] initWithTimeSent:[dateFormat dateFromString:dateString]  text:[chat objectForKey:@"text"] userSent:([user userId] == [[chat objectForKey:@"sender_id"] intValue])];
         
@@ -173,6 +165,13 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 
     [self setChatMessages:[[NSMutableArray alloc] init]];
     [tv reloadData];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTapped:)];
+    [tapRecognizer setNumberOfTapsRequired:1];
+    [tv addGestureRecognizer:tapRecognizer];
+	[tapRecognizer setDelegate:self];
+    
+
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -255,6 +254,11 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
     CGSize labelSize = [cellText sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
     
     return labelSize.height + 40;
+}
+
+- (IBAction)backgroundTapped:(id)sender 
+{
+    [[self view] endEditing:YES];
 }
 
 - (void) receiveNewEntry:(NSString *)text date:(NSDate *)timeSent

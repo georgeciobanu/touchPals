@@ -14,6 +14,7 @@
     
     IBOutlet UITextView *textView;
 }
+- (IBAction)backgroundTapped:(id)sender;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)submit:(id)sender;

@@ -11,6 +11,11 @@
 
 @implementation TPFeedbackViewController
 
+- (IBAction)backgroundTapped:(id)sender 
+{
+    [[self view] endEditing:YES];
+}
+
 - (IBAction)cancel:(id)sender
 {
     [self dismissModalViewControllerAnimated:YES];

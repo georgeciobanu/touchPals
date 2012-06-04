@@ -29,6 +29,7 @@
 
 @property (nonatomic) TPUser *user;
 
+- (IBAction)backgroundTapped:(id)sender;
 - (void)setNewPartner:(NSString *)pn;
 - (IBAction)getNewPartner:(id)sender;
 - (IBAction)updateUsername:(id)sender;
