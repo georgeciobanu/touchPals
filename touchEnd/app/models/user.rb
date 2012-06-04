@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
     if self.partner_id != nil
       throw "You need to divorce first"
     end
-
+    
     found = false
     User.transaction do
       # Check that they do not have a partner
@@ -54,12 +54,13 @@ class User < ActiveRecord::Base
             token: self.authentication_token)
 
         TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
-        
+
         if self.id && self.apn_token
-          APNS.send_notification(self.apn_token, 'The matchmaker found a partner! Meet ' + @partner.username)
+          APNS.send_notification(self.apn_token, 'The matchmaker found a chat partner! Meet ' + @partner.username)
         end
+
         if @partner && @partner.apn_token
-          APNS.send_notification(@partner.apn_token, 'The matchmaker found a partner! Meet ' + self.username)
+          APNS.send_notification(@partner.apn_token, 'The matchmaker found a chat partner! Meet ' + self.username)
         end
         
         # If this is when we are created, the caller will do the save
@@ -73,14 +74,12 @@ class User < ActiveRecord::Base
   end
 
   def elope(receipt)
-    Rails.logger.info("Receipt below")
-    Rails.logger.info(receipt)
     User.transaction do
       @partner = self.partner
       # Users can only elope if they have a receipt or if they have a remaining swap
       
       if @partner.try(:partner) != self or self.partner == nil or 
-        (self.remaining_swaps == 0 && !receipt)
+        (self.remaining_swaps == 0 && !receipt) #receipt check
         throw "Cannot divorce. Please try again"
       end
 
@@ -101,6 +100,11 @@ class User < ActiveRecord::Base
 
       @jsonCommand = ActiveSupport::JSON.encode(cmd: "divorce", token: @partner.authentication_token)
       TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
+
+      if @partner && @partner.apn_token
+        APNS.send_notification(@partner.apn_token, 'The matchmaker is hard at work')
+      end
+
     end # Transaction
 
     # TODO(george): Create a way to reconnect to redisClient
@@ -108,7 +112,6 @@ class User < ActiveRecord::Base
     
     # TODO(george): gotta have previousPartner
     # TODO(george): three karma points, if three people divorce from you we take a swap away from you
-    puts "Starting to get a partner"
     self.getPartner
     
     # TODO(george): If the prev partner wasn't active, they should not be given a new partner
