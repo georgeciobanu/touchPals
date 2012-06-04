@@ -25,7 +25,6 @@ var redis = require("redis"),
        redisClient = redis.createClient();
 
 wss.on('connection', function(ws) {
-
     console.log("Server: someone connected to me");
     // console.log('additional info:');
     // console.log(ws);
@@ -37,6 +36,7 @@ wss.on('connection', function(ws) {
     ws.on('error', function(error) {
         console.log('some error happened:' + error);
         console.log('A client may have called Close');
+	//this.close();
     });
     
 });
