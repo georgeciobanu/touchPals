@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :authentication_token, :partner_id, :username,
-                  :remaining_swaps, :badge_count, :apn_token;
+                  :remaining_swaps, :badge_count, :apn_token, :date_connected;
 
   def getPartner
     if self.partner_id != nil
@@ -45,6 +45,8 @@ class User < ActiveRecord::Base
       
       if @partner && @partner.partner_id == nil
         self.partner = @partner
+        self.date_connected = @partner.date_connected = DateTime.now
+        
         @partner.partner = self
         @partner.save
         found = true
@@ -69,7 +71,7 @@ class User < ActiveRecord::Base
         end
       end
     end # Locking transaction
-    
+
     return found
   end
 
@@ -85,10 +87,12 @@ class User < ActiveRecord::Base
 
       @partner.previous_partner_id = self.id
       @partner.partner = nil
+      @partner.date_connected = nil
       @partner.save
 
       self.previous_partner_id = self.partner.id
       self.partner = nil
+      self.date_connected = nil
       if receipt && receipt != ""
         Rails.logger.info("I got a receipt!")
         PurchaseReceipt.create(receipt: receipt, user_id: self.id)
