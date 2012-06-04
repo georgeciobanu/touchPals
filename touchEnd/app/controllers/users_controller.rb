@@ -24,6 +24,7 @@ class UsersController < ApplicationController
       render :json => current_user, :status => :ok
     else
       render :json => current_user, :status => :"i'm_a_teapot"
+    end
   end
   
   def info
