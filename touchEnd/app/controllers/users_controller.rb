@@ -29,8 +29,8 @@ class UsersController < ApplicationController
   
   def info
     @days_left_with_partner = nil
-    if self.date_connected
-      @days_left_with_partner = 30 - (DateTime.now.mjd - self.date_connected.mjd)
+    if current_user.date_connected
+      @days_left_with_partner = 30 - (DateTime.now.mjd - current_user.date_connected.mjd)
     end
       
     render :json => { :user => current_user, :partner_username => current_user.partner.try(:username),
