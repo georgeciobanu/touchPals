@@ -51,7 +51,7 @@
     
 - (void)receiveMsg:(NSString *)text
 {
-    [cvc receiveNewEntry:text date:nil];
+    [cvc receiveNewEntry:text date:[[NSDate alloc] init]];
 }
 
 - (void)homeClean
@@ -76,6 +76,15 @@
 
 - (void)login
 {
+    [lvc setSignedIn:NO];
+    // ON login we assume we have a partner
+    [self setHasPartner:YES];
+    
+    if ([webSocket readyState] == SR_OPEN ) {
+        [webSocket close];
+        webSocket = nil;
+    }
+    
     [[self window] setRootViewController:lvc];
     NSLog(@"Logging In");
 }
@@ -99,35 +108,15 @@
 }
 
 - (BOOL)loginOrSignup
-{
-    if ([[self window] rootViewController] == lvc) {
-        return YES;
-    } else if ([[[self window] rootViewController] class] == [TPSignupViewController class]) {
-            return YES;
-    }
-    
-    return  NO;
+{    
+    return ![lvc signedIn];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
+    domainURL = @"http://184.169.134.227:3000";
+    socketURL = @"ws://184.169.134.227:8000";
     
-//    domainURL = @"https://localhost:3000";
-//    socketURL = @"wss://localhost:8000";
-    
-//    
-//    #if TARGET_IPHONE_SIMULATOR
-//    {
-//        domainURL = @"http://192.168.2.107:3000";
-//        socketURL = @"ws://192.168.2.107:8000";
-//    }
-//    #else
-//    {
-        domainURL = @"https://184.169.134.227:3000";
-        socketURL = @"wss://184.169.134.227:8000";
-//    }
-//    #endif
-
     hasPartner = YES;
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeBadge)];	
@@ -151,6 +140,7 @@
     
     
     if (!user) {
+        NSLog(@"STARTING UP");
         [self login];
     }
     

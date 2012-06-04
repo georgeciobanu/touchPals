@@ -18,6 +18,7 @@
     NSMutableData *receivedData;
 }
 
+- (IBAction)backgroundTapped:(id)sender;
 - (IBAction)signup:(id)sender;
 - (IBAction)login:(id)sender;
 

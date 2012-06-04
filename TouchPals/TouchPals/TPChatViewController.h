@@ -12,7 +12,7 @@
 @class TPTableViewController;
 @class TPUser;
 
-@interface TPChatViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, NSURLConnectionDelegate>
+@interface TPChatViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, NSURLConnectionDelegate, UIGestureRecognizerDelegate>
 {
     IBOutlet UILabel *partnerNameField;
     IBOutlet UITableView *tv;
@@ -23,6 +23,7 @@
 
 @property (nonatomic) TPUser *user;
 @property (nonatomic) NSMutableArray *chatMessages;
+- (IBAction)backgroundTapped:(id)sender;
 
 - (void)receiveNewEntry:(NSString *)text date:(NSDate *)timeSent;
 - (void)loggedIn;

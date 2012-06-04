@@ -125,6 +125,11 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 }
 
 
+- (IBAction)backgroundTapped:(id)sender 
+{
+    [[self view] endEditing:YES];
+}
+
 - (IBAction)signup:(id)sender
 {
     [error setText:@""];

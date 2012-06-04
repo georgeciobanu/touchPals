@@ -38,12 +38,12 @@
         return;
     }
     
+    if ([appDelegate loginOrSignup])
+        return;
+
     if ([[appDelegate window] rootViewController] != self) {
         [appDelegate searchingMatch];
     }
-        
-    if ([appDelegate loginOrSignup])
-        return;
     
     NSString *signupURL = [NSString stringWithFormat:@"%@/users/info.json", [appDelegate domainURL]];
     
