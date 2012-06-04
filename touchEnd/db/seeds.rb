@@ -5,8 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-users = User.create([ { email: 'george@lindenhoney.com', password: 'tatata', password_confirmation: 'tatata', partner_id: 2, username: 'dude', remaining_swaps: 1}, 
-  {email: 'jonathan@lindenhoney.com', password: 'tatata', password_confirmation: 'tatata', partner_id: 1, username: 'totes', remaining_swaps: 0},
+users = User.create([ { email: 'george@lindenhoney.com', password: 'tatata', password_confirmation: 'tatata', partner_id: 2, username: 'dude', remaining_swaps: 1, date_connected: DateTime.parse("May 18, 2012")}, 
+  {email: 'jonathan@lindenhoney.com', password: 'tatata', password_confirmation: 'tatata', partner_id: 1, username: 'totes', remaining_swaps: 0, date_connected: DateTime.parse("May 18, 2012")},
     {email: 'mistery@lindenhoney.com', password: 'tatata', password_confirmation: 'tatata', username: 'mistery', remaining_swaps: 0} ])
 chats = Chat.create([ {text: 'Wow now', sender_id: 1, receiver_id: 2}, {text: 'Too fast?', sender_id: 2, receiver_id: 1},
   {text: 'A bit', sender_id: 1, receiver_id: 2}, {text: 'Dunno what to say about that', sender_id: 2, receiver_id: 1},

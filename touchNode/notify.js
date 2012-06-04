@@ -1,12 +1,12 @@
 var fs = require('fs');
 
-var options = {
-  key: fs.readFileSync('../certificates/arranged_marriage.key'),
-  cert: fs.readFileSync('../certificates/arranged_marriage.crt')
-};
+// var options = {
+//   key: fs.readFileSync('../certificates/arranged_marriage.key'),
+//   cert: fs.readFileSync('../certificates/arranged_marriage.crt')
+// };
 
 console.log("Things are going well");
-var app = require('https').createServer(options);
+var app = require('http').createServer();
 
 app.listen(8000);
 var WebSocketServer = require('ws').Server;
@@ -25,7 +25,6 @@ var redis = require("redis"),
        redisClient = redis.createClient();
 
 wss.on('connection', function(ws) {
-
     console.log("Server: someone connected to me");
     // console.log('additional info:');
     // console.log(ws);
@@ -37,6 +36,7 @@ wss.on('connection', function(ws) {
     ws.on('error', function(error) {
         console.log('some error happened:' + error);
         console.log('A client may have called Close');
+	//this.close();
     });
     
 });
@@ -56,7 +56,6 @@ redisClient.on("message", function (channel, jsonMessage) {
 
    } catch (err) {
      console.log(err);
-     return;
    }
 
    console.log("Sent message: " + parsedMessage + " to user with token: " + token);

@@ -4,7 +4,8 @@ class User < ActiveRecord::Base
   # has_many :chats, :foreign_key
   has_many :invites, :class_name => 'Invite', :foreign_key => :from_user_id
   has_many :feedbacks
-  has_many :reports
+  has_many :reports 
+  has_many :purchase_receipts
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -21,13 +22,13 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :authentication_token, :partner_id, :username,
-                  :remaining_swaps, :badge_count, :apn_token;
+                  :remaining_swaps, :badge_count, :apn_token, :date_connected;
 
   def getPartner
     if self.partner_id != nil
       throw "You need to divorce first"
     end
-
+    
     found = false
     User.transaction do
       # Check that they do not have a partner
@@ -44,6 +45,8 @@ class User < ActiveRecord::Base
       
       if @partner && @partner.partner_id == nil
         self.partner = @partner
+        self.date_connected = @partner.date_connected = DateTime.now
+        
         @partner.partner = self
         @partner.save
         found = true
@@ -53,12 +56,13 @@ class User < ActiveRecord::Base
             token: self.authentication_token)
 
         TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
-        
+
         if self.id && self.apn_token
-          APNS.send_notification(self.apn_token, 'The matchmaker found a partner! Meet ' + @partner.username)
+          APNS.send_notification(self.apn_token, 'The matchmaker found a chat partner! Meet ' + @partner.username)
         end
+
         if @partner && @partner.apn_token
-          APNS.send_notification(@partner.apn_token, 'The matchmaker found a partner! Meet ' + self.username)
+          APNS.send_notification(@partner.apn_token, 'The matchmaker found a chat partner! Meet ' + self.username)
         end
         
         # If this is when we are created, the caller will do the save
@@ -67,38 +71,44 @@ class User < ActiveRecord::Base
         end
       end
     end # Locking transaction
-    
+
     return found
   end
 
   def elope(receipt)
-    puts "Receipt:"
-    puts receipt
-    
     User.transaction do
       @partner = self.partner
       # Users can only elope if they have a receipt or if they have a remaining swap
       
-      if @partner.try(:partner) != self or self.partner == nil or self.remaining_swaps == 0
+      if @partner.try(:partner) != self or self.partner == nil or 
+        (self.remaining_swaps == 0 && !receipt) #receipt check
         throw "Cannot divorce. Please try again"
       end
 
       @partner.previous_partner_id = self.id
       @partner.partner = nil
+      @partner.date_connected = nil
       @partner.save
 
       self.previous_partner_id = self.partner.id
       self.partner = nil
-      # if receipt != ""
-      #   Rails.logger.info("I got a receipt!")
-      #   Rails.logger.info("\"" + receipt+ "\"")
-      # else
-      self.remaining_swaps -= 1
+      self.date_connected = nil
+      if receipt && receipt != ""
+        Rails.logger.info("I got a receipt!")
+        PurchaseReceipt.create(receipt: receipt, user_id: self.id)
+      else
+        self.remaining_swaps -= 1
+      end
 
       self.save
 
       @jsonCommand = ActiveSupport::JSON.encode(cmd: "divorce", token: @partner.authentication_token)
       TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
+
+      if @partner && @partner.apn_token
+        APNS.send_notification(@partner.apn_token, 'The matchmaker is hard at work')
+      end
+
     end # Transaction
 
     # TODO(george): Create a way to reconnect to redisClient
@@ -106,7 +116,6 @@ class User < ActiveRecord::Base
     
     # TODO(george): gotta have previousPartner
     # TODO(george): three karma points, if three people divorce from you we take a swap away from you
-    puts "Starting to get a partner"
     self.getPartner
     
     # TODO(george): If the prev partner wasn't active, they should not be given a new partner

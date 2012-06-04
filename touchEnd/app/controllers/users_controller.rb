@@ -20,11 +20,20 @@ class UsersController < ApplicationController
   end
 
   def elope
-    render :json => current_user.elope(params)
+    if current_user.elope params[:receipt]
+      render :json => current_user, :status => :ok
+    else
+      render :json => current_user, :status => :"i'm_a_teapot"
+    end
   end
   
   def info
+    @days_left_with_partner = nil
+    if current_user.date_connected
+      @days_left_with_partner = 30 - ((Time.now - current_user.date_connected).to_i / 1.day)
+    end
+      
     render :json => { :user => current_user, :partner_username => current_user.partner.try(:username),
-            :remaining_swaps => current_user.remaining_swaps}
+            :remaining_swaps => current_user.remaining_swaps, :days_left => @days_left_with_partner}
   end    
 end

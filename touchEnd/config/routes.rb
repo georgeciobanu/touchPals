@@ -1,4 +1,6 @@
 TouchEnd::Application.routes.draw do
+  resources :purchase_receipts
+
   resources :feedbacks
 
   resources :reports

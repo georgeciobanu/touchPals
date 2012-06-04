@@ -1,5 +1,5 @@
 if Rails.env.production?
-  APNS.host = 'gateway.push.apple.com' 
+#  APNS.host = 'gateway.push.apple.com' 
   APNS.pem  = 'push_chataffair_prod.pem'
   # gateway.sandbox.push.apple.com is default
 else
