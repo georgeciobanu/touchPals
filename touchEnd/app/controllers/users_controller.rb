@@ -20,7 +20,10 @@ class UsersController < ApplicationController
   end
 
   def elope
-    render :json => current_user.elope(params[:receipt])
+    if current_user.elope params[:receipt]
+      render :json => current_user, :status => :ok
+    else
+      render :json => current_user, :status => :"i'm_a_teapot"
   end
   
   def info
