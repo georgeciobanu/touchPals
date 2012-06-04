@@ -56,7 +56,6 @@ redisClient.on("message", function (channel, jsonMessage) {
 
    } catch (err) {
      console.log(err);
-     return;
    }
 
    console.log("Sent message: " + parsedMessage + " to user with token: " + token);
