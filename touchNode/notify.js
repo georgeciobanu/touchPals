@@ -1,12 +1,12 @@
 var fs = require('fs');
 
-// var options = {
-//   key: fs.readFileSync('../certificates/arranged_marriage.key'),
-//   cert: fs.readFileSync('../certificates/arranged_marriage.crt')
-// };
+var options = {
+  key: fs.readFileSync('../certificates/arranged_marriage.key'),
+  cert: fs.readFileSync('../certificates/arranged_marriage.crt')
+};
 
 console.log("Things are going well");
-var app = require('http').createServer();
+var app = require('https').createServer(options);
 
 app.listen(8000);
 var WebSocketServer = require('ws').Server;
