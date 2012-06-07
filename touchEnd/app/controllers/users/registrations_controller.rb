@@ -6,7 +6,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     
     # getPartner defined on the User
     resource.getPartner
-    resource.remaining_swaps = 1
+    resource.remaining_swaps = 2
 
     if resource.save
       if resource.active_for_authentication?
