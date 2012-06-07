@@ -115,7 +115,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
     domainURL = @"https://184.169.134.227:3000";
-    socketURL = @"wss://184.169.134.227:8000";
+    socketURL = @"ws://184.169.134.227:8000";
     
     hasPartner = YES;
     

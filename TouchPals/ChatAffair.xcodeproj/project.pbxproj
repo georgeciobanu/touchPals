@@ -127,6 +127,7 @@
 		B9C145CD156C09E40066EDB5 /* TPTableViewCellUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPTableViewCellUser.m; sourceTree = "<group>"; };
 		B9C145CF156C12E30066EDB5 /* TPTableViewCellPartner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPTableViewCellPartner.h; sourceTree = "<group>"; };
 		B9C145D0156C12E30066EDB5 /* TPTableViewCellPartner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPTableViewCellPartner.m; sourceTree = "<group>"; };
+		B9E3B18015805AC800ACFBDD /* ChatAffair.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ChatAffair.entitlements; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +183,7 @@
 		B956AF65156ACD81007BEA6B /* ChatAffair */ = {
 			isa = PBXGroup;
 			children = (
+				B9E3B18015805AC800ACFBDD /* ChatAffair.entitlements */,
 				B978283815784BC300B8DF4F /* title.png */,
 				B9782834157844CC00B8DF4F /* smalllogo.png */,
 				B9782835157844CC00B8DF4F /* smalllogo@2x.png */,
@@ -432,11 +434,16 @@
 		B956AF85156ACD82007BEA6B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ChatAffair.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TouchPals/ChatAffair-Prefix.pch";
 				INFOPLIST_FILE = "TouchPals/ChatAffair-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = ChatAffair;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -444,12 +451,15 @@
 		B956AF86156ACD82007BEA6B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ChatAffair.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TouchPals/ChatAffair-Prefix.pch";
 				INFOPLIST_FILE = "TouchPals/ChatAffair-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = ChatAffair;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
