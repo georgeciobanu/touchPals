@@ -57,12 +57,18 @@ class User < ActiveRecord::Base
 
         TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
 
-        if self.id && self.apn_token
-          APNS.send_notification(self.apn_token, 'The matchmaker found a chat partner! Meet ' + @partner.username)
-        end
+        begin
+          if self.id && self.apn_token
+            APNS.send_notification(self.apn_token, 'The matchmaker found a chat partner! Meet ' + @partner.username)
+          end
 
-        if @partner && @partner.apn_token
-          APNS.send_notification(@partner.apn_token, 'The matchmaker found a chat partner! Meet ' + self.username)
+          if @partner && @partner.apn_token
+            APNS.send_notification(@partner.apn_token, 'The matchmaker found a chat partner! Meet ' + self.username)
+          end
+        rescue
+          # Automatically logged
+        ensure
+          # Should send an alternate notification
         end
         
         # If this is when we are created, the caller will do the save
@@ -106,7 +112,14 @@ class User < ActiveRecord::Base
       TouchEnd::Application.config.redisConnection.publish 'chats', @jsonCommand
 
       if @partner && @partner.apn_token
-        APNS.send_notification(@partner.apn_token, 'The matchmaker is hard at work')
+        begin
+          APNS.send_notification(@partner.apn_token, 'The matchmaker is hard at work')
+        rescue
+          # Automaticall logged
+        ensure
+          # Alternate notification mechanism
+        end
+        
       end
 
     end # Transaction
