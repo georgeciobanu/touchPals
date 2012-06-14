@@ -349,9 +349,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    NSLog(@"viewdidappear");
-    
+        
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
     if (![appDelegate hasPartner]) {

@@ -23,7 +23,7 @@
 {
     [super viewDidLoad];
     
-    [self view].backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    [self view].backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background2.png"]];
     
     [self setSignedIn:NO];
     
@@ -34,6 +34,42 @@
     [activityIndicator stopAnimating];
     NSLog(@"Error:%@", errMsg);
     [error setText:errMsg];
+}
+
+- (void)localLoadLoginInfo
+{
+    NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *plistPath = [rootPath stringByAppendingPathComponent:@"login.plist"];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
+
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+        
+        NSString *e = [dict objectForKey:@"email"];
+        NSString *p = [dict objectForKey:@"password"];
+        
+        [email setText:e];
+        [password setText:p];
+    }
+
+}
+
+- (void)localSaveLoginInfoWithEmail:(NSString *)e password:(NSString *)p
+{
+    NSDictionary *rootObj = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects:e, p, nil] forKeys:[NSArray arrayWithObjects:@"email", @"password", nil]];
+    
+    NSString *errorStr;
+    NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *plistPath = [rootPath stringByAppendingPathComponent:@"login.plist"];
+    NSData *plistData = [NSPropertyListSerialization dataFromPropertyList:rootObj
+                                                                   format:NSPropertyListXMLFormat_v1_0
+                                                         errorDescription:&errorStr];
+    if(plistData) {
+        [plistData writeToFile:plistPath atomically:YES];
+    }
+    else {
+        NSLog(@"Error : %@",error);
+    }
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
@@ -61,7 +97,7 @@
         NSLog(@"DIVORCE SEARCHING");
         [appDelegate searchingMatch];
 
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mathmaker" 
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mathcmaker" 
                                                         message:@"The Matchmaker is hard at work to find you a new partner!" 
                                                        delegate:nil 
                                               cancelButtonTitle:@"OK"
@@ -81,6 +117,8 @@
 {
     [super viewWillAppear:animated];
     [activityIndicator stopAnimating];
+    
+    [self localLoadLoginInfo];
 }
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket;
@@ -307,6 +345,8 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 
 - (void)loginWithEmail:(NSString *)e password:(NSString *)p
 {
+    [self localSaveLoginInfoWithEmail:e password:p];
+    
     TPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
     NSString *loginURL = [NSString stringWithFormat:@"%@/sessions.json", [appDelegate domainURL]];

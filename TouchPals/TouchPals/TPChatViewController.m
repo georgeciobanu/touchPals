@@ -200,7 +200,7 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 
             cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
             cell.textLabel.numberOfLines = 0;
-            cell.textLabel.font = [UIFont fontWithName:@"Georgia" size:14.0];
+            cell.textLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0];
 
         }
         
@@ -212,7 +212,7 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
         
         
         [[cell detailTextLabel] setText:dateString];
-        [[cell detailTextLabel] setFont:[UIFont fontWithName:@"Georgia" size:11.0]];
+        [[cell detailTextLabel] setFont:[UIFont fontWithName:@"Helvetica" size:11.0]];
 
         return cell;
     } else {
@@ -229,7 +229,7 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
             
             cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
             cell.textLabel.numberOfLines = 0;
-            cell.textLabel.font = [UIFont fontWithName:@"Georgia" size:14.0];
+            cell.textLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0];
 
         }
         
@@ -240,7 +240,7 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
         NSString *dateString = [dateFormat stringFromDate:[c timeSent]];
         
         [[cell detailTextLabel] setText:dateString];
-        [[cell detailTextLabel] setFont:[UIFont fontWithName:@"Georgia" size:11.0]];
+        [[cell detailTextLabel] setFont:[UIFont fontWithName:@"Helvetica" size:11.0]];
         
         return cell;
     }
@@ -249,7 +249,7 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cellText = [[chatMessages objectAtIndex:[indexPath row]] text];
-    UIFont *cellFont = [UIFont fontWithName:@"Georgia" size:14.0];
+    UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:14.0];
     CGSize constraintSize = CGSizeMake(182, MAXFLOAT);
     CGSize labelSize = [cellText sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
     
@@ -316,7 +316,7 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
+    //[textField resignFirstResponder];
     
     if ([[textField text] length] > 0)
         [self sendNewEntry:[textField text]];

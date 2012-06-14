@@ -198,7 +198,7 @@
                             <action selector="backgroundTapped:" destination="3" eventType="touchUpInside" id="dkb-Do-iva"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Info" image="info" id="6"/>
+                    <tabBarItem key="tabBarItem" title="Preferences" image="info" id="6"/>
                     <connections>
                         <outlet property="inviteEmailField" destination="UsL-nF-6bu" id="ml3-H5-qXy"/>
                         <outlet property="partnerNameField" destination="9uR-jj-6Zt" id="j9T-Pv-STe"/>
